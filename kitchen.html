@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="logo.png">
+  <title>Alam Computers | Kitchen Appliances · Blender · Grinder · Rice Cooker</title>
+  <!-- fonts + icons + tailwind -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@200;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background-color: #f8f7f2;
+      background-image: 
+        radial-gradient(circle at 30% 40%, rgba(230, 220, 200, 0.4) 0%, transparent 25%),
+        radial-gradient(circle at 80% 70%, rgba(200, 190, 160, 0.3) 0%, transparent 30%),
+        repeating-linear-gradient(45deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 2px, transparent 2px, transparent 8px);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #1a1d2b;
+    }
+    .noise-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNmKSIgb3BhY2l0eT0iMC4wMjUiIC8+PC9zdmc+');
+      pointer-events: none;
+      z-index: 200;
+      opacity: 0.3;
+      mix-blend-mode: multiply;
+    }
+    h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
+    .card-lux {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 2.5rem;
+      box-shadow: 0 25px 50px -18px rgba(90, 70, 40, 0.2), 
+                  inset 0 -2px 0 rgba(255,255,255,0.9),
+                  inset 0 0 0 1px rgba(255,245,215,0.7);
+      transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+      border: 1px solid rgba(230, 215, 180, 0.4);
+    }
+    .card-lux:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 40px 70px -20px #8a7b5a, 0 0 0 1px #dac29c inset;
+      background: rgba(255, 255, 255, 0.9);
+    }
+    .product-img {
+      width: 100%;
+      height: 200px;
+      object-fit: contain;
+      border-radius: 2rem 2rem 1rem 1rem;
+      background: white;
+      mix-blend-mode: normal;
+      padding: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .product-img:hover { transform: scale(1.02); }
+    .page-btn {
+      background: white; border: 1px solid #ddd0b5; padding: 0.8rem 1.8rem;
+      border-radius: 3rem; font-weight: 600; cursor: pointer;
+      box-shadow: 0 5px 15px -8px #b0a084;
+      transition: all 0.2s ease;
+    }
+    .page-btn:hover:not(:disabled) { background: #f0e8da; transform: scale(1.05); }
+    .page-btn.active { background: #1e2b4f; color: white; border-color: #1e2b4f; }
+    .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .star { color: #ffb800; margin-right: 2px; }
+    .old-price { text-decoration: line-through; color: #8b7e6b; font-size: 0.9rem; margin-right: 8px; }
+    .current-price { font-weight: 800; color: #1e2b4f; font-size: 1.3rem; }
+    .category-header {
+      background: linear-gradient(145deg, #ffffff, #f5f0e6);
+      border-radius: 3rem;
+      padding: 3rem;
+      margin: 2rem auto;
+      border: 1px solid #e2d5bd;
+    }
+    .breadcrumb { color: #6b5a4a; font-size: 0.95rem; }
+    .breadcrumb a { color: #1e2b4f; text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .emi-option {
+      background: rgba(255, 250, 240, 0.6);
+      border: 1px solid #e0d0b5;
+      border-radius: 1.5rem;
+      padding: 1.2rem 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+    .emi-option:hover { background: rgba(255, 250, 240, 0.9); transform: translateY(-2px); }
+    .emi-option.selected { background: #1e2b4f; color: white; border-color: #1e2b4f; }
+    .emi-option.selected .emi-amount { color: white; }
+    .emi-amount { font-weight: 700; color: #1e2b4f; font-size: 1.2rem; }
+    .downpayment-display {
+      background: rgba(255, 250, 240, 0.8);
+      border-radius: 2rem;
+      padding: 1.5rem;
+      border: 1px solid #e0d0b5;
+    }
+    .big-product-img {
+      width: 100%;
+      max-height: 450px;
+      object-fit: contain;
+      background: white;
+      border-radius: 2rem;
+      padding: 2rem;
+    }
+  </style>
+</head>
+<body>
+<div class="noise-overlay"></div>
+
+<!-- STICKY NAV -->
+<nav class="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-[#e2d5bd] py-4 px-6 flex items-center justify-between shadow-sm">
+  <div class="flex items-center gap-3">
+<h1 style="font-family:'Orbitron',sans-serif;font-weight:900;letter-spacing:3px;">
+<span style="color:#002d8e;font-size:25px;">ALAM</span>
+<span style="color:#910202;font-size:20px;">COMPUTERS</span>
+</h1>
+  </div>
+  <div class="desktop-menu hidden lg:flex items-center space-x-8 font-medium">
+    <a class='hover:text-[#2b3b5c] transition' href='/'>Home</a>
+    <a class='hover:text-[#2b3b5c] transition' href='/fridge'>Refrigerators</a>
+    <a class='hover:text-[#2b3b5c] transition' href='/tv'>Smart TVs</a>
+    <a class='hover:text-[#2b3b5c] transition' href='/ac'>AC</a>
+    <a class='hover:text-[#2b3b5c] transition' href='/washer'>Washer</a>
+    <a class='text-[#2b3b5c] font-semibold' href='/kitchen'>Kitchen</a>
+    <a class='hover:text-[#2b3b5c] transition' href='/stove'>Stove</a>
+    <a class='hover:text-[#2b3b5c] transition' href='/fan'>Fan</a>
+    <a class='hover:text-[#2b3b5c] transition' href='/iron'>Iron</a>
+    <a class='hover:text-[#2b3b5c] transition' href='/sewing'>Sewing</a>
+    <a class='hover:text-[#2b3b5c] transition' href='/freezer'>Freezer</a>
+    <a href="gadgets.html" class="hover:text-[#2b3b5c] transition">Gadgets</a>
+    <a class='hover:text-[#2b3b5c] transition' href='/laptop'>Laptop</a>
+  </div>
+  <div class="flex items-center gap-4 text-[#2b3b5c] text-xl">
+    <a href="https://www.facebook.com/profile.php?id=61584998476067" target="_blank" title="Message on Facebook"><i class="fab fa-facebook-messenger"></i></a>
+    <i class="fas fa-search"></i><i class="fas fa-user-circle"></i><i class="fas fa-shopping-bag"></i>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="container mx-auto px-4 mt-6">
+  <div class="breadcrumb">
+    <a href='/'>Home</a> > <span class="font-semibold">Kitchen Appliances</span>
+  </div>
+</div>
+
+<!-- CATEGORY HEADER -->
+<div class="container mx-auto px-4">
+  <div class="category-header text-center">
+    <h1 class="serif text-5xl md:text-6xl font-black mb-4">Kitchen Appliances</h1>
+    <p class="text-xl text-[#4a4f67] max-w-3xl mx-auto">Blenders, grinders, rice cookers, and induction cookers from Singer. Make your kitchen smart and efficient.</p>
+  </div>
+</div>
+
+<!-- PRODUCT GRID -->
+<div class="container mx-auto px-4 py-8">
+  <div id="productContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8"></div>
+  <div id="paginationControls" class="flex justify-center items-center mt-12 space-x-3"></div>
+</div>
+
+<!-- ORDER MODAL -->
+<div id="orderModal" class="order-modal fixed inset-0 bg-black/10 backdrop-blur-lg hidden items-center justify-center z-[1000]" style="display: none;">
+  <div class="bg-white/90 backdrop-blur-xl rounded-[4rem] p-8 max-w-md w-full border-2 border-[#e0cfb0] shadow-2xl relative">
+    <h2 class="text-4xl serif font-bold">complete order</h2>
+    <p class="mt-2 text-[#4a4f67]" id="modalProductDisplay">product</p>
+    <form id="orderForm" class="mt-6 space-y-4">
+      <input type="hidden" id="modalProductInput">
+      <input type="text" id="custName" placeholder="full name" class="w-full p-4 border border-[#ddd0b7] rounded-2xl bg-white/70">
+      <input type="tel" id="custPhone" placeholder="WhatsApp number" value="+880" class="w-full p-4 border border-[#ddd0b7] rounded-2xl bg-white/70">
+      <textarea id="custAddress" placeholder="delivery address" rows="2" class="w-full p-4 border border-[#ddd0b7] rounded-2xl bg-white/70"></textarea>
+      <input type="text" id="custNote" placeholder="optional note" class="w-full p-4 border border-[#ddd0b7] rounded-2xl bg-white/70">
+      <button type="submit" class="w-full py-5 bg-[#1e2b4f] text-white rounded-2xl text-xl font-bold flex items-center justify-center gap-3 shadow-lg transition hover:bg-[#2b3b5c]"><i class="fab fa-facebook-messenger"></i> confirm order</button>
+    </form>
+    <button onclick="closeModal()" class="absolute top-4 right-6 text-4xl text-[#1e2b4f]">&times;</button>
+  </div>
+</div>
+
+<!-- KNOW MORE MODAL -->
+<div id="knowmoreModal" class="knowmore-modal fixed inset-0 bg-black/10 backdrop-blur-lg hidden items-center justify-center z-[2000]" style="display: none;">
+  <div class="bg-white rounded-3xl p-8 max-w-md w-full border-2 border-[#dac29c] shadow-2xl relative">
+    <h2 class="text-4xl serif font-bold mb-4" id="knowmoreTitle">Product Details</h2>
+    <p class="text-lg text-[#4a4f67]" id="knowmoreDesc"></p>
+    <button onclick="closeKnowMore()" class="absolute top-4 right-6 text-4xl text-[#1e2b4f]">&times;</button>
+  </div>
+</div>
+
+<!-- PRODUCT DETAIL MODAL -->
+<div id="productDetailModal" class="fixed inset-0 bg-black/30 backdrop-blur-lg hidden items-start justify-center overflow-y-auto z-[1500] py-6">
+  <div class="bg-[#faf7f0] max-w-[1400px] w-[95%] rounded-[3rem] border-2 border-[#e0d0b5] shadow-2xl relative">
+    <button onclick="closeProductDetail()" class="absolute top-8 right-10 text-5xl text-[#1e2b4f] hover:text-[#2b3b5c] z-10 bg-white/50 w-16 h-16 rounded-full flex items-center justify-center backdrop-blur-sm">&times;</button>
+    <div class="p-8 md:p-12">
+      <div class="mb-8 text-center md:text-left">
+        <h2 id="detailProductName" class="text-4xl md:text-5xl font-bold serif mb-4">Product Name</h2>
+        <div class="flex items-center justify-center md:justify-start gap-4 flex-wrap">
+          <div id="detailProductRating" class="flex items-center text-2xl"></div>
+          <span class="px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-semibold">10% OFF</span>
+        </div>
+      </div>
+      <div class="grid lg:grid-cols-2 gap-10">
+        <div class="space-y-4">
+          <div class="card-lux p-8 flex items-center justify-center bg-white">
+            <img id="detailProductImage" src="" alt="Product" class="big-product-img max-h-[500px]">
+          </div>
+          <p id="detailProductDesc" class="text-gray-600 text-lg text-center lg:text-left"></p>
+        </div>
+        <div class="space-y-8">
+          <div class="card-lux p-8">
+            <h3 class="text-2xl font-bold serif mb-6">Pricing</h3>
+            <div class="flex items-baseline justify-between mb-4">
+              <span class="text-gray-600">Original Price:</span>
+              <span id="detailOldPrice" class="old-price text-2xl">৳0</span>
+            </div>
+            <div class="flex items-baseline justify-between mb-2">
+              <span class="text-gray-600">Discount Price:</span>
+              <span id="detailCurrentPrice" class="current-price text-4xl">৳0</span>
+            </div>
+            <div class="text-green-700 text-right font-medium">You save 10%</div>
+          </div>
+          <div class="card-lux p-8">
+            <h3 class="text-2xl font-bold serif mb-6">EMI Calculator</h3>
+            <div class="downpayment-display mb-8">
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <p class="text-gray-600 mb-1">Downpayment (50%)</p>
+                  <p class="text-3xl font-bold text-[#1e2b4f]" id="downpaymentAmount">৳0</p>
+                </div>
+                <div>
+                  <p class="text-gray-600 mb-1">Loan Amount</p>
+                  <p class="text-3xl font-bold text-[#1e2b4f]" id="loanAmount">৳0</p>
+                </div>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+              <div class="emi-option" onclick="selectEMI(6, 0)" data-months="6">
+                <div class="font-semibold text-lg">6 Months</div>
+                <div class="emi-amount" id="emi6">৳0</div>
+                <div class="text-xs text-green-600 font-semibold">0% interest</div>
+              </div>
+              <div class="emi-option" onclick="selectEMI(12, 0)" data-months="12">
+                <div class="font-semibold text-lg">12 Months</div>
+                <div class="emi-amount" id="emi12">৳0</div>
+                <div class="text-xs text-green-600 font-semibold">0% interest</div>
+              </div>
+              <div class="emi-option" onclick="selectEMI(18, 0)" data-months="18">
+                <div class="font-semibold text-lg">18 Months</div>
+                <div class="emi-amount" id="emi18">৳0</div>
+                <div class="text-xs text-green-600 font-semibold">0% interest</div>
+              </div>
+              <div class="emi-option" onclick="selectEMI(24, 0.02)" data-months="24">
+                <div class="font-semibold text-lg">24 Months</div>
+                <div class="emi-amount" id="emi24">৳0</div>
+                <div class="text-xs">2% interest</div>
+              </div>
+              <div class="emi-option" onclick="selectEMI(30, 0.04)" data-months="30">
+                <div class="font-semibold text-lg">30 Months</div>
+                <div class="emi-amount" id="emi30">৳0</div>
+                <div class="text-xs">4% interest</div>
+              </div>
+              <div class="emi-option" onclick="selectEMI(36, 0.06)" data-months="36">
+                <div class="font-semibold text-lg">36 Months</div>
+                <div class="emi-amount" id="emi36">৳0</div>
+                <div class="text-xs">6% interest</div>
+              </div>
+            </div>
+            <div id="selectedEMIDisplay" class="mt-6 p-6 bg-white/70 rounded-2xl border-2 border-[#1e2b4f] hidden">
+              <p class="text-xl mb-2">Selected Plan: <span id="selectedMonths" class="font-bold"></span> months</p>
+              <p class="text-3xl font-bold text-[#1e2b4f]" id="selectedEMIAmount"></p>
+              <p class="text-sm text-gray-600 mt-2" id="selectedInterestNote"></p>
+            </div>
+          </div>
+          <div class="card-lux p-8">
+            <h3 class="text-2xl font-bold serif mb-6">Product Specifications</h3>
+            <div id="productSpecifications" class="space-y-3 text-gray-700"></div>
+          </div>
+          <button onclick="orderFromDetail()" class="w-full py-6 bg-[#1e2b4f] text-white rounded-2xl text-2xl font-bold flex items-center justify-center gap-4 shadow-lg transition hover:bg-[#2b3b5c] hover:scale-105">
+            <i class="fas fa-shopping-cart"></i> Order Now
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FLOATING BUTTON -->
+<button class="fixed bottom-5 right-5 w-16 h-16 bg-[#1e2b4f] rounded-full text-white text-3xl shadow-2xl z-50 hover:scale-110 transition" onclick="openOrderModal('General inquiry')"><i class="fab fa-facebook-messenger"></i></button>
+
+<script>
+// Kitchen Products (unchanged file names)
+const products = [
+  { name: 'Singer OPTIMA‑PRP 650W Blender', desc: '650W · 3 speeds · multiple jars', basePrice: 6050, img: 'GR1.webp' },
+  { name: 'Singer ELITE‑RED 650W Blender', desc: '650W · 1.5L jar · overload protection', basePrice: 5900, img: 'GR2.webp' },
+  { name: 'Singer PRO‑RED 550W Blender', desc: '550W · 3 jars', basePrice: 5350, img: 'GR1.webp' },
+  { name: 'Singer HL7505 500W Blender', desc: '500W · 20k RPM · 3 jars', basePrice: 7500, img: 'GR2.webp' },
+  { name: 'Singer Ultima 750W Mixer Grinder', desc: '750W mixer grinder', basePrice: 7350, img: 'GR1.webp' },
+  { name: 'Singer 1100W High-Power Blender', desc: '1100W · 20k RPM · 3 jars', basePrice: 8900, img: 'GR2.webp' },
+  { name: 'Singer SRBL‑SHM429HDL Hand Mixer', desc: '250W hand mixer · 5 speeds', basePrice: 1700, img: 'GR1.webp' },
+  { name: 'Singer Heavy Duty Grinder 750W', desc: '750W · stainless steel jars', basePrice: 8200, img: 'GR2.webp' },
+  { name: 'Singer Professional Blender 1000W', desc: '1000W · 2L jar', basePrice: 9500, img: 'GR1.webp' },
+  { name: 'Singer Mini Chopper 300W', desc: '300W · 0.5L jar', basePrice: 2800, img: 'GR2.webp' },
+  { name: 'Singer SR‑MC10 Rice Cooker', desc: '1.0L · 400W · keep warm', basePrice: 2750, img: 'RC1.webp' },
+  { name: 'Singer SR‑MC18 Rice Cooker', desc: '1.8L · 700W · non-stick', basePrice: 3750, img: 'RC2.webp' },
+  { name: 'Singer SR‑MC28 Rice Cooker', desc: '2.8L · 1000W', basePrice: 5000, img: 'RC3.webp' },
+  { name: 'Singer SR‑RC18 Digital Rice Cooker', desc: '1.8L digital · multi-cook', basePrice: 6500, img: 'RC1.webp' },
+  { name: 'Singer SR‑RC30 Commercial Rice Cooker', desc: '3.0L commercial', basePrice: 7250, img: 'RC2.webp' },
+  { name: 'Singer SR‑RC12 Rice Cooker', desc: '1.2L · 500W', basePrice: 3200, img: 'RC3.webp' },
+  { name: 'Singer SR‑RC22 Rice Cooker', desc: '2.2L · 800W', basePrice: 5500, img: 'RC1.webp' },
+  { name: 'Singer SR‑RC25 Digital Rice Cooker', desc: '2.5L · digital display', basePrice: 7200, img: 'RC2.webp' },
+  { name: 'Singer SR‑RC35 Commercial Rice Cooker', desc: '3.5L · heavy duty', basePrice: 8500, img: 'RC3.webp' },
+  { name: 'Singer SR‑RC40 Commercial Rice Cooker', desc: '4.0L · restaurant use', basePrice: 9800, img: 'RC1.webp' },
+  { name: 'Singer IC‑2000 Induction Cooker', desc: '2000W · digital touch', basePrice: 4500, img: 'https://placehold.co/400x300/d6cbaa/2b3b5c/png?text=Induction+Cooker' },
+  { name: 'Singer IC‑2200 Induction Cooker', desc: '2200W · LED display', basePrice: 5000, img: 'https://placehold.co/400x300/d6cbaa/2b3b5c/png?text=Induction+Cooker' },
+  { name: 'Singer IC‑1800 Induction Cooker', desc: '1800W induction', basePrice: 3750, img: 'https://placehold.co/400x300/d6cbaa/2b3b5c/png?text=Induction+Cooker' },
+  { name: 'Singer IC‑2400 Induction Cooker', desc: '2400W · touch control', basePrice: 5800, img: 'https://placehold.co/400x300/d6cbaa/2b3b5c/png?text=Induction+Cooker' },
+  { name: 'Singer IC‑2600 Induction Cooker', desc: '2600W · commercial', basePrice: 7200, img: 'https://placehold.co/400x300/d6cbaa/2b3b5c/png?text=Induction+Cooker' },
+].map(p => {
+  const discount = 0.1;
+  const currentPrice = Math.round(p.basePrice * (1 - discount));
+  const oldPrice = p.basePrice;
+  const stars = 4 + Math.random();
+  const fullStars = Math.floor(stars);
+  const halfStar = (stars - fullStars) >= 0.5 ? 1 : 0;
+  const emptyStars = 5 - fullStars - halfStar;
+  let starHtml = '';
+  for(let i=0; i<fullStars; i++) starHtml += '<i class="fas fa-star star"></i>';
+  if(halfStar) starHtml += '<i class="fas fa-star-half-alt star"></i>';
+  for(let i=0; i<emptyStars; i++) starHtml += '<i class="far fa-star star"></i>';
+  return { ...p, currentPrice, oldPrice, starHtml };
+});
+
+let currentPage = 1;
+const perPage = 10;
+let currentProduct = null;
+
+function renderProducts() {
+  const start = (currentPage - 1) * perPage;
+  const pageItems = products.slice(start, start + perPage);
+  const totalPages = Math.ceil(products.length / perPage);
+
+  let html = '';
+  for(let p of pageItems) {
+    html += `
+    <div class="card-lux overflow-hidden">
+      <img src="${p.img}" alt="${p.name}" class="product-img" loading="lazy" onclick="openProductDetail('${p.name.replace(/'/g, "\\'")}')" onerror="this.src='https://placehold.co/400x300/ffffff/1e2b4f/png?text=Kitchen+Appliance'">
+      <div class="p-5">
+        <div class="flex items-center mb-1">${p.starHtml}</div>
+        <h3 class="font-bold text-base">${p.name}</h3>
+        <p class="text-sm text-gray-600 mb-2">${p.desc}</p>
+        <div class="flex items-baseline gap-2 mb-2">
+          <span class="old-price">৳${p.oldPrice}</span>
+          <span class="current-price">৳${p.currentPrice}</span>
+          <span class="text-sm text-green-700">(-10%)</span>
+        </div>
+        <div class="flex gap-2 mt-3">
+          <button class="order-now flex-1 py-3 bg-[#1e2b4f] text-white rounded-xl hover:bg-[#2b3b5c] transition text-sm" onclick="goToOrderPage('${p.name.replace(/'/g, "\\'")}', ${p.currentPrice}, '${p.desc.replace(/'/g, "\\'")}')"><i class="fas fa-shopping-cart mr-2"></i>order</button>
+          <button class="know-more flex-1 py-3 bg-white border border-[#1e2b4f] text-[#1e2b4f] rounded-xl hover:bg-gray-100 transition text-sm" data-name="${p.name}" data-desc="${p.desc}" data-price="${p.currentPrice}" data-old="${p.oldPrice}"><i class="fas fa-info-circle mr-2"></i>know more</button>
+        </div>
+      </div>
+    </div>
+    `;
+  }
+  document.getElementById('productContainer').innerHTML = html;
+
+  let pagination = '';
+  pagination += `<button class="page-btn" onclick="changePage(${currentPage-1})" ${currentPage===1?'disabled':''}>Previous</button>`;
+  for(let i=1; i<=totalPages; i++) {
+    if(i === currentPage) pagination += `<button class="page-btn active" onclick="goToPage(${i})">${i}</button>`;
+    else if(i <= currentPage+2 && i >= currentPage-2) pagination += `<button class="page-btn" onclick="goToPage(${i})">${i}</button>`;
+  }
+  pagination += `<button class="page-btn" onclick="changePage(${currentPage+1})" ${currentPage===totalPages?'disabled':''}>Next</button>`;
+  document.getElementById('paginationControls').innerHTML = pagination;
+
+  attachButtons();
+}
+
+window.changePage = (page) => { if(page>=1) { currentPage = page; renderProducts(); } };
+window.goToPage = (page) => { currentPage = page; renderProducts(); };
+
+function attachButtons() {
+  document.querySelectorAll('.know-more').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.getElementById('knowmoreTitle').innerText = btn.dataset.name;
+      document.getElementById('knowmoreDesc').innerHTML = `<strong>Description:</strong> ${btn.dataset.desc}<br><br><span class="old-price">৳${btn.dataset.old}</span> <span class="current-price">৳${btn.dataset.price}</span> (-10% off)<br><br>Free delivery · 1 year warranty · genuine Singer product.`;
+      document.getElementById('knowmoreModal').style.display = 'flex';
+    });
+  });
+}
+
+window.openOrderModal = (prod) => {
+  document.getElementById('modalProductDisplay').innerText = prod;
+  document.getElementById('modalProductInput').value = prod;
+  document.getElementById('orderModal').style.display = 'flex';
+};
+window.closeModal = () => document.getElementById('orderModal').style.display = 'none';
+window.closeKnowMore = () => document.getElementById('knowmoreModal').style.display = 'none';
+
+document.getElementById('orderForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const prod = document.getElementById('modalProductInput').value;
+  const name = document.getElementById('custName').value;
+  const phone = document.getElementById('custPhone').value;
+  const addr = document.getElementById('custAddress').value;
+  const note = document.getElementById('custNote').value;
+  if(!name||!phone||!addr) return alert('name, phone and address required');
+  const msg = `Hello Alam Computers, I want to order: ${prod}. Name: ${name}, Phone: ${phone}, Address: ${addr}, Note: ${note}`;
+  window.open(`https://m.me/61584998476067?text=${encodeURIComponent(msg)}`,'_blank');
+  closeModal();
+});
+
+// Order button → order.html
+function goToOrderPage(productName, price, desc) {
+  const encodedName = encodeURIComponent(productName);
+  const encodedDesc = encodeURIComponent(desc);
+  window.location.href = `order.html?product=${encodedName}&price=${price}&desc=${encodedDesc}`;
+}
+window.goToOrderPage = goToOrderPage;
+
+// PRODUCT DETAIL POPUP
+function openProductDetail(productName) {
+  const product = products.find(p => p.name === productName);
+  if (!product) return;
+  currentProduct = product;
+
+  document.getElementById('detailProductImage').src = product.img;
+  document.getElementById('detailProductName').innerText = product.name;
+  document.getElementById('detailProductRating').innerHTML = product.starHtml;
+  document.getElementById('detailProductDesc').innerText = product.desc;
+  document.getElementById('detailOldPrice').innerText = '৳' + product.oldPrice.toLocaleString();
+  document.getElementById('detailCurrentPrice').innerText = '৳' + product.currentPrice.toLocaleString();
+
+  const downpayment = Math.round(product.currentPrice * 0.5);
+  const loanAmount = product.currentPrice - downpayment;
+  document.getElementById('downpaymentAmount').innerText = '৳' + downpayment.toLocaleString();
+  document.getElementById('loanAmount').innerText = '৳' + loanAmount.toLocaleString();
+
+  calculateEMI(loanAmount);
+  generateSpecifications(product);
+
+  document.getElementById('selectedEMIDisplay').classList.add('hidden');
+  document.querySelectorAll('.emi-option').forEach(opt => opt.classList.remove('selected'));
+
+  document.getElementById('productDetailModal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+window.openProductDetail = openProductDetail;
+
+function closeProductDetail() {
+  document.getElementById('productDetailModal').style.display = 'none';
+  document.body.style.overflow = 'auto';
+}
+window.closeProductDetail = closeProductDetail;
+
+function calculateEMI(principal) {
+  document.getElementById('emi6').innerText = '৳' + calculateEMIAmount(principal, 6, 0);
+  document.getElementById('emi12').innerText = '৳' + calculateEMIAmount(principal, 12, 0);
+  document.getElementById('emi18').innerText = '৳' + calculateEMIAmount(principal, 18, 0);
+  document.getElementById('emi24').innerText = '৳' + calculateEMIAmount(principal, 24, 0.02);
+  document.getElementById('emi30').innerText = '৳' + calculateEMIAmount(principal, 30, 0.04);
+  document.getElementById('emi36').innerText = '৳' + calculateEMIAmount(principal, 36, 0.06);
+}
+
+function calculateEMIAmount(principal, months, interestRate) {
+  if (interestRate === 0) return Math.round(principal / months).toLocaleString();
+  const totalInterest = principal * interestRate;
+  const totalAmount = principal + totalInterest;
+  return Math.round(totalAmount / months).toLocaleString();
+}
+
+function selectEMI(months, interestRate) {
+  document.querySelectorAll('.emi-option').forEach(opt => opt.classList.remove('selected'));
+  const selectedOption = document.querySelector(`.emi-option[data-months="${months}"]`);
+  if (selectedOption) selectedOption.classList.add('selected');
+
+  const loanAmountText = document.getElementById('loanAmount').innerText.replace('৳', '').replace(',', '');
+  const loanAmount = parseInt(loanAmountText);
+  const emiAmount = calculateEMIAmount(loanAmount, months, interestRate);
+
+  document.getElementById('selectedMonths').innerText = months;
+  document.getElementById('selectedEMIAmount').innerText = '৳' + emiAmount + '/month';
+  document.getElementById('selectedInterestNote').innerText = interestRate === 0 ? '0% interest (Special Offer!)' : `${interestRate * 100}% interest applicable`;
+  document.getElementById('selectedEMIDisplay').classList.remove('hidden');
+}
+window.selectEMI = selectEMI;
+
+function generateSpecifications(product) {
+  document.getElementById('productSpecifications').innerHTML = `
+    <p><span class="font-semibold">Product Type:</span> Kitchen Appliance</p>
+    <p><span class="font-semibold">Description:</span> ${product.desc}</p>
+    <p><span class="font-semibold">Warranty:</span> 1 year manufacturer warranty</p>
+    <p><span class="font-semibold">Special Features:</span> Energy efficient, durable build, premium quality</p>
+  `;
+}
+
+function orderFromDetail() {
+  if (currentProduct) {
+    const encodedName = encodeURIComponent(currentProduct.name);
+    const encodedDesc = encodeURIComponent(currentProduct.desc);
+    window.location.href = `order.html?product=${encodedName}&price=${currentProduct.currentPrice}&desc=${encodedDesc}`;
+  }
+}
+window.orderFromDetail = orderFromDetail;
+
+renderProducts();
+</script>
+</body>
+</html>

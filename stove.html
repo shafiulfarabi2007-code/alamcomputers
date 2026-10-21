@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<!-- saved from url=(0044)https://alamcomputers.netlify.app/stove.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=0fc0e69d-560a-4144-b57e-97fefc422b7d
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="https://alamcomputers.netlify.app/logo.png">
+  <title>Alam Computers | Stoves &amp; Ovens · Gas · Electric · Microwave</title>
+  <!-- Website Icon -->
+  
+  <!-- fonts + icons + tailwind -->
+  <link rel="preconnect" href="https://fonts.googleapis.com/">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+  <link href="./stove_files/css2" rel="stylesheet">
+  <link rel="stylesheet" href="./stove_files/all.min.css">
+  <script src="./stove_files/saved_resource"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background-color: #f8f7f2;
+      background-image: 
+        radial-gradient(circle at 30% 40%, rgba(230, 220, 200, 0.4) 0%, transparent 25%),
+        radial-gradient(circle at 80% 70%, rgba(200, 190, 160, 0.3) 0%, transparent 30%),
+        repeating-linear-gradient(45deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 2px, transparent 2px, transparent 8px);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #1a1d2b;
+    }
+    .noise-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNmKSIgb3BhY2l0eT0iMC4wMjUiIC8+PC9zdmc+');
+      pointer-events: none;
+      z-index: 200;
+      opacity: 0.3;
+      mix-blend-mode: multiply;
+    }
+    h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
+    .card-lux {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 2.5rem;
+      box-shadow: 0 25px 50px -18px rgba(90, 70, 40, 0.2), 
+                  inset 0 -2px 0 rgba(255,255,255,0.9),
+                  inset 0 0 0 1px rgba(255,245,215,0.7);
+      transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+      border: 1px solid rgba(230, 215, 180, 0.4);
+    }
+    .card-lux:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 40px 70px -20px #8a7b5a, 0 0 0 1px #dac29c inset;
+      background: rgba(255, 255, 255, 0.9);
+    }
+    .product-img {
+      width: 100%;
+      height: 200px;
+      object-fit: contain;
+      border-radius: 2rem 2rem 1rem 1rem;
+      background: white;
+      mix-blend-mode: normal;
+      padding: 1rem;
+    }
+    .page-btn {
+      background: white; border: 1px solid #ddd0b5; padding: 0.8rem 1.8rem;
+      border-radius: 3rem; font-weight: 600; cursor: pointer;
+      box-shadow: 0 5px 15px -8px #b0a084;
+      transition: all 0.2s ease;
+    }
+    .page-btn:hover:not(:disabled) { background: #f0e8da; transform: scale(1.05); }
+    .page-btn.active { background: #1e2b4f; color: white; border-color: #1e2b4f; }
+    .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .star {
+      color: #ffb800;
+      margin-right: 2px;
+    }
+    .old-price {
+      text-decoration: line-through;
+      color: #8b7e6b;
+      font-size: 0.9rem;
+      margin-right: 8px;
+    }
+    .current-price {
+      font-weight: 800;
+      color: #1e2b4f;
+      font-size: 1.3rem;
+    }
+    .category-header {
+      background: linear-gradient(145deg, #ffffff, #f5f0e6);
+      border-radius: 3rem;
+      padding: 3rem;
+      margin: 2rem auto;
+      border: 1px solid #e2d5bd;
+    }
+    .breadcrumb {
+      color: #6b5a4a;
+      font-size: 0.95rem;
+    }
+    .breadcrumb a {
+      color: #1e2b4f;
+      text-decoration: none;
+    }
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    /* Modal styles */
+    .order-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.1);
+      backdrop-filter: blur(12px);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .knowmore-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.1);
+      backdrop-filter: blur(12px);
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+  </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.container{width:100%}@media (min-width: 640px){.container{max-width:640px}}@media (min-width: 768px){.container{max-width:768px}}@media (min-width: 1024px){.container{max-width:1024px}}@media (min-width: 1280px){.container{max-width:1280px}}@media (min-width: 1536px){.container{max-width:1536px}}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.sticky{position:sticky}.top-0{top:0px}.bottom-5{bottom:1.25rem}.right-5{right:1.25rem}.right-6{right:1.5rem}.top-4{top:1rem}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.mb-4{margin-bottom:1rem}.mt-12{margin-top:3rem}.mt-2{margin-top:0.5rem}.mt-6{margin-top:1.5rem}.mb-1{margin-bottom:0.25rem}.mb-2{margin-bottom:0.5rem}.mr-2{margin-right:0.5rem}.mt-3{margin-top:0.75rem}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-16{height:4rem}.w-full{width:100%}.w-16{width:4rem}.max-w-3xl{max-width:48rem}.max-w-md{max-width:28rem}.flex-1{flex:1 1 0%}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.items-center{align-items:center}.items-baseline{align-items:baseline}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.gap-8{gap:2rem}.gap-2{gap:0.5rem}.space-x-3 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(0.75rem * var(--tw-space-x-reverse));margin-left:calc(0.75rem * calc(1 - var(--tw-space-x-reverse)))}.space-x-8 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(2rem * var(--tw-space-x-reverse));margin-left:calc(2rem * calc(1 - var(--tw-space-x-reverse)))}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.rounded-2xl{border-radius:1rem}.rounded-\[4rem\]{border-radius:4rem}.rounded-3xl{border-radius:1.5rem}.rounded-full{border-radius:9999px}.rounded-xl{border-radius:0.75rem}.border{border-width:1px}.border-2{border-width:2px}.border-b{border-bottom-width:1px}.border-\[\#ddd0b7\]{--tw-border-opacity:1;border-color:rgb(221 208 183 / var(--tw-border-opacity, 1))}.border-\[\#e0cfb0\]{--tw-border-opacity:1;border-color:rgb(224 207 176 / var(--tw-border-opacity, 1))}.border-\[\#e2d5bd\]{--tw-border-opacity:1;border-color:rgb(226 213 189 / var(--tw-border-opacity, 1))}.border-\[\#dac29c\]{--tw-border-opacity:1;border-color:rgb(218 194 156 / var(--tw-border-opacity, 1))}.border-\[\#1e2b4f\]{--tw-border-opacity:1;border-color:rgb(30 43 79 / var(--tw-border-opacity, 1))}.bg-white\/70{background-color:rgb(255 255 255 / 0.7)}.bg-white\/90{background-color:rgb(255 255 255 / 0.9)}.bg-\[\#1e2b4f\]{--tw-bg-opacity:1;background-color:rgb(30 43 79 / var(--tw-bg-opacity, 1))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.p-4{padding:1rem}.p-8{padding:2rem}.p-5{padding:1.25rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-8{padding-top:2rem;padding-bottom:2rem}.py-5{padding-top:1.25rem;padding-bottom:1.25rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.text-center{text-align:center}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-5xl{font-size:3rem;line-height:1}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-base{font-size:1rem;line-height:1.5rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.font-black{font-weight:900}.font-bold{font-weight:700}.font-medium{font-weight:500}.font-semibold{font-weight:600}.text-\[\#2b3b5c\]{--tw-text-opacity:1;color:rgb(43 59 92 / var(--tw-text-opacity, 1))}.text-\[\#4a4f67\]{--tw-text-opacity:1;color:rgb(74 79 103 / var(--tw-text-opacity, 1))}.text-\[\#1e2b4f\]{--tw-text-opacity:1;color:rgb(30 43 79 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-gray-600{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity, 1))}.text-green-700{--tw-text-opacity:1;color:rgb(21 128 61 / var(--tw-text-opacity, 1))}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.backdrop-blur-xl{--tw-backdrop-blur:blur(24px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:scale-110:hover{--tw-scale-x:1.1;--tw-scale-y:1.1;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.hover\:bg-\[\#2b3b5c\]:hover{--tw-bg-opacity:1;background-color:rgb(43 59 92 / var(--tw-bg-opacity, 1))}.hover\:bg-gray-100:hover{--tw-bg-opacity:1;background-color:rgb(243 244 246 / var(--tw-bg-opacity, 1))}.hover\:text-\[\#2b3b5c\]:hover{--tw-text-opacity:1;color:rgb(43 59 92 / var(--tw-text-opacity, 1))}@media (min-width: 640px){.sm\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}}@media (min-width: 768px){.md\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.md\:text-6xl{font-size:3.75rem;line-height:1}}@media (min-width: 1024px){.lg\:flex{display:flex}.lg\:grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}}@media (min-width: 1280px){.xl\:grid-cols-5{grid-template-columns:repeat(5, minmax(0, 1fr))}}</style></head>
+<body>
+<div class="noise-overlay"></div>
+
+<!-- STICKY NAV -->
+<nav class="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-[#e2d5bd] py-4 px-6 flex items-center justify-between shadow-sm">
+  <div class="flex items-center gap-3">
+ <h1 style="font-family:'Orbitron',sans-serif;font-weight:900;letter-spacing:3px;">
+<span style="color:#002d8e;font-size:25px;">ALAM</span>
+<span style="color:#910202;font-size:20px;">COMPUTERS</span>
+</h1>&gt;
+  </div>
+  <div class="desktop-menu hidden lg:flex items-center space-x-8 font-medium">
+    <a class="hover:text-[#2b3b5c] transition" href="https://alamcomputers.netlify.app/">Home</a>
+    <a class="hover:text-[#2b3b5c] transition" href="https://alamcomputers.netlify.app/fridge">Refrigerators</a>
+    <a class="hover:text-[#2b3b5c] transition" href="https://alamcomputers.netlify.app/tv">Smart TVs</a>
+    <a class="hover:text-[#2b3b5c] transition" href="https://alamcomputers.netlify.app/ac">AC</a>
+    <a class="hover:text-[#2b3b5c] transition" href="https://alamcomputers.netlify.app/washer">Washer</a>
+    <a class="hover:text-[#2b3b5c] transition" href="https://alamcomputers.netlify.app/kitchen">Kitchen</a>
+    <a class="text-[#2b3b5c] font-semibold" href="https://alamcomputers.netlify.app/stove">Stove</a>
+    <a class="hover:text-[#2b3b5c] transition" href="https://alamcomputers.netlify.app/fan">Fan</a>
+    <a class="hover:text-[#2b3b5c] transition" href="https://alamcomputers.netlify.app/iron">Iron</a>
+    <a class="hover:text-[#2b3b5c] transition" href="https://alamcomputers.netlify.app/sewing">Sewing</a>
+    <a class="hover:text-[#2b3b5c] transition" href="https://alamcomputers.netlify.app/freezer">Freezer</a>
+    <a href="https://alamcomputers.netlify.app/gadgets.html" class="hover:text-[#2b3b5c] transition">Gadgets</a>
+    <a class="hover:text-[#2b3b5c] transition" href="https://alamcomputers.netlify.app/laptop">Laptop</a>
+  </div>
+  <div class="flex items-center gap-4 text-[#2b3b5c] text-xl">
+    <!-- Facebook Messenger shortcut added -->
+    <a href="https://www.facebook.com/profile.php?id=61584998476067" target="_blank" title="Message on Facebook"><i class="fab fa-facebook-messenger"></i></a>
+    <i class="fas fa-search"></i><i class="fas fa-user-circle"></i><i class="fas fa-shopping-bag"></i>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="container mx-auto px-4 mt-6">
+  <div class="breadcrumb">
+    <a href="https://alamcomputers.netlify.app/">Home</a> &gt; <span class="font-semibold">Stoves &amp; Ovens</span>
+  </div>
+</div>
+
+<!-- CATEGORY HEADER -->
+<div class="container mx-auto px-4">
+  <div class="category-header text-center">
+    <h1 class="serif text-5xl md:text-6xl font-black mb-4">Stoves &amp; Ovens</h1>
+    <p class="text-xl text-[#4a4f67] max-w-3xl mx-auto">Gas stoves, electric ovens, and microwaves from Singer. Cook with precision and style.</p>
+  </div>
+</div>
+
+<!-- PRODUCT GRID -->
+<div class="container mx-auto px-4 py-8">
+  <div id="productContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
+    <div class="card-lux overflow-hidden">
+      <img src="./stove_files/OVEN1.webp" alt="Singer GS101EB Double Burner Stove" class="product-img" loading="lazy" onerror="this.src='https://placehold.co/400x300/ffffff/1e2b4f/png?text=Oven'">
+      <div class="p-5">
+        <div class="flex items-center mb-1"><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="far fa-star star"></i></div>
+        <h3 class="font-bold text-base">Singer GS101EB Double Burner Stove</h3>
+        <p class="text-sm text-gray-600 mb-2">3.2kW · piezo ignition</p>
+        <div class="flex items-baseline gap-2 mb-2">
+          <span class="old-price">৳3750</span>
+          <span class="current-price">৳3375</span>
+          <span class="text-sm text-green-700">(-10%)</span>
+        </div>
+        <div class="flex gap-2 mt-3">
+          <button class="order-now flex-1 py-3 bg-[#1e2b4f] text-white rounded-xl hover:bg-[#2b3b5c] transition text-sm" data-product="Singer GS101EB Double Burner Stove"><i class="fas fa-shopping-cart mr-2"></i>order</button>
+          <button class="know-more flex-1 py-3 bg-white border border-[#1e2b4f] text-[#1e2b4f] rounded-xl hover:bg-gray-100 transition text-sm" data-name="Singer GS101EB Double Burner Stove" data-desc="3.2kW · piezo ignition" data-price="3375" data-old="3750"><i class="fas fa-info-circle mr-2"></i>know more</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card-lux overflow-hidden">
+      <img src="./stove_files/OVEN2.webp" alt="Singer GS888SP Double Burner Stove" class="product-img" loading="lazy" onerror="this.src='https://placehold.co/400x300/ffffff/1e2b4f/png?text=Oven'">
+      <div class="p-5">
+        <div class="flex items-center mb-1"><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="far fa-star star"></i></div>
+        <h3 class="font-bold text-base">Singer GS888SP Double Burner Stove</h3>
+        <p class="text-sm text-gray-600 mb-2">Brass burner · auto ignition</p>
+        <div class="flex items-baseline gap-2 mb-2">
+          <span class="old-price">৳4250</span>
+          <span class="current-price">৳3825</span>
+          <span class="text-sm text-green-700">(-10%)</span>
+        </div>
+        <div class="flex gap-2 mt-3">
+          <button class="order-now flex-1 py-3 bg-[#1e2b4f] text-white rounded-xl hover:bg-[#2b3b5c] transition text-sm" data-product="Singer GS888SP Double Burner Stove"><i class="fas fa-shopping-cart mr-2"></i>order</button>
+          <button class="know-more flex-1 py-3 bg-white border border-[#1e2b4f] text-[#1e2b4f] rounded-xl hover:bg-gray-100 transition text-sm" data-name="Singer GS888SP Double Burner Stove" data-desc="Brass burner · auto ignition" data-price="3825" data-old="4250"><i class="fas fa-info-circle mr-2"></i>know more</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card-lux overflow-hidden">
+      <img src="./stove_files/OVEN3.webp" alt="Singer GH202G Glass Hob" class="product-img" loading="lazy" onerror="this.src='https://placehold.co/400x300/ffffff/1e2b4f/png?text=Oven'">
+      <div class="p-5">
+        <div class="flex items-center mb-1"><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="far fa-star star"></i></div>
+        <h3 class="font-bold text-base">Singer GH202G Glass Hob</h3>
+        <p class="text-sm text-gray-600 mb-2">2 burner · tempered glass</p>
+        <div class="flex items-baseline gap-2 mb-2">
+          <span class="old-price">৳8000</span>
+          <span class="current-price">৳7200</span>
+          <span class="text-sm text-green-700">(-10%)</span>
+        </div>
+        <div class="flex gap-2 mt-3">
+          <button class="order-now flex-1 py-3 bg-[#1e2b4f] text-white rounded-xl hover:bg-[#2b3b5c] transition text-sm" data-product="Singer GH202G Glass Hob"><i class="fas fa-shopping-cart mr-2"></i>order</button>
+          <button class="know-more flex-1 py-3 bg-white border border-[#1e2b4f] text-[#1e2b4f] rounded-xl hover:bg-gray-100 transition text-sm" data-name="Singer GH202G Glass Hob" data-desc="2 burner · tempered glass" data-price="7200" data-old="8000"><i class="fas fa-info-circle mr-2"></i>know more</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card-lux overflow-hidden">
+      <img src="./stove_files/OVEN4.webp" alt="Singer STO22BDHT Electric Oven" class="product-img" loading="lazy" onerror="this.src='https://placehold.co/400x300/ffffff/1e2b4f/png?text=Oven'">
+      <div class="p-5">
+        <div class="flex items-center mb-1"><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star-half-alt star"></i></div>
+        <h3 class="font-bold text-base">Singer STO22BDHT Electric Oven</h3>
+        <p class="text-sm text-gray-600 mb-2">22L · 1500W · 60min timer</p>
+        <div class="flex items-baseline gap-2 mb-2">
+          <span class="old-price">৳7000</span>
+          <span class="current-price">৳6300</span>
+          <span class="text-sm text-green-700">(-10%)</span>
+        </div>
+        <div class="flex gap-2 mt-3">
+          <button class="order-now flex-1 py-3 bg-[#1e2b4f] text-white rounded-xl hover:bg-[#2b3b5c] transition text-sm" data-product="Singer STO22BDHT Electric Oven"><i class="fas fa-shopping-cart mr-2"></i>order</button>
+          <button class="know-more flex-1 py-3 bg-white border border-[#1e2b4f] text-[#1e2b4f] rounded-xl hover:bg-gray-100 transition text-sm" data-name="Singer STO22BDHT Electric Oven" data-desc="22L · 1500W · 60min timer" data-price="6300" data-old="7000"><i class="fas fa-info-circle mr-2"></i>know more</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card-lux overflow-hidden">
+      <img src="./stove_files/OVEN1.webp" alt="Singer 28L Electric Oven" class="product-img" loading="lazy" onerror="this.src='https://placehold.co/400x300/ffffff/1e2b4f/png?text=Oven'">
+      <div class="p-5">
+        <div class="flex items-center mb-1"><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="far fa-star star"></i></div>
+        <h3 class="font-bold text-base">Singer 28L Electric Oven</h3>
+        <p class="text-sm text-gray-600 mb-2">28L · 1500W</p>
+        <div class="flex items-baseline gap-2 mb-2">
+          <span class="old-price">৳7300</span>
+          <span class="current-price">৳6570</span>
+          <span class="text-sm text-green-700">(-10%)</span>
+        </div>
+        <div class="flex gap-2 mt-3">
+          <button class="order-now flex-1 py-3 bg-[#1e2b4f] text-white rounded-xl hover:bg-[#2b3b5c] transition text-sm" data-product="Singer 28L Electric Oven"><i class="fas fa-shopping-cart mr-2"></i>order</button>
+          <button class="know-more flex-1 py-3 bg-white border border-[#1e2b4f] text-[#1e2b4f] rounded-xl hover:bg-gray-100 transition text-sm" data-name="Singer 28L Electric Oven" data-desc="28L · 1500W" data-price="6570" data-old="7300"><i class="fas fa-info-circle mr-2"></i>know more</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card-lux overflow-hidden">
+      <img src="./stove_files/OVEN2.webp" alt="Singer 35L-353GKEA Oven" class="product-img" loading="lazy" onerror="this.src='https://placehold.co/400x300/ffffff/1e2b4f/png?text=Oven'">
+      <div class="p-5">
+        <div class="flex items-center mb-1"><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star-half-alt star"></i></div>
+        <h3 class="font-bold text-base">Singer 35L-353GKEA Oven</h3>
+        <p class="text-sm text-gray-600 mb-2">35L electric oven</p>
+        <div class="flex items-baseline gap-2 mb-2">
+          <span class="old-price">৳8990</span>
+          <span class="current-price">৳8091</span>
+          <span class="text-sm text-green-700">(-10%)</span>
+        </div>
+        <div class="flex gap-2 mt-3">
+          <button class="order-now flex-1 py-3 bg-[#1e2b4f] text-white rounded-xl hover:bg-[#2b3b5c] transition text-sm" data-product="Singer 35L-353GKEA Oven"><i class="fas fa-shopping-cart mr-2"></i>order</button>
+          <button class="know-more flex-1 py-3 bg-white border border-[#1e2b4f] text-[#1e2b4f] rounded-xl hover:bg-gray-100 transition text-sm" data-name="Singer 35L-353GKEA Oven" data-desc="35L electric oven" data-price="8091" data-old="8990"><i class="fas fa-info-circle mr-2"></i>know more</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card-lux overflow-hidden">
+      <img src="./stove_files/OVEN3.webp" alt="Singer KT-H 34 RC Oven" class="product-img" loading="lazy" onerror="this.src='https://placehold.co/400x300/ffffff/1e2b4f/png?text=Oven'">
+      <div class="p-5">
+        <div class="flex items-center mb-1"><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star-half-alt star"></i></div>
+        <h3 class="font-bold text-base">Singer KT-H 34 RC Oven</h3>
+        <p class="text-sm text-gray-600 mb-2">34L rotisserie · 4 heating elements</p>
+        <div class="flex items-baseline gap-2 mb-2">
+          <span class="old-price">৳9500</span>
+          <span class="current-price">৳8550</span>
+          <span class="text-sm text-green-700">(-10%)</span>
+        </div>
+        <div class="flex gap-2 mt-3">
+          <button class="order-now flex-1 py-3 bg-[#1e2b4f] text-white rounded-xl hover:bg-[#2b3b5c] transition text-sm" data-product="Singer KT-H 34 RC Oven"><i class="fas fa-shopping-cart mr-2"></i>order</button>
+          <button class="know-more flex-1 py-3 bg-white border border-[#1e2b4f] text-[#1e2b4f] rounded-xl hover:bg-gray-100 transition text-sm" data-name="Singer KT-H 34 RC Oven" data-desc="34L rotisserie · 4 heating elements" data-price="8550" data-old="9500"><i class="fas fa-info-circle mr-2"></i>know more</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card-lux overflow-hidden">
+      <img src="./stove_files/OVEN4.webp" alt="Singer SMW23MSOLP Microwave" class="product-img" loading="lazy" onerror="this.src='https://placehold.co/400x300/ffffff/1e2b4f/png?text=Oven'">
+      <div class="p-5">
+        <div class="flex items-center mb-1"><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="far fa-star star"></i></div>
+        <h3 class="font-bold text-base">Singer SMW23MSOLP Microwave</h3>
+        <p class="text-sm text-gray-600 mb-2">23L solo microwave</p>
+        <div class="flex items-baseline gap-2 mb-2">
+          <span class="old-price">৳11000</span>
+          <span class="current-price">৳9900</span>
+          <span class="text-sm text-green-700">(-10%)</span>
+        </div>
+        <div class="flex gap-2 mt-3">
+          <button class="order-now flex-1 py-3 bg-[#1e2b4f] text-white rounded-xl hover:bg-[#2b3b5c] transition text-sm" data-product="Singer SMW23MSOLP Microwave"><i class="fas fa-shopping-cart mr-2"></i>order</button>
+          <button class="know-more flex-1 py-3 bg-white border border-[#1e2b4f] text-[#1e2b4f] rounded-xl hover:bg-gray-100 transition text-sm" data-name="Singer SMW23MSOLP Microwave" data-desc="23L solo microwave" data-price="9900" data-old="11000"><i class="fas fa-info-circle mr-2"></i>know more</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card-lux overflow-hidden">
+      <img src="./stove_files/OVEN1.webp" alt="Singer SMW30AMSOLP Microwave" class="product-img" loading="lazy" onerror="this.src='https://placehold.co/400x300/ffffff/1e2b4f/png?text=Oven'">
+      <div class="p-5">
+        <div class="flex items-center mb-1"><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star-half-alt star"></i></div>
+        <h3 class="font-bold text-base">Singer SMW30AMSOLP Microwave</h3>
+        <p class="text-sm text-gray-600 mb-2">30L solo microwave</p>
+        <div class="flex items-baseline gap-2 mb-2">
+          <span class="old-price">৳14000</span>
+          <span class="current-price">৳12600</span>
+          <span class="text-sm text-green-700">(-10%)</span>
+        </div>
+        <div class="flex gap-2 mt-3">
+          <button class="order-now flex-1 py-3 bg-[#1e2b4f] text-white rounded-xl hover:bg-[#2b3b5c] transition text-sm" data-product="Singer SMW30AMSOLP Microwave"><i class="fas fa-shopping-cart mr-2"></i>order</button>
+          <button class="know-more flex-1 py-3 bg-white border border-[#1e2b4f] text-[#1e2b4f] rounded-xl hover:bg-gray-100 transition text-sm" data-name="Singer SMW30AMSOLP Microwave" data-desc="30L solo microwave" data-price="12600" data-old="14000"><i class="fas fa-info-circle mr-2"></i>know more</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card-lux overflow-hidden">
+      <img src="./stove_files/OVEN2.webp" alt="Singer SMW30GCB8LP Convection Microwave" class="product-img" loading="lazy" onerror="this.src='https://placehold.co/400x300/ffffff/1e2b4f/png?text=Oven'">
+      <div class="p-5">
+        <div class="flex items-center mb-1"><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="fas fa-star star"></i><i class="far fa-star star"></i></div>
+        <h3 class="font-bold text-base">Singer SMW30GCB8LP Convection Microwave</h3>
+        <p class="text-sm text-gray-600 mb-2">30L convection · 900W</p>
+        <div class="flex items-baseline gap-2 mb-2">
+          <span class="old-price">৳23000</span>
+          <span class="current-price">৳20700</span>
+          <span class="text-sm text-green-700">(-10%)</span>
+        </div>
+        <div class="flex gap-2 mt-3">
+          <button class="order-now flex-1 py-3 bg-[#1e2b4f] text-white rounded-xl hover:bg-[#2b3b5c] transition text-sm" data-product="Singer SMW30GCB8LP Convection Microwave"><i class="fas fa-shopping-cart mr-2"></i>order</button>
+          <button class="know-more flex-1 py-3 bg-white border border-[#1e2b4f] text-[#1e2b4f] rounded-xl hover:bg-gray-100 transition text-sm" data-name="Singer SMW30GCB8LP Convection Microwave" data-desc="30L convection · 900W" data-price="20700" data-old="23000"><i class="fas fa-info-circle mr-2"></i>know more</button>
+        </div>
+      </div>
+    </div>
+    </div>
+  <div id="paginationControls" class="flex justify-center items-center mt-12 space-x-3"><button class="page-btn" onclick="changePage(0)" disabled="">Previous</button><button class="page-btn active" onclick="goToPage(1)">1</button><button class="page-btn" onclick="goToPage(2)">2</button><button class="page-btn" onclick="changePage(2)">Next</button></div>
+</div>
+
+<!-- ORDER MODAL (Facebook Messenger) -->
+<div id="orderModal" class="order-modal">
+  <div class="bg-white/90 backdrop-blur-xl rounded-[4rem] p-8 max-w-md w-full border-2 border-[#e0cfb0] shadow-2xl relative">
+    <h2 class="text-4xl serif font-bold">complete order</h2>
+    <p class="mt-2 text-[#4a4f67]" id="modalProductDisplay">product</p>
+    <form id="orderForm" class="mt-6 space-y-4">
+      <input type="hidden" id="modalProductInput">
+      <input type="text" id="custName" placeholder="full name" class="w-full p-4 border border-[#ddd0b7] rounded-2xl bg-white/70">
+      <input type="tel" id="custPhone" placeholder="WhatsApp number" value="+880" class="w-full p-4 border border-[#ddd0b7] rounded-2xl bg-white/70">
+      <textarea id="custAddress" placeholder="delivery address" rows="2" class="w-full p-4 border border-[#ddd0b7] rounded-2xl bg-white/70"></textarea>
+      <input type="text" id="custNote" placeholder="optional note" class="w-full p-4 border border-[#ddd0b7] rounded-2xl bg-white/70">
+      <button type="submit" class="w-full py-5 bg-[#1e2b4f] text-white rounded-2xl text-xl font-bold flex items-center justify-center gap-3 shadow-lg transition hover:bg-[#2b3b5c]"><i class="fab fa-facebook-messenger"></i> confirm order</button>
+    </form>
+    <button onclick="closeModal()" class="absolute top-4 right-6 text-4xl text-[#1e2b4f]">×</button>
+  </div>
+</div>
+
+<!-- KNOW MORE MODAL -->
+<div id="knowmoreModal" class="knowmore-modal">
+  <div class="bg-white rounded-3xl p-8 max-w-md w-full border-2 border-[#dac29c] shadow-2xl relative">
+    <h2 class="text-4xl serif font-bold mb-4" id="knowmoreTitle">Product Details</h2>
+    <p class="text-lg text-[#4a4f67]" id="knowmoreDesc"></p>
+    <button onclick="closeKnowMore()" class="absolute top-4 right-6 text-4xl text-[#1e2b4f]">×</button>
+  </div>
+</div>
+
+<!-- FLOATING BUTTONS (Facebook Messenger) -->
+<button class="fixed bottom-5 right-5 w-16 h-16 bg-[#1e2b4f] rounded-full text-white text-3xl shadow-2xl z-50 hover:scale-110 transition" onclick="openOrderModal('General inquiry')"><i class="fab fa-facebook-messenger"></i></button>
+
+<script>
+// Stove & Oven Products with correct photo file names: OVEN1.webp, OVEN2.webp, OVEN3.webp, OVEN4.webp (UNCHANGED)
+const products = [
+  { name: 'Singer GS101EB Double Burner Stove', desc: '3.2kW · piezo ignition', basePrice: 3750, img: 'OVEN1.webp' },
+  { name: 'Singer GS888SP Double Burner Stove', desc: 'Brass burner · auto ignition', basePrice: 4250, img: 'OVEN2.webp' },
+  { name: 'Singer GH202G Glass Hob', desc: '2 burner · tempered glass', basePrice: 8000, img: 'OVEN3.webp' },
+  { name: 'Singer STO22BDHT Electric Oven', desc: '22L · 1500W · 60min timer', basePrice: 7000, img: 'OVEN4.webp' },
+  { name: 'Singer 28L Electric Oven', desc: '28L · 1500W', basePrice: 7300, img: 'OVEN1.webp' },
+  { name: 'Singer 35L-353GKEA Oven', desc: '35L electric oven', basePrice: 8990, img: 'OVEN2.webp' },
+  { name: 'Singer KT-H 34 RC Oven', desc: '34L rotisserie · 4 heating elements', basePrice: 9500, img: 'OVEN3.webp' },
+  { name: 'Singer SMW23MSOLP Microwave', desc: '23L solo microwave', basePrice: 11000, img: 'OVEN4.webp' },
+  { name: 'Singer SMW30AMSOLP Microwave', desc: '30L solo microwave', basePrice: 14000, img: 'OVEN1.webp' },
+  { name: 'Singer SMW30GCB8LP Convection Microwave', desc: '30L convection · 900W', basePrice: 23000, img: 'OVEN2.webp' },
+  { name: 'Singer GS101EB Double Burner Stove (Black)', desc: '3.2kW · black finish', basePrice: 3850, img: 'OVEN3.webp' },
+  { name: 'Singer GS888SP Double Burner Stove (Silver)', desc: 'Brass burner · silver finish', basePrice: 4350, img: 'OVEN4.webp' },
+  { name: 'Singer GH202G Glass Hob (Black)', desc: '2 burner · black glass', basePrice: 8200, img: 'OVEN1.webp' },
+  { name: 'Singer STO22BDHT Electric Oven (White)', desc: '22L · 1500W · white', basePrice: 7100, img: 'OVEN2.webp' },
+  { name: 'Singer 28L Electric Oven (Black)', desc: '28L · 1500W · black', basePrice: 7400, img: 'OVEN3.webp' },
+  { name: 'Singer 35L-353GKEA Oven (Silver)', desc: '35L · silver finish', basePrice: 9100, img: 'OVEN4.webp' },
+  { name: 'Singer KT-H 34 RC Oven (Black)', desc: '34L rotisserie · black', basePrice: 9700, img: 'OVEN1.webp' },
+  { name: 'Singer SMW23MSOLP Microwave (White)', desc: '23L · white', basePrice: 11200, img: 'OVEN2.webp' },
+  { name: 'Singer SMW30AMSOLP Microwave (Black)', desc: '30L · black', basePrice: 14200, img: 'OVEN3.webp' },
+  { name: 'Singer SMW30GCB8LP Convection (Silver)', desc: '30L convection · silver', basePrice: 23500, img: 'OVEN4.webp' },
+].map(p => {
+  const discount = 0.1;
+  const currentPrice = Math.round(p.basePrice * (1 - discount));
+  const oldPrice = p.basePrice;
+  const stars = 4 + Math.random();
+  const fullStars = Math.floor(stars);
+  const halfStar = (stars - fullStars) >= 0.5 ? 1 : 0;
+  const emptyStars = 5 - fullStars - halfStar;
+  let starHtml = '';
+  for(let i=0; i<fullStars; i++) starHtml += '<i class="fas fa-star star"></i>';
+  if(halfStar) starHtml += '<i class="fas fa-star-half-alt star"></i>';
+  for(let i=0; i<emptyStars; i++) starHtml += '<i class="far fa-star star"></i>';
+  return { ...p, currentPrice, oldPrice, starHtml };
+});
+
+let currentPage = 1;
+const perPage = 10;
+
+function renderProducts() {
+  const start = (currentPage - 1) * perPage;
+  const pageItems = products.slice(start, start + perPage);
+  const totalPages = Math.ceil(products.length / perPage);
+
+  let html = '';
+  for(let p of pageItems) {
+    html += `
+    <div class="card-lux overflow-hidden">
+      <img src="${p.img}" alt="${p.name}" class="product-img" loading="lazy" onerror="this.src='https://placehold.co/400x300/ffffff/1e2b4f/png?text=Oven'">
+      <div class="p-5">
+        <div class="flex items-center mb-1">${p.starHtml}</div>
+        <h3 class="font-bold text-base">${p.name}</h3>
+        <p class="text-sm text-gray-600 mb-2">${p.desc}</p>
+        <div class="flex items-baseline gap-2 mb-2">
+          <span class="old-price">৳${p.oldPrice}</span>
+          <span class="current-price">৳${p.currentPrice}</span>
+          <span class="text-sm text-green-700">(-10%)</span>
+        </div>
+        <div class="flex gap-2 mt-3">
+          <button class="order-now flex-1 py-3 bg-[#1e2b4f] text-white rounded-xl hover:bg-[#2b3b5c] transition text-sm" data-product="${p.name}"><i class="fas fa-shopping-cart mr-2"></i>order</button>
+          <button class="know-more flex-1 py-3 bg-white border border-[#1e2b4f] text-[#1e2b4f] rounded-xl hover:bg-gray-100 transition text-sm" data-name="${p.name}" data-desc="${p.desc}" data-price="${p.currentPrice}" data-old="${p.oldPrice}"><i class="fas fa-info-circle mr-2"></i>know more</button>
+        </div>
+      </div>
+    </div>
+    `;
+  }
+  document.getElementById('productContainer').innerHTML = html;
+
+  let pagination = '';
+  pagination += `<button class="page-btn" onclick="changePage(${currentPage-1})" ${currentPage===1?'disabled':''}>Previous</button>`;
+  
+  for(let i=1; i<=totalPages; i++) {
+    if(i === currentPage) {
+      pagination += `<button class="page-btn active" onclick="goToPage(${i})">${i}</button>`;
+    } else if(i <= currentPage+2 && i >= currentPage-2) {
+      pagination += `<button class="page-btn" onclick="goToPage(${i})">${i}</button>`;
+    }
+  }
+  
+  pagination += `<button class="page-btn" onclick="changePage(${currentPage+1})" ${currentPage===totalPages?'disabled':''}>Next</button>`;
+  document.getElementById('paginationControls').innerHTML = pagination;
+  
+  attachButtons();
+}
+
+function changePage(page) { 
+  if(page >= 1) { 
+    currentPage = page; 
+    renderProducts(); 
+  } 
+}
+
+function goToPage(page) { 
+  currentPage = page; 
+  renderProducts(); 
+}
+
+window.changePage = changePage;
+window.goToPage = goToPage;
+
+function attachButtons() {
+  document.querySelectorAll('.order-now').forEach(btn => {
+    btn.addEventListener('click', function() {
+      openOrderModal(this.dataset.product);
+    });
+  });
+  
+  document.querySelectorAll('.know-more').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.getElementById('knowmoreTitle').innerText = this.dataset.name;
+      document.getElementById('knowmoreDesc').innerHTML = `<strong>Description:</strong> ${this.dataset.desc}<br><br><span class="old-price">৳${this.dataset.old}</span> <span class="current-price">৳${this.dataset.price}</span> (-10% off)<br><br>Free delivery · 1 year warranty · genuine Singer product.`;
+      document.getElementById('knowmoreModal').style.display = 'flex';
+    });
+  });
+}
+
+// Order modal functions
+function openOrderModal(prod) {
+  document.getElementById('modalProductDisplay').innerText = prod;
+  document.getElementById('modalProductInput').value = prod;
+  document.getElementById('orderModal').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('orderModal').style.display = 'none';
+}
+
+function closeKnowMore() {
+  document.getElementById('knowmoreModal').style.display = 'none';
+}
+
+window.openOrderModal = openOrderModal;
+window.closeModal = closeModal;
+window.closeKnowMore = closeKnowMore;
+
+// Order form submission with Messenger link
+document.getElementById('orderForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const prod = document.getElementById('modalProductInput').value;
+  const name = document.getElementById('custName').value;
+  const phone = document.getElementById('custPhone').value;
+  const addr = document.getElementById('custAddress').value;
+  const note = document.getElementById('custNote').value;
+  if(!name||!phone||!addr) {
+    alert('name, phone and address required');
+    return;
+  }
+  const msg = `Hello Alam Computers, I want to order: ${prod}. Name: ${name}, Phone: ${phone}, Address: ${addr}, Note: ${note}`;
+  window.open(`https://m.me/61584998476067?text=${encodeURIComponent(msg)}`,'_blank');
+  closeModal();
+});
+
+// Initial render
+renderProducts();
+</script>
+
+</body></html>

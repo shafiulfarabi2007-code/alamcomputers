@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="logo.png">
+  <title>Alam Computers | premium e‑commerce · since 1995</title>
+  <!-- Website Icon -->
+  
+  <!-- fonts + icons + tailwind -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@200;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background-color: #e5f9ff;
+      background-image: 
+        radial-gradient(circle at 25% 35%, rgba(245, 235, 215, 0.5) 0%, transparent 30%),
+        radial-gradient(circle at 75% 65%, rgba(230, 215, 180, 0.4) 0%, transparent 35%),
+        repeating-linear-gradient(45deg, rgba(180, 150, 100, 0.03) 0px, rgba(180, 150, 100, 0.03) 3px, transparent 3px, transparent 12px);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #1a1d2b;
+      min-height: 100vh;
+    }
+    .noise-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNmKSIgb3BhY2l0eT0iMC4wMjUiIC8+PC9zdmc+');
+      pointer-events: none;
+      z-index: 200;
+      opacity: 0.3;
+      mix-blend-mode: multiply;
+    }
+    h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
+    .card-lux {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 2.5rem;
+      box-shadow: 0 25px 50px -18px rgba(120, 90, 50, 0.15), 
+                  inset 0 -2px 0 rgba(225, 255, 252, 0.9),
+                  inset 0 0 0 1px rgba(190, 237, 240, 0.7);
+      transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+      border: 1px solid rgba(220, 200, 160, 0.4);
+    }
+    .card-lux:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 40px 70px -20px #a08b60, 0 0 0 1px #b0cfe8 inset;
+      background: rgba(240, 255, 255, 0.95);
+    }
+    .product-img {
+      width: 100%;
+      height: 180px;
+      object-fit: contain;
+      border-radius: 2rem 2rem 1rem 1rem;
+      background: white;
+      mix-blend-mode: normal;
+      padding: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .product-img:hover {
+      transform: scale(1.02);
+    }
+    .search-lux {
+      background: rgba(244, 253, 255, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid #e8dcc5;
+      border-radius: 4rem;
+      padding: 1rem 2rem;
+      box-shadow: 0 15px 35px -15px #85b3b8;
+      transition: all 0.3s ease;
+    }
+    .search-lux:focus-within { box-shadow: 0 20px 40px -12px #a08b60; }
+    .category-popup {
+      background: rgba(255, 250, 240, 0.95);
+      backdrop-filter: blur(20px);
+      border: 1px solid #e6fdff;
+      border-radius: 2.5rem;
+      box-shadow: 0 40px 70px -25px #58888a;
+      transition: opacity 0.3s ease;
+    }
+    .page-btn {
+      background: white; border: 1px solid #e8dcc5; padding: 0.8rem 1.8rem;
+      border-radius: 3rem; font-weight: 600; cursor: pointer;
+      box-shadow: 0 5px 15px -8px #b2fcff;
+      transition: all 0.2s ease;
+    }
+    .page-btn:hover:not(:disabled) { background: #f5ead8; transform: scale(1.05); }
+    .page-btn.active { background: #1e2b4f; color: white; border-color: #1e2b4f; }
+    .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .rich-footer {
+      background-color: #f5efe2;
+      background-image: 
+        linear-gradient(145deg, rgba(186, 248, 255, 0.6) 0%, rgba(230, 215, 180, 0.4) 100%),
+        repeating-linear-gradient(45deg, rgba(150, 120, 70, 0.03) 0px, rgba(150, 120, 70, 0.03) 3px, transparent 3px, transparent 9px);
+      border-top: 2px solid #adfaff;
+      box-shadow: inset 0 8px 20px -10px #90c0be;
+    }
+    .footer-card {
+      background: rgba(235, 254, 255, 0.8);
+      backdrop-filter: blur(8px);
+      border: 1px solid #c0fffe;
+      border-radius: 2rem;
+      box-shadow: 0 10px 30px -10px #b8a685;
+    }
+    .map-frame {
+      width: 100%;
+      height: 200px;
+      border: none;
+      border-radius: 1.5rem;
+      filter: sepia(0.15) contrast(1.05);
+    }
+    .chatbot {
+      position: fixed;
+      bottom: 160px;
+      right: 25px;
+      width: 384px;
+      height: 480px;
+      background: rgba(240, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 2rem;
+      border: 1px solid #c8ecf0;
+      display: none;
+      flex-direction: column;
+      z-index: 1000;
+      box-shadow: 0 30px 60px -20px #56b7bc;
+    }
+    .chatbot .send-btn { min-width: 3.5rem; height: 3.5rem; display: flex; align-items: center; justify-content: center; }
+    .brand-logo-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2.5rem;
+      align-items: center;
+      justify-content: center;
+    }
+    .brand-logo {
+      height: 45px;
+      width: auto;
+      object-fit: contain;
+      opacity: 0.9;
+      transition: opacity 0.2s ease;
+      filter: brightness(0.9);
+      will-change: transform;
+      backface-visibility: hidden;
+    }
+    .brand-logo:hover {
+      opacity: 1;
+      filter: brightness(1.1);
+    }
+    .payment-logo {
+      height: 35px;
+      width: auto;
+      object-fit: contain;
+      margin: 0 12px;
+      filter: brightness(0.9);
+    }
+    .dark-footer-bottom {
+      background: #01268d;
+      color: #e5e7eb;
+      border-top: 2px solid #95eef7;
+    }
+    /* slideshow - 4:1 ratio with dots */
+    .slideshow-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 1;
+      min-height: 200px;
+      overflow: hidden;
+      background: #cbfcff;
+    }
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1.5s ease-in-out;
+      background-size: cover;
+      background-position: center;
+    }
+    .slide.active {
+      opacity: 1;
+    }
+    .slide-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(255,250,235,0.1);
+      
+    }
+    /* slideshow dots */
+    .slideshow-dots {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      z-index: 100;
+    }
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(0,0,0,0.2);
+    }
+    .dot:hover {
+      background: rgba(255, 255, 255, 0.8);
+      transform: scale(1.2);
+    }
+    .dot.active {
+      background: #1e2b4f;
+      transform: scale(1.2);
+    }
+    /* star rating */
+    .star {
+      color: #eeea7d;
+      margin-right: 2px;
+    }
+    .old-price {
+      text-decoration: line-through;
+      color: #c82804;
+      font-size: 0.9rem;
+      margin-right: 8px;
+    }
+    .current-price {
+      font-weight: 800;
+      color: #006b00;
+      font-size: 1.3rem;
+    }
+    /* category square buttons with stock photos - larger */
+    .category-square {
+      width: 140px;
+      height: 140px;
+      background: white;
+      border-radius: 28px;
+      box-shadow: 0 12px 24px -10px #85b7b8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+      border: 1px solid #9bf5fa;
+      padding: 12px;
+    }
+    .category-square:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 36px -12px #588a8a;
+      background: #9cfdff;
+    }
+    .category-square img {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+    }
+    .category-square span {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1e2b4f;
+      text-align: center;
+    }
+    .category-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+    .search-chip {
+      background: white;
+      border: 1px solid #b5dbe0;
+      border-radius: 3rem;
+      padding: 0.6rem 1.5rem;
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .search-chip:hover { background: #1e2b4f; color: white; }
+    .search-chip img { width: 24px; height: 24px; border-radius: 50%; }
+    .knowmore-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.2);
+      backdrop-filter: blur(12px);
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+    .knowmore-content {
+      background: white;
+      border-radius: 3rem;
+      padding: 2.5rem;
+      max-width: 500px;
+      width: 90%;
+      border: 2px solid #cdfffe;
+      box-shadow: 0 40px 80px -20px #58858a;
+    }
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .scroll-reveal.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* EMI calculator styles - enhanced for professional look */
+    .emi-option {
+      background: rgba(240, 255, 255, 0.6);
+      border: 1px solid #b5dae0;
+      border-radius: 1.5rem;
+      padding: 1.2rem 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+    .emi-option:hover {
+      background: rgba(255, 250, 240, 0.9);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px -10px #85b8b3;
+    }
+    .emi-option.selected {
+      background: #1e2b4f;
+      color: white;
+      border-color: #1e2b4f;
+    }
+    .emi-option.selected .emi-amount {
+      color: white;
+    }
+    .emi-amount {
+      font-weight: 700;
+      color: #1e2b4f;
+      font-size: 1.2rem;
+    }
+    .downpayment-display {
+      background: rgba(255, 250, 240, 0.8);
+      border-radius: 2rem;
+      padding: 1.5rem;
+      border: 1px solid #e0d0b5;
+    }
+    .big-product-img {
+      width: 100%;
+      max-height: 450px;
+      object-fit: contain;
+      background: white;
+      border-radius: 2rem;
+      padding: 2rem;
+    }
+    /* Success message - improved for better visibility */
+    .success-message {
+      background: #4CAF50;
+      color: white;
+      padding: 1.2rem;
+      border-radius: 2rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      display: none;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: 2px solid #2e7d32;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    /* Product detail page - full size professional */
+    #productDetailModal {
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+    }
+    .product-detail-container {
+      max-width: 1400px;
+      width: 95%;
+      margin: 2rem auto;
+    }
+    .spec-badge {
+      background: rgba(255,250,240,0.6);
+      border: 1px solid #b5dee0;
+      border-radius: 2rem;
+      padding: 0.5rem 1rem;
+      display: inline-block;
+      margin: 0.25rem;
+      font-size: 0.9rem;
+    }
+    /* Confirmation indicator */
+    .confirmation-check {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      background: #4CAF50;
+      color: white;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 24px;
+      margin-right: 8px;
+    }
+    /* Mobile view fixes */
+    @media (max-width: 1024px) {
+      .desktop-menu {
+        display: none;
+      }
+      .mobile-nav {
+        display: flex !important;
+        margin-left: auto;
+      }
+      .nav-right-icons {
+        display: none !important;
+      }
+      .nav-left {
+        flex: 1;
+      }
+      /* Fix for nav text hiding on scroll - increased padding and z-index */
+      nav.sticky {
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+        background: rgba(255,250,240,0.95) !important;
+        backdrop-filter: blur(12px) !important;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
+      }
+      /* Ensure the logo/title is fully visible */
+      .nav-left h1 {
+        margin: 0 !important;
+        padding: 0 !important;
+        line-height: 1.2 !important;
+      }
+      /* Ensure slideshow maintains 4:1 ratio on mobile */
+      .slideshow-container {
+        aspect-ratio: 4 / 1;
+        min-height: auto;
+      }
+      /* Fix product grid for mobile view */
+      #productContainer {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1rem !important;
+      }
+      .product-img {
+        height: 150px;
+      }
+      .card-lux .p-5 {
+        padding: 0.75rem !important;
+      }
+      .card-lux h3 {
+        font-size: 0.9rem !important;
+      }
+      .card-lux .text-sm {
+        font-size: 0.7rem !important;
+      }
+      .current-price {
+        font-size: 1rem !important;
+      }
+      .order-now, .know-more {
+        padding: 0.5rem !important;
+        font-size: 0.7rem !important;
+      }
+      /* Chatbot mobile fixes - smaller and centered */
+      .chatbot {
+        width: 320px !important;
+        height: 400px !important;
+        right: 50% !important;
+        transform: translateX(50%) !important;
+        bottom: 220px !important;
+      }
+    }
+    /* Extra small devices */
+    @media (max-width: 480px) {
+      #productContainer {
+        grid-template-columns: 1fr !important;
+      }
+      .chatbot {
+        width: 300px !important;
+        height: 380px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="noise-overlay"></div>
+
+<!-- STICKY NAV (always on top) -->
+<nav class="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-[#e2d5bd] py-4 px-6 flex items-center justify-between shadow-sm">
+  <div class="flex items-center gap-3 nav-left">
+ <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+
+<h1 style="font-family:'Orbitron',sans-serif;font-weight:900;letter-spacing:3px;">
+<span style="color:#002d8e;font-size:25px;">ALAM</span>
+<span style="color:#910202;font-size:20px;">COMPUTERS</span>
+</h1>
+  </div>
+  <div class="desktop-menu hidden lg:flex items-center space-x-8 font-medium relative">
+    <a href="#home" class="hover:text-[#2b3b5c] transition">Home</a>
+    <div class="relative">
+      <button id="categoryToggle" class="flex items-center gap-1 hover:text-[#2b3b5c] font-semibold py-2">
+        <span>Categories</span> <i class="fas fa-chevron-down text-xs"></i>
+      </button>
+      <div id="categoryPopup" class="category-popup absolute top-12 left-0 w-72 p-5 hidden">
+        <div class="popup-item flex items-center gap-4 p-3 rounded-2xl hover:bg-white/70 cursor-pointer transition" onclick="window.location.href='fridge.html'"><span class="w-8 text-center text-2xl text-[#2b3b5c]"><i class="fas fa-temperature-low"></i></span> Refrigerators</div>
+        <div class="popup-item flex items-center gap-4 p-3 rounded-2xl hover:bg-white/70 cursor-pointer transition" onclick="window.location.href='tv.html'"><span class="w-8 text-center text-2xl"><i class="fas fa-tv"></i></span> Smart TVs</div>
+        <div class="popup-item flex items-center gap-4 p-3 rounded-2xl hover:bg-white/70 cursor-pointer transition" onclick="window.location.href='ac.html'"><span class="w-8 text-center text-2xl"><i class="far fa-snowflake"></i></span> Air Conditioners</div>
+        <div class="popup-item flex items-center gap-4 p-3 rounded-2xl hover:bg-white/70 cursor-pointer transition" onclick="window.location.href='washer.html'"><span class="w-8 text-center text-2xl"><i class="fas fa-tshirt"></i></span> Washing Machine</div>
+        <div class="popup-item flex items-center gap-4 p-3 rounded-2xl hover:bg-white/70 cursor-pointer transition" onclick="window.location.href='kitchen.html'"><span class="w-8 text-center text-2xl"><i class="fas fa-blender"></i></span> Kitchen Appl.</div>
+        <div class="popup-item flex items-center gap-4 p-3 rounded-2xl hover:bg-white/70 cursor-pointer transition" onclick="window.location.href='stove.html'"><span class="w-8 text-center text-2xl"><i class="fas fa-fire"></i></span> Stoves / Ovens</div>
+        <div class="popup-item flex items-center gap-4 p-3 rounded-2xl hover:bg-white/70 cursor-pointer transition" onclick="window.location.href='fan.html'"><span class="w-8 text-center text-2xl"><i class="fas fa-fan"></i></span> Fans</div>
+        <div class="popup-item flex items-center gap-4 p-3 rounded-2xl hover:bg-white/70 cursor-pointer transition" onclick="window.location.href='iron.html'"><span class="w-8 text-center text-2xl"><i class="fas fa-tshirt"></i></span> Irons</div>
+        <div class="popup-item flex items-center gap-4 p-3 rounded-2xl hover:bg-white/70 cursor-pointer transition" onclick="window.location.href='sewing.html'"><span class="w-8 text-center text-2xl"><i class="fas fa-tshirt"></i></span> Sewing Machine</div>
+        <div class="popup-item flex items-center gap-4 p-3 rounded-2xl hover:bg-white/70 cursor-pointer transition" onclick="window.location.href='freezer.html'"><span class="w-8 text-center text-2xl"><i class="fas fa-snowflake"></i></span> Freezer</div>
+        <div class="popup-item flex items-center gap-4 p-3 rounded-2xl hover:bg-white/70 cursor-pointer transition" onclick="window.location.href='laptop.html'"><span class="w-8 text-center text-2xl"><i class="fas fa-laptop"></i></span> Laptop</div>
+      </div>
+    </div>
+    <a href="#about" class="hover:text-[#2b3b5c] transition">About</a>
+    <a href="#offers" class="hover:text-[#2b3b5c] transition">Offers</a>
+    <a href="#contact" class="hover:text-[#2b3b5c] transition">Contact</a>
+  </div>
+  <div class="mobile-nav flex lg:hidden items-center gap-4" style="display: none;">
+    <i class="fas fa-bars text-3xl text-[#2b3b5c]" onclick="toggleMobileMenu()"></i>
+  </div>
+  <div class="flex items-center gap-4 text-[#2b3b5c] text-xl nav-right-icons">
+    <!-- Facebook Messenger + WhatsApp shortcuts both present -->
+    <a href="https://www.facebook.com/profile.php?id=61584998476067" target="_blank" title="Message on Messenger"><i class="fab fa-facebook-messenger"></i></a>
+    <a href="https://wa.me/8801716005647" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+    <i class="fas fa-search"></i><i class="fas fa-user-circle"></i><i class="fas fa-shopping-bag"></i>
+  </div>
+</nav>
+
+<!-- mobile menu -->
+<div id="mobileMenu" class="hidden lg:hidden bg-white/90 backdrop-blur-lg border-b border-[#d2bd85] p-6 absolute top-20 left-0 w-full z-50">
+  <div class="flex flex-col gap-4 text-xl">
+    <a href="#home" onclick="toggleMobileMenu()"><i class="fas fa-home w-6"></i> Home</a>
+    <a href="fridge.html" onclick="toggleMobileMenu()"><i class="fas fa-temperature-low w-6"></i> Fridges</a>
+    <a href="tv.html" onclick="toggleMobileMenu()"><i class="fas fa-tv w-6"></i> TVs</a>
+    <a href="ac.html" onclick="toggleMobileMenu()"><i class="far fa-snowflake w-6"></i> AC</a>
+    <a href="washer.html" onclick="toggleMobileMenu()"><i class="fas fa-tshirt w-6"></i> Washer</a>
+    <a href="kitchen.html" onclick="toggleMobileMenu()"><i class="fas fa-blender w-6"></i> Kitchen</a>
+    <a href="stove.html" onclick="toggleMobileMenu()"><i class="fas fa-fire w-6"></i> Stoves/Ovens</a>
+    <a href="fan.html" onclick="toggleMobileMenu()"><i class="fas fa-fan w-6"></i> Fans</a>
+    <a href="iron.html" onclick="toggleMobileMenu()"><i class="fas fa-tshirt w-6"></i> Irons</a>
+    <a href="sewing.html" onclick="toggleMobileMenu()"><i class="fas fa-tshirt w-6"></i> Sewing</a>
+    <a href="freezer.html" onclick="toggleMobileMenu()"><i class="fas fa-snowflake w-6"></i> Freezer</a>
+    <a href="laptop.html" onclick="toggleMobileMenu()"><i class="fas fa-mobile-alt w-6"></i> Laptop</a>
+    <a href="laptop.html" onclick="toggleMobileMenu()"><i class="fas fa-laptop w-6"></i> Laptop</a>
+  </div>
+</div>
+
+<!-- 4:1 SLIDESHOW with manual dots -->
+<div class="slideshow-container" id="home">
+  <div class="slide active" style="background-image: url('slide1.jpg');"></div>
+  <div class="slide" style="background-image: url('slide2.jpg');"></div>
+  <div class="slide" style="background-image: url('slide3.jpg');"></div>
+  <div class="slide" style="background-image: url('slide4.jpg');"></div>
+  <div class="slide" style="background-image: url('slide5.jpg');"></div>
+  <div class="slide-overlay"></div>
+  
+  <!-- Slideshow dots for manual control -->
+  <div class="slideshow-dots" id="slideshowDots">
+    <span class="dot active" onclick="currentSlide(0)"></span>
+    <span class="dot" onclick="currentSlide(1)"></span>
+    <span class="dot" onclick="currentSlide(2)"></span>
+    <span class="dot" onclick="currentSlide(3)"></span>
+    <span class="dot" onclick="currentSlide(4)"></span>
+  </div>
+</div>
+
+<!-- SEARCH BAR + SQUARE CATEGORY BUTTONS WITH STOCK PHOTOS -->
+<div class="container mx-auto px-4 mt-8 mb-4">
+  <div class="relative max-w-3xl mx-auto">
+    <input type="text" id="searchInput" placeholder="What are you looking for? " class="search-lux w-full pl-14 pr-36 py-5 text-lg">
+    <i class="fas fa-search absolute left-6 top-1/2 -translate-y-1/2 text-2xl text-[#a0b4d7]"></i>
+    <button onclick="performSearch()" class="absolute right-3 top-1/2 -translate-y-1/2 bg-[#1e2b4f] text-white px-8 py-3 rounded-full text-sm font-bold shadow-md transition hover:scale-105">find</button>
+  </div>
+  
+  <!-- square category buttons with stock photos - linked to category pages -->
+  <div class="category-grid">
+    <div class="category-square" onclick="window.location.href='fridge.html'">
+      <img src="product_beko-no-frost-refrigerator-405-ltr-boref-b3rcns40hxb-grey-1762922013.webp" alt="fridge">
+      <span>Fridge</span>
+    </div>
+    <div class="category-square" onclick="window.location.href='tv.html'">
+      <img src="category_television-1751953006.webp" alt="tv">
+      <span>Television</span>
+    </div>
+    <div class="category-square" onclick="window.location.href='ac.html'">
+      <img src="category_air-conditioner-1751953246.webp" alt="ac">
+      <span>AirCondition</span>
+    </div>
+    <div class="category-square" onclick="window.location.href='washer.html'">
+      <img src="category_washing-machine-1751953032.webp" alt="washer">
+      <span>Washing Machine</span>
+    </div>
+    <div class="category-square" onclick="window.location.href='kitchen.html'">
+      <img src="category_kitchen-appliances-1751953063.webp" alt="kitchen">
+      <span>Kitchen</span>
+    </div>
+    <div class="category-square" onclick="window.location.href='stove.html'">
+      <img src="category_oven-1751953225.webp" alt="stove">
+      <span>Oven</span>
+    </div>
+    <div class="category-square" onclick="window.location.href='fan.html'">
+      <img src="category_lighting-electrical-accessories-1761797391.webp" alt="fan">
+      <span>Electrical Accesories</span>
+    </div>
+    <div class="category-square" onclick="window.location.href='iron.html'">
+      <img src="category_small-appliances-1751953174.webp" alt="iron">
+      <span>Iron</span>
+    </div>
+    <div class="category-square" onclick="window.location.href='sewing.html'">
+      <img src="category_sewing-machine-1751953135.webp" alt="sewing">
+      <span>Sewing Machine</span>
+    </div>
+    <div class="category-square" onclick="window.location.href='freezer.html'">
+      <img src="FZ1.webp" alt="freezer">
+      <span>Freezer</span>
+    </div>
+  
+    <div class="category-square" onclick="window.location.href='laptop.html'">
+      <img src="LT1.webp" alt="laptop">
+      <span>Laptop</span>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT GRID (with star ratings, discount, know more) -->
+<div class="container mx-auto px-4 py-8" id="catalog">
+  <div id="productContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 scroll-reveal"></div>
+  <div id="paginationControls" class="flex justify-center items-center mt-12 space-x-3 scroll-reveal"></div>
+</div>
+
+<!-- ABOUT SECTION -->
+<section id="about" class="container mx-auto px-4 py-20 scroll-mt-20 scroll-reveal">
+  <div class="card-lux p-12 max-w-4xl mx-auto">
+    <h2 class="serif text-5xl font-bold text-center mb-8">About Alam Computers</h2>
+    <p class="text-xl leading-relaxed text-[#4a4f67]">Since 1995, Alam Computers has been the trusted name in Rajshahi for premium electronics. As an authorized dealer of Singer, LG, Haier, Gree, and Panasonic, we bring global innovation to your doorstep. Our two showrooms offer over 2000 products, from smart TVs to PC parts, with expert advice and white-glove service. We don't just sell electronics — we power homes and perfect lives.</p>
+  </div>
+</section>
+
+<!-- OFFERS SECTION -->
+<section id="offers" class="container mx-auto px-4 py-12 text-center scroll-mt-20 scroll-reveal">
+  <div class="card-lux p-10 inline-block">
+    <h2 class="serif text-4xl font-bold">Exclusive Offers</h2>
+    <p class="text-xl mt-2">Sign up for newsletter or visit our showrooms</p>
+  </div>
+</section>
+
+<!-- ORDER MODAL with NEW Google Form integration -->
+<div id="orderModal" class="order-modal fixed inset-0 bg-black/10 backdrop-blur-lg hidden items-center justify-center z-[1000]">
+  <div class="bg-white/90 backdrop-blur-xl rounded-[4rem] p-8 max-w-md w-full border-2 border-[#e0cfb0] shadow-2xl relative">
+    <h2 class="text-4xl serif font-bold">complete order</h2>
+    <p class="mt-2 text-[#4a4f67]" id="modalProductDisplay">product</p>
+    
+    <!-- Success Message with Checkmark -->
+    <div id="orderSuccessMessage" class="success-message">
+      <span class="confirmation-check">✓</span> 
+      <strong>Order Confirmed!</strong><br>
+      Your order has been added to our system.<br>
+      We will contact you soon via WhatsApp.
+    </div>
+    
+    <!-- NEW Google Form with correct entry IDs -->
+    <form id="orderForm" method="POST" action="https://docs.google.com/forms/d/e/1FAIpQLSf5qAjOSCqW5O_rSmOAuhB1ogWOVplKxTLmYQdpxl5ZcA_lcw/formResponse" target="hidden_iframe" class="mt-6 space-y-4">
+      <!-- Full Name -->
+      <input type="hidden" id="modalProductInput" name="entry.1190262835"> <!-- Product Name -->
+      
+      <div>
+        <input type="text" id="custName" name="entry.1837409530" placeholder="full name *" class="w-full p-4 border border-[#ddd0b7] rounded-2xl bg-white/70" required>
+      </div>
+      
+      <div>
+        <input type="email" id="custEmail" name="entry.1484827439" placeholder="email address" class="w-full p-4 border border-[#ddd0b7] rounded-2xl bg-white/70">
+      </div>
+      
+      <div>
+        <input type="tel" id="custPhone" name="entry.1338166256" placeholder="WhatsApp number *" value="+880" class="w-full p-4 border border-[#ddd0b7] rounded-2xl bg-white/70" required>
+      </div>
+      
+      <div>
+        <textarea id="custAddress" name="entry.95632140" placeholder="delivery address *" rows="2" class="w-full p-4 border border-[#ddd0b7] rounded-2xl bg-white/70" required></textarea>
+      </div>
+      
+      <!-- Product Price (hidden, set by JavaScript) -->
+      <input type="hidden" id="productPrice" name="entry.1344571153" value="">
+      
+      <!-- Payment Method -->
+      <div>
+        <select id="paymentMethod" name="entry.614917065" class="w-full p-4 border border-[#ddd0b7] rounded-2xl bg-white/70" required>
+          <option value="">Select payment method *</option>
+          <option value="Cash on Delivery">Cash on Delivery</option>
+          <option value="bKash">bKash</option>
+          <option value="Nagad">Nagad</option>
+          <option value="EMI">EMI</option>
+        </select>
+      </div>
+      
+      <!-- Transaction ID (for bKash/Nagad) -->
+      <div>
+        <input type="text" id="trxId" name="entry.147533635" placeholder="transaction ID (for bKash/Nagad)" class="w-full p-4 border border-[#ddd0b7] rounded-2xl bg-white/70">
+      </div>
+      
+      <!-- Special Notes (NEW) -->
+      <div>
+        <textarea id="custNote" name="entry.1636182890" placeholder="special notes (color, model preference, delivery instructions)" rows="2" class="w-full p-4 border border-[#ddd0b7] rounded-2xl bg-white/70"></textarea>
+      </div>
+      
+      <!-- Order Status (hidden, default to 'Pending') -->
+      <input type="hidden" name="entry.1627047306" value="Pending">
+      
+      <!-- Submit Button with Loading State -->
+      <button type="submit" id="submitOrderBtn" class="w-full py-5 bg-[#1e2b4f] text-white rounded-2xl text-xl font-bold flex items-center justify-center gap-3 shadow-lg transition hover:bg-[#2b3b5c]">
+        <i class="fas fa-check-circle"></i> confirm order
+      </button>
+      
+      <!-- Loading Spinner (hidden by default) -->
+      <div id="loadingSpinner" class="hidden items-center justify-center gap-3 w-full py-5 bg-[#1e2b4f] text-white rounded-2xl text-xl font-bold">
+        <i class="fas fa-spinner fa-spin"></i> submitting...
+      </div>
+    </form>
+    
+    <!-- Hidden iframe for form submission -->
+    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="submissionComplete()"></iframe>
+    
+    <button type="button" onclick="closeModal()" class="absolute top-4 right-6 text-4xl text-[#1e2b4f] hover:text-[#2b3b5c]">&times;</button>
+  </div>
+</div>
+
+<!-- KNOW MORE MODAL -->
+<div id="knowmoreModal" class="knowmore-modal">
+  <div class="knowmore-content relative">
+    <h2 class="text-4xl serif font-bold mb-4" id="knowmoreTitle">Product Details</h2>
+    <p class="text-lg text-[#4a4f67]" id="knowmoreDesc">Detailed description will appear here.</p>
+    <p class="mt-4 text-md" id="knowmoreSpecs"></p>
+    <button onclick="closeKnowMore()" class="absolute top-4 right-6 text-4xl text-[#1e2b4f]">&times;</button>
+  </div>
+</div>
+
+<!-- PRODUCT DETAIL PAGE MODAL - Full size professional page -->
+<div id="productDetailModal" class="fixed inset-0 hidden items-start justify-center overflow-y-auto z-[1500] py-6">
+  <div class="product-detail-container bg-[#faf7f0] rounded-[3rem] border-2 border-[#e0d0b5] shadow-2xl relative">
+    <button onclick="closeProductDetail()" class="absolute top-8 right-10 text-5xl text-[#1e2b4f] hover:text-[#2b3b5c] z-10 bg-white/50 w-16 h-16 rounded-full flex items-center justify-center backdrop-blur-sm">&times;</button>
+    
+    <div class="p-8 md:p-12">
+      <!-- Product Header -->
+      <div class="mb-8 text-center md:text-left">
+        <h2 id="detailProductName" class="text-4xl md:text-5xl font-bold serif mb-4">Product Name</h2>
+        <div class="flex items-center justify-center md:justify-start gap-4 flex-wrap">
+          <div id="detailProductRating" class="flex items-center text-2xl"></div>
+          <span class="px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-semibold">10% OFF</span>
+        </div>
+      </div>
+
+      <!-- Main Content Grid -->
+      <div class="grid lg:grid-cols-2 gap-10">
+        <!-- Left Column - Image Gallery -->
+        <div class="space-y-4">
+          <div class="card-lux p-8 flex items-center justify-center bg-white">
+            <img id="detailProductImage" src="" alt="Product" class="big-product-img max-h-[500px]">
+          </div>
+          <p id="detailProductDesc" class="text-gray-600 text-lg text-center lg:text-left"></p>
+        </div>
+
+        <!-- Right Column - Product Info -->
+        <div class="space-y-8">
+          <!-- Pricing Card -->
+          <div class="card-lux p-8">
+            <h3 class="text-2xl font-bold serif mb-6">Pricing</h3>
+            <div class="flex items-baseline justify-between mb-4">
+              <span class="text-gray-600">Original Price:</span>
+              <span id="detailOldPrice" class="old-price text-2xl">৳0</span>
+            </div>
+            <div class="flex items-baseline justify-between mb-2">
+              <span class="text-gray-600">Discount Price:</span>
+              <span id="detailCurrentPrice" class="current-price text-4xl">৳0</span>
+            </div>
+            <div class="text-green-700 text-right font-medium">You save 10%</div>
+          </div>
+
+          <!-- EMI Calculator Card -->
+          <div class="card-lux p-8">
+            <h3 class="text-2xl font-bold serif mb-6">EMI Calculator</h3>
+            
+            <!-- Downpayment Display (50%) -->
+            <div class="downpayment-display mb-8">
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <p class="text-gray-600 mb-1">Downpayment (50%)</p>
+                  <p class="text-3xl font-bold text-[#1e2b4f]" id="downpaymentAmount">৳0</p>
+                </div>
+                <div>
+                  <p class="text-gray-600 mb-1">Loan Amount</p>
+                  <p class="text-3xl font-bold text-[#1e2b4f]" id="loanAmount">৳0</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- EMI Options - Updated with new rates -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+              <div class="emi-option" onclick="selectEMI(6, 0)" data-months="6">
+                <div class="font-semibold text-lg">6 Months</div>
+                <div class="emi-amount" id="emi6">৳0</div>
+                <div class="text-xs text-green-600 font-semibold">0% interest</div>
+              </div>
+              <div class="emi-option" onclick="selectEMI(12, 0)" data-months="12">
+                <div class="font-semibold text-lg">12 Months</div>
+                <div class="emi-amount" id="emi12">৳0</div>
+                <div class="text-xs text-green-600 font-semibold">0% interest</div>
+              </div>
+              <div class="emi-option" onclick="selectEMI(18, 0)" data-months="18">
+                <div class="font-semibold text-lg">18 Months</div>
+                <div class="emi-amount" id="emi18">৳0</div>
+                <div class="text-xs text-green-600 font-semibold">0% interest</div>
+              </div>
+              <div class="emi-option" onclick="selectEMI(24, 0.02)" data-months="24">
+                <div class="font-semibold text-lg">24 Months</div>
+                <div class="emi-amount" id="emi24">৳0</div>
+                <div class="text-xs">2% interest</div>
+              </div>
+              <div class="emi-option" onclick="selectEMI(30, 0.04)" data-months="30">
+                <div class="font-semibold text-lg">30 Months</div>
+                <div class="emi-amount" id="emi30">৳0</div>
+                <div class="text-xs">4% interest</div>
+              </div>
+              <div class="emi-option" onclick="selectEMI(36, 0.06)" data-months="36">
+                <div class="font-semibold text-lg">36 Months</div>
+                <div class="emi-amount" id="emi36">৳0</div>
+                <div class="text-xs">6% interest</div>
+              </div>
+            </div>
+
+            <!-- Selected EMI Display -->
+            <div id="selectedEMIDisplay" class="mt-6 p-6 bg-white/70 rounded-2xl border-2 border-[#1e2b4f] hidden">
+              <p class="text-xl mb-2">Selected Plan: <span id="selectedMonths" class="font-bold"></span> months</p>
+              <p class="text-3xl font-bold text-[#1e2b4f]" id="selectedEMIAmount"></p>
+              <p class="text-sm text-gray-600 mt-2" id="selectedInterestNote"></p>
+            </div>
+          </div>
+
+          <!-- Specifications Card -->
+          <div class="card-lux p-8">
+            <h3 class="text-2xl font-bold serif mb-6">Product Specifications</h3>
+            <div id="productSpecifications" class="space-y-3 text-gray-700">
+              <!-- Dynamic specs will be inserted here -->
+            </div>
+          </div>
+
+          <!-- Order Button -->
+          <button onclick="orderFromDetail()" class="w-full py-6 bg-[#1e2b4f] text-white rounded-2xl text-2xl font-bold flex items-center justify-center gap-4 shadow-lg transition hover:bg-[#2b3b5c] hover:scale-105">
+            <i class="fas fa-shopping-cart"></i> Order Now
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHATBOT - Enhanced with powerful AI capabilities -->
+<div id="chatbot" class="chatbot" style="display: none;">
+  <div class="flex justify-between items-center p-4 border-b border-[#dac29c]"><span class="font-bold"><i class="fas fa-robot mr-2 text-[#2b3b5c]"></i>Alam AI (powered)</span><button onclick="toggleChat()"><i class="fas fa-times"></i></button></div>
+  <div class="flex-1 overflow-y-auto p-3" id="chatMessages">
+    <div class="bg-[#f0f4ff] p-3 rounded-2xl max-w-[80%] mb-2">👋 Hello! I'm Alam AI, your personal shopping assistant. I can help you find the perfect products, answer any questions, and give expert recommendations! Ask me about refrigerators, TVs, ACs, washing machines, laptops, or any electronics. I'm here to make your shopping experience amazing! 😊</div>
+  </div>
+  <div class="p-3 flex gap-2">
+    <input id="chatInput" placeholder="Ask me anything..." class="flex-1 p-3 border border-[#dac29c] rounded-full bg-white/60">
+    <button onclick="sendChat()" class="send-btn bg-[#1e2b4f] text-white p-3 rounded-full transition hover:scale-110 w-14 h-14 flex items-center justify-center"><i class="fas fa-paper-plane text-xl"></i></button>
+  </div>
+</div>
+
+<!-- FLOATING BUTTONS - Three buttons vertically aligned at the bottom of screen -->
+<div class="fixed bottom-5 right-5 flex flex-col gap-4 z-50">
+  <button onclick="toggleChat()" class="w-16 h-16 bg-white border-2 border-[#1e2b4f] rounded-full text-3xl shadow-2xl text-[#1e2b4f] hover:scale-110 transition"><i class="fas fa-comment"></i></button>
+  <a href="https://wa.me/8801716005647" target="_blank" class="w-16 h-16 bg-[#25D366] rounded-full text-white text-3xl shadow-2xl hover:scale-110 transition flex items-center justify-center"><i class="fab fa-whatsapp"></i></a>
+  <button onclick="openOrderModal('General inquiry')" class="w-16 h-16 bg-[#1e2b4f] rounded-full text-white text-3xl shadow-2xl hover:scale-110 transition"><i class="fab fa-facebook-messenger"></i></button>
+</div>
+
+<!-- FOOTER with maps - Updated titles -->
+<footer id="contact" class="rich-footer py-16 px-6 mt-20 scroll-mt-20 scroll-reveal">
+  <div class="container mx-auto grid md:grid-cols-3 gap-8">
+    <div class="footer-card p-6 flex flex-col gap-4">
+      <div class="flex items-center gap-4"><i class="fas fa-envelope text-3xl w-8 text-[#2b3b5c]"></i> <span class="text-xl font-semibold">alamcomraj@gmail.com</span></div>
+      <div class="flex items-center gap-4"><i class="fas fa-phone-alt text-3xl w-8 text-[#2b3b5c]"></i> <span class="text-xl font-semibold">01716 005647 (hotline)</span></div>
+      <div class="flex items-center gap-4"><i class="fab fa-facebook text-3xl w-8 text-[#2b3b5c]"></i> <a href="https://www.facebook.com/profile.php?id=61584998476067" target="_blank" class="text-xl font-semibold hover:underline">Facebook Page</a></div>
+    </div>
+    <div class="footer-card p-6">
+      <h3 class="text-2xl font-bold serif mb-3">Showroom 1 : Rajshahi City</h3>
+      <p class="text-lg mb-3">Chotobongram, Sopura, Rajshahi-6203</p>
+      <iframe class="map-frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3633.123!2d88.6114809!3d24.3844274!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39fbef11ee890dad%3A0x80df31efaadc63a6!2sAlam%20computers%20and%20variety%20store!5e0!3m2!1sen!2sbd!4v1710000000000" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+    <div class="footer-card p-6">
+      <h3 class="text-2xl font-bold serif mb-3">Showroom 2 : Bhabaniganj Upazila</h3>
+      <p class="text-lg mb-3">Bhabaniganj Bazar, Bagmara, Rajshahi-6250</p>
+      <iframe class="map-frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3630.456!2d88.820972!3d24.5827275!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39fc7529da9341e3%3A0x9868d6e83b1f382e!2z4Kas4Ka-4KaV4KeN4Kak4Ka_4Kak4KeN4KakIOCmuOCnjeCmnOCmvuCmsOCnjeCmn-CngeCmsuCmvg!5e0!3m2!1sen!2sbd!4v1710000000000" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+  </div>
+</footer>
+
+<!-- DARK BOTTOM SECTION with extra payment methods - Updated addresses in pointwise format -->
+<div class="dark-footer-bottom py-10 px-6 scroll-reveal">
+  <div class="container mx-auto text-center">
+    <div class="brand-logo-grid mb-8">
+      <img src="singer.png" alt="Singer" class="brand-logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/LG_symbol.svg/1280px-LG_symbol.svg.png" alt="LG" class="brand-logo">
+      <img src="Haier.png" alt="Haier" class="brand-logo">
+      <img src="Gree.png" alt="Gree" class="brand-logo">
+      <img src="Brb.png" alt="Panasonic" class="brand-logo">
+      <img src="kiam.png" alt="Walton" class="brand-logo">
+    </div>
+    <div class="flex justify-center items-center gap-4 mb-6 flex-wrap">
+      <span class="text-lg font-medium text-gray-200">We Accept:</span>
+      <img src="visa.png" alt="Visa" class="payment-logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1280px-Mastercard-logo.svg.png" alt="Mastercard" class="payment-logo">
+      <img src="bkash.png" alt="bKash" class="payment-logo">
+      <img src="nogod.png" alt="Nagad" class="payment-logo">
+      <img src="rocket.png" alt="Rocket" class="payment-logo" style="height:30px;">
+      <img src="amex.png" alt="UPI" class="payment-logo" style="height:30px;">
+    </div>
+    <div class="text-gray-200 text-lg">Hotline: 01716 005647</div>
+    <div class="text-gray-300 mt-2 text-sm">
+      • Showroom 1: Sheikh Rasel Park, Chotobongram, Sopura, Rajshahi-6203<br>
+      • Showroom 2: Abdul Latif Market, Bhabaniganj Bazar, Bagmara, Rajshahi-6250
+    </div>
+    <div class="text-gray-300 mt-2">© 2026 Alam Computers — white elegance · premium electronics since 1995.Designed and Devoloped by Farabi</div>
+  </div>
+</div>
+
+<!-- JAVASCRIPT (products with discount, ratings, know more, product detail page) -->
+<script>
+// product database with base price (will apply 10% discount) - same as before + new categories
+// Updated fridge images with new file names: blackfridge.webp, greyfridge.webp, RF1.webp, RF2.webp
+const baseProducts = [
+  // existing products (fridge, tv, ac, washer, kitchen, stove, fan, iron) - unchanged except photos
+  { name: 'Singer FTDS155NSL Refrigerator', desc: '157L · R600 · direct cool · energy efficient', basePrice: 28900, category: 'fridge', img: 'blackfridge.webp' },
+  { name: 'Singer FTDS155‑BG Refrigerator', desc: '157L · Glass door design · R600', basePrice: 28800, category: 'fridge', img: 'greyfridge.webp' },
+  { name: 'Singer FTDS155‑RG Refrigerator', desc: '157L · 135V low-voltage · NutriLock', basePrice: 29000, category: 'fridge', img: 'RF1.webp' },
+  { name: 'Singer FBDS185‑RG Refrigerator', desc: '184L · Bottom freezer · frost cooling', basePrice: 35000, category: 'fridge', img: 'RF2.webp' },
+  { name: 'Singer BCD‑208R Refrigerator', desc: '208L · Double door · direct cool', basePrice: 36000, category: 'fridge', img: 'blackfridge.webp' },
+  { name: 'Singer FTDS210 Refrigerator', desc: '210L · Top mount freezer · glass shelves', basePrice: 38000, category: 'fridge', img: 'greyfridge.webp' },
+  { name: 'Singer FTDS220 Refrigerator', desc: '220L · Direct cool · LED light', basePrice: 39000, category: 'fridge', img: 'RF1.webp' },
+  { name: 'Singer FTDS230 Refrigerator', desc: '230L · R600 refrigerant · double door', basePrice: 40000, category: 'fridge', img: 'RF2.webp' },
+  { name: 'Singer FTDS240 Refrigerator', desc: '240L · Frost cooling · glass shelves', basePrice: 41000, category: 'fridge', img: 'blackfridge.webp' },
+  { name: 'Singer FTDS260V Refrigerator', desc: '260L · Top freezer · direct cool', basePrice: 40990, category: 'fridge', img: 'greyfridge.webp' },
+  { name: 'Singer FBDS250 Refrigerator', desc: '250L · Bottom freezer · LED interior', basePrice: 45000, category: 'fridge', img: 'RF1.webp' },
+  { name: 'Singer FBDS260‑RG Refrigerator', desc: '260L · Bottom freezer · tempered glass door', basePrice: 47000, category: 'fridge', img: 'RF2.webp' },
+  { name: 'Singer FBDS260Z‑RG Refrigerator', desc: '260L · Bottom mount · frost cooling', basePrice: 49990, category: 'fridge', img: 'blackfridge.webp' },
+  { name: 'Singer B3RDSB300 Refrigerator', desc: '300L · Top mount · tempered glass shelves', basePrice: 48000, category: 'fridge', img: 'greyfridge.webp' },
+  { name: 'Singer BCD‑333R Refrigerator', desc: '333L · Double door · direct cool', basePrice: 48500, category: 'fridge', img: 'RF1.webp' },
+  { name: 'Singer B3RDSB320 Refrigerator', desc: '320L · NutriLock · glass door', basePrice: 50000, category: 'fridge', img: 'RF2.webp' },
+  { name: 'Singer B3RDSB355ZGB Refrigerator', desc: '350L · 5-star energy rating · Fresh-O-Logy', basePrice: 53000, category: 'fridge', img: 'blackfridge.webp' },
+  { name: 'Singer SFD66371XBR Refrigerator', desc: '340L · No-frost · multi airflow', basePrice: 65000, category: 'fridge', img: 'greyfridge.webp' },
+  { name: 'Singer SFD66401XBR Refrigerator', desc: '375L · Inverter compressor · no-frost', basePrice: 82500, category: 'fridge', img: 'RF1.webp' },
+  { name: 'Singer SBSNS521NBG Refrigerator', desc: '532L · Side-by-side · anti-bacterial gasket', basePrice: 120000, category: 'fridge', img: 'RF2.webp' },
+  { name: 'Singer SLE24D2010TC 24" LED TV', desc: '24" HD · HDMI/USB · energy saver', basePrice: 15500, category: 'tv', img: 'TV1.webp' },
+  { name: 'Singer SLE23D1200TC 23" LED TV', desc: '23" HD · basic LED', basePrice: 14500, category: 'tv', img: 'TV2.webp' },
+  { name: 'Singer SLE24E3HDTV 24" LED TV', desc: '24" HD · slim design', basePrice: 15500, category: 'tv', img: 'TV3.webp' },
+  { name: 'Singer SLE32D1200TC 32" LED TV', desc: '32" HD · LED display', basePrice: 19500, category: 'tv', img: 'TV1.webp' },
+  { name: 'Singer SLE32W5STV 32" LED TV', desc: '32" frameless design', basePrice: 21000, category: 'tv', img: 'TV2.webp' },
+  { name: 'Singer SLE32E3AGOTV 32" Android TV', desc: '32" Android · Wi-Fi · YouTube', basePrice: 23650, category: 'tv', img: 'TV3.webp' },
+  { name: 'Singer SLE32D6100GOTV 32" Android TV', desc: '32" Android · frameless', basePrice: 25000, category: 'tv', img: 'TV1.webp' },
+  { name: 'Singer SLE40E2FHTV 40" LED TV', desc: '40" Full HD · LED', basePrice: 28000, category: 'tv', img: 'TV2.webp' },
+  { name: 'Singer SLE40E3SMTV 40" Smart TV', desc: '40" Smart TV · Wi-Fi apps', basePrice: 30000, category: 'tv', img: 'TV3.webp' },
+  { name: 'Singer SLE40F3SMT 40" Smart LED TV', desc: '40" Full HD Smart', basePrice: 31000, category: 'tv', img: 'TV1.webp' },
+  { name: 'Singer SLE43A50WSATV 43" Android TV', desc: '43" Android 11 · Full HD', basePrice: 34000, category: 'tv', img: 'TV2.webp' },
+  { name: 'Singer SLE43A5000GOTV 43" Android TV', desc: '43" Android · Chromecast', basePrice: 34000, category: 'tv', img: 'TV3.webp' },
+  { name: 'Singer SLE43GP5000TV 43" Google TV', desc: '43" Google TV · Dolby Audio', basePrice: 36000, category: 'tv', img: 'TV1.webp' },
+  { name: 'Singer SLE43A7000STC 43" Smart LED TV', desc: '43" Smart TV · Full HD', basePrice: 38500, category: 'tv', img: 'TV2.webp' },
+  { name: 'Singer SLE49U5GOTV 49" 4K Smart TV', desc: '49" 4K UHD · Smart OS', basePrice: 55000, category: 'tv', img: 'TV3.webp' },
+  { name: 'Singer SLE50Q20GOTV 50" 4K Android TV', desc: '50" 4K Android TV', basePrice: 60000, category: 'tv', img: 'TV1.webp' },
+  { name: 'Singer S50 50" 4K Smart TV', desc: '50" 4K UHD Smart TV', basePrice: 62500, category: 'tv', img: 'TV2.webp' },
+  { name: 'Singer S50 Frameless Android TV', desc: '50" 4K frameless Android', basePrice: 66500, category: 'tv', img: 'TV3.webp' },
+  { name: 'Singer S55 55" 4K Android TV', desc: '55" 4K Android TV', basePrice: 90000, category: 'tv', img: 'TV1.webp' },
+  { name: 'Singer SLE55G22A 55" 4K Smart TV', desc: '55" 4K Smart TV · streaming', basePrice: 92500, category: 'tv', img: 'TV2.webp' },
+  { name: 'Singer SRAC-SAS12CBR32LVSGRIH-CO 1T AC', desc: '1 Ton Inverter R32 · split AC', basePrice: 59000, category: 'ac', img: 'AC1.webp' },
+  { name: 'Singer SRAC-SAS18CBR32LVSGRIH-CO 1.5T AC', desc: '1.5 Ton Inverter · R32', basePrice: 76000, category: 'ac', img: 'AC2.webp' },
+  { name: 'Singer SRAC-SAS24CBR32LVSGRIH-CO 2T AC', desc: '2 Ton Inverter · R32', basePrice: 100000, category: 'ac', img: 'AC3.webp' },
+  { name: 'Singer SRAC-SAS12CHS32LVSGRIH 1T AC', desc: '1 Ton Inverter', basePrice: 55000, category: 'ac', img: 'AC1.webp' },
+  { name: 'Singer SRAC-SAS18CHS32LVSGRIH 1.5T AC', desc: '1.5 Ton Inverter', basePrice: 75000, category: 'ac', img: 'AC2.webp' },
+  { name: 'Singer SRAC-SAS24CHS32LVSGRIH 2T AC', desc: '2 Ton Inverter', basePrice: 100000, category: 'ac', img: 'AC3.webp' },
+  { name: 'Singer SRAC-SAC12CBR32L 1T AC', desc: '1 Ton Non-Inverter', basePrice: 48000, category: 'ac', img: 'AC1.webp' },
+  { name: 'Singer SRAC-SAC18CBR32L 1.5T AC', desc: '1.5 Ton Non-Inverter', basePrice: 60000, category: 'ac', img: 'AC2.webp' },
+  { name: 'Singer SRAC-SAC24CBR32L 2T AC', desc: '2 Ton Non-Inverter', basePrice: 78000, category: 'ac', img: 'AC3.webp' },
+  { name: 'Singer SRAC-SAS12CBR410A 1T AC', desc: '1 Ton R410A', basePrice: 50000, category: 'ac', img: 'AC1.webp' },
+  { name: 'Singer SRAC-SAS18CBR410A 1.5T AC', desc: '1.5 Ton R410A', basePrice: 68000, category: 'ac', img: 'AC2.webp' },
+  { name: 'Singer SRAC-SAS24CBR410A 2T AC', desc: '2 Ton R410A', basePrice: 90000, category: 'ac', img: 'AC3.webp' },
+  { name: 'Singer SRAC-SAS12INV-SMART 1T AC', desc: '1 Ton Smart Inverter WiFi', basePrice: 60000, category: 'ac', img: 'AC1.webp' },
+  { name: 'Singer SRAC-SAS18INV-SMART 1.5T AC', desc: '1.5 Ton Smart Inverter', basePrice: 80000, category: 'ac', img: 'AC2.webp' },
+  { name: 'Singer SRAC-SAS24INV-SMART 2T AC', desc: '2 Ton Smart Inverter', basePrice: 105000, category: 'ac', img: 'AC3.webp' },
+  { name: 'Singer SRAC-SAS12TURBO 1T AC', desc: '1 Ton Turbo cooling', basePrice: 55000, category: 'ac', img: 'AC1.webp' },
+  { name: 'Singer SRAC-SAS18TURBO 1.5T AC', desc: '1.5 Ton Turbo cooling', basePrice: 75000, category: 'ac', img: 'AC2.webp' },
+  { name: 'Singer SRAC-SAS24TURBO 2T AC', desc: '2 Ton Turbo cooling', basePrice: 95000, category: 'ac', img: 'AC3.webp' },
+  { name: 'Singer SRAC-SAS12ECO-INVERTER 1T AC', desc: '1 Ton ECO Inverter', basePrice: 58000, category: 'ac', img: 'AC1.webp' },
+  { name: 'Singer SRAC-SAS18ECO-INVERTER 1.5T AC', desc: '1.5 Ton ECO Inverter', basePrice: 78000, category: 'ac', img: 'AC2.webp' },
+  // Washing Machines - UPDATED with correct file names
+  { name: 'Singer SRWM‑S100ATL70ISMJS1 7kg Washer', desc: '7kg Top Load Fully Auto · 10 programs', basePrice: 26000, category: 'washer', img: 'WM1.webp' },
+  { name: 'Singer SRWM‑S300ATL90ISMJG1 9kg Washer', desc: '9kg Top Load · 12 programs · Aqua Smart', basePrice: 37000, category: 'washer', img: 'WM2.webp' },
+  { name: 'Singer SRWM‑SWM9870SLP 9kg Washer', desc: '9kg Top Load · 5-year motor warranty', basePrice: 32500, category: 'washer', img: 'WM3.webp' },
+  { name: 'Singer SRWM-S300ATL70ISMJG1 7kg Auto', desc: '7kg Fully Auto · 12 modes', basePrice: 28500, category: 'washer', img: 'WM4.webp' },
+  { name: 'Singer SRWM-S300ATL80ISMJG1 8kg Washer', desc: '8kg Top Load Auto', basePrice: 31000, category: 'washer', img: 'WM1.webp' },
+  { name: 'Singer SRWM-S300ATL100ISMJG1 10kg Washer', desc: '10kg Top Load Auto', basePrice: 41500, category: 'washer', img: 'WM2.webp' },
+  { name: 'Singer SRWM-STD110LSDA 11kg Washer', desc: '11kg Top Load', basePrice: 19000, category: 'washer', img: 'WM3.webp' },
+  { name: 'Singer SRWM-S300ATT90ATPKF1 9kg Semi', desc: '9kg Semi-auto twin tub', basePrice: 22500, category: 'washer', img: 'WM4.webp' },
+  { name: 'Singer SRWM-S300ATT70ATPKF1 7kg Semi', desc: '7kg Semi-auto', basePrice: 20000, category: 'washer', img: 'WM1.webp' },
+  { name: 'Singer SRWM-S300ATT80ATPKF1 8kg Semi', desc: '8kg Semi-auto', basePrice: 21500, category: 'washer', img: 'WM2.webp' },
+  { name: 'Singer SRWM-S200ATL65ISM 6.5kg Auto', desc: '6.5kg Fully Auto', basePrice: 24000, category: 'washer', img: 'WM3.webp' },
+  { name: 'Singer SRWM-S200ATL75ISM 7.5kg Auto', desc: '7.5kg Fully Auto', basePrice: 26500, category: 'washer', img: 'WM4.webp' },
+  { name: 'Singer SRWM-S200ATL85ISM 8.5kg Auto', desc: '8.5kg Fully Auto', basePrice: 29000, category: 'washer', img: 'WM1.webp' },
+  { name: 'Singer SWM-FA70S 7kg Auto', desc: '7kg Fully Auto', basePrice: 25000, category: 'washer', img: 'WM2.webp' },
+  { name: 'Singer SWM-FA80S 8kg Auto', desc: '8kg Fully Auto', basePrice: 28000, category: 'washer', img: 'WM3.webp' },
+  { name: 'Singer SWM-FA90S 9kg Auto', desc: '9kg Fully Auto', basePrice: 32000, category: 'washer', img: 'WM4.webp' },
+  { name: 'Singer SWM-TL65 6.5kg Top Load', desc: '6.5kg Top Load', basePrice: 22000, category: 'washer', img: 'WM1.webp' },
+  { name: 'Singer SWM-TL75 7.5kg Top Load', desc: '7.5kg Top Load', basePrice: 24000, category: 'washer', img: 'WM2.webp' },
+  { name: 'Singer SWM-TL90 9kg Top Load', desc: '9kg Top Load', basePrice: 30000, category: 'washer', img: 'WM3.webp' },
+  { name: 'Singer SWM-FL80 8kg Front Load', desc: '8kg Front Load Inverter', basePrice: 47500, category: 'washer', img: 'WM4.webp' },
+  // Kitchen - UPDATED with correct file names for grinders/blenders and rice cookers
+  { name: 'Singer OPTIMA‑PRP 650W Blender', desc: '650W · 3 speeds · multiple jars', basePrice: 6050, category: 'kitchen', img: 'GR1.webp' },
+  { name: 'Singer ELITE‑RED 650W Blender', desc: '650W · 1.5L jar · overload protection', basePrice: 5900, category: 'kitchen', img: 'GR2.webp' },
+  { name: 'Singer PRO‑RED 550W Blender', desc: '550W · 3 jars', basePrice: 5350, category: 'kitchen', img: 'GR1.webp' },
+  { name: 'Singer HL7505 500W Blender', desc: '500W · 20k RPM · 3 jars', basePrice: 7500, category: 'kitchen', img: 'GR2.webp' },
+  { name: 'Singer Ultima 750W Mixer Grinder', desc: '750W mixer grinder', basePrice: 7350, category: 'kitchen', img: 'GR1.webp' },
+  { name: 'Singer 1100W High-Power Blender', desc: '1100W · 20k RPM · 3 jars', basePrice: 8900, category: 'kitchen', img: 'GR2.webp' },
+  { name: 'Singer SRBL‑SHM429HDL Hand Mixer', desc: '250W hand mixer · 5 speeds', basePrice: 1700, category: 'kitchen', img: 'GR1.webp' },
+  { name: 'Singer SR‑MC10 Rice Cooker', desc: '1.0L · 400W · keep warm', basePrice: 2750, category: 'kitchen', img: 'RC1.webp' },
+  { name: 'Singer SR‑MC18 Rice Cooker', desc: '1.8L · 700W · non-stick', basePrice: 3750, category: 'kitchen', img: 'RC2.webp' },
+  { name: 'Singer SR‑MC28 Rice Cooker', desc: '2.8L · 1000W', basePrice: 5000, category: 'kitchen', img: 'RC3.webp' },
+  { name: 'Singer SR‑RC18 Digital Rice Cooker', desc: '1.8L digital · multi-cook', basePrice: 6500, category: 'kitchen', img: 'RC1.webp' },
+  { name: 'Singer SR‑RC30 Commercial Rice Cooker', desc: '3.0L commercial', basePrice: 7250, category: 'kitchen', img: 'RC2.webp' },
+  { name: 'Singer IC‑2000 Induction Cooker', desc: '2000W · digital touch', basePrice: 4500, category: 'kitchen', img: 'ID1.webp' },
+  { name: 'Singer IC‑2200 Induction Cooker', desc: '2200W · LED display', basePrice: 5000, category: 'kitchen', img: 'ID2.webp' },
+  { name: 'Singer IC‑1800 Induction Cooker', desc: '1800W induction', basePrice: 3750, category: 'kitchen', img: 'ID1.webp' },
+  // Stove products with new image filenames
+  { name: 'Singer GS101EB Double Burner Stove', desc: '3.2kW · piezo ignition', basePrice: 3750, category: 'stove', img: 'ST1.webp' },
+  { name: 'Singer GS888SP Double Burner Stove', desc: 'Brass burner · auto ignition', basePrice: 4250, category: 'stove', img: 'ST2.webp' },
+  { name: 'Singer GH202G Glass Hob', desc: '2 burner · tempered glass', basePrice: 8000, category: 'stove', img: 'ST3.webp' },
+  { name: 'Singer STO22BDHT Electric Oven', desc: '22L · 1500W · 60min timer', basePrice: 7000, category: 'stove', img: 'OVEN1.webp' },
+  { name: 'Singer 28L Electric Oven', desc: '28L · 1500W', basePrice: 7300, category: 'stove', img: 'OVEN2.webp' },
+  { name: 'Singer 35L-353GKEA Oven', desc: '35L electric oven', basePrice: 8990, category: 'stove', img: 'OVEN3.webp' },
+  { name: 'Singer KT-H 34 RC Oven', desc: '34L rotisserie · 4 heating elements', basePrice: 9500, category: 'stove', img: 'OVEN4.webp' },
+  { name: 'Singer SMW23MSOLP Microwave', desc: '23L solo microwave', basePrice: 11000, category: 'stove', img: 'OVEN1.webp' },
+  { name: 'Singer SMW30AMSOLP Microwave', desc: '30L solo microwave', basePrice: 14000, category: 'stove', img: 'OVEN2.webp' },
+  { name: 'Singer SMW30GCB8LP Convection Microwave', desc: '30L convection · 900W', basePrice: 23000, category: 'stove', img: 'OVEN3.webp' },
+  // Fan products with new image filenames
+  { name: 'Singer Supreme Deluxe 56" Ceiling Fan', desc: '56" · 75W · 7yr warranty', basePrice: 3700, category: 'fan', img: 'F1.webp' },
+  { name: 'Singer Supreme Deluxe Brown 56" Fan', desc: '56" brown · aluminium blades', basePrice: 3550, category: 'fan', img: 'F2.webp' },
+  { name: 'Singer RECH‑16‑LG Rechargeable Fan', desc: '16" rechargeable · LED light', basePrice: 5500, category: 'fan', img: 'F3.webp' },
+  { name: 'Singer RECH‑12‑LG Rechargeable Fan', desc: '12" rechargeable', basePrice: 4100, category: 'fan', img: 'F2.webp' },
+  { name: 'Singer SRFAN-48 Ceiling Fan', desc: '48" ceiling fan', basePrice: 3200, category: 'fan', img: 'F1.webp' },
+  { name: 'Singer SRFAN-52 Ceiling Fan', desc: '52" ceiling fan', basePrice: 3400, category: 'fan', img: 'F3.webp' },
+  { name: 'Singer SRFAN-60 Ceiling Fan', desc: '60" high airflow', basePrice: 4250, category: 'fan', img: 'F1.webp' },
+  { name: 'Singer SRFAN-PED-16 Pedestal Fan', desc: '16" pedestal · adjustable', basePrice: 4500, category: 'fan', img: 'F2.webp' },
+  { name: 'Singer SRFAN-PED-18 Pedestal Fan', desc: '18" pedestal · 3 speeds', basePrice: 5000, category: 'fan', img: 'F3.webp' },
+  { name: 'Singer SRFAN-TABLE-12 Table Fan', desc: '12" table fan', basePrice: 2750, category: 'fan', img: 'F1.webp' },
+  // Iron products with existing IR1.webp, IR2.webp, IR3.webp
+  { name: 'Singer SRIF‑DS1200 Dry Iron', desc: '1200W dry iron · non-stick', basePrice: 1650, category: 'iron', img: 'IR1.webp' },
+  { name: 'Singer SRIF‑Steam Iron', desc: '1600W steam iron · 250ml tank', basePrice: 2750, category: 'iron', img: 'IR2.webp' },
+  { name: 'Singer SRIF-SI1600 Steam Iron', desc: '1600W steam burst', basePrice: 2700, category: 'iron', img: 'IR3.webp' },
+  { name: 'Singer SRIF-SI2000 Steam Iron', desc: '2000W vertical steam', basePrice: 3200, category: 'iron', img: 'IR1.webp' },
+  { name: 'Singer SRIF-DI1000 Dry Iron', desc: '1000W dry iron', basePrice: 1400, category: 'iron', img: 'IR2.webp' },
+  { name: 'Singer SRIF-DI1200 Dry Iron', desc: '1200W dry iron', basePrice: 1600, category: 'iron', img: 'IR3.webp' },
+  { name: 'Singer SRIF-SI2200 Steam Iron', desc: '2200W anti-drip', basePrice: 3750, category: 'iron', img: 'IR1.webp' },
+  { name: 'Singer SRIF-SI2400 Steam Iron', desc: '2400W ceramic soleplate', basePrice: 4500, category: 'iron', img: 'IR2.webp' },
+  // new sewing machine products
+  { name: 'Singer SME‑1408 Sewing Machine', desc: '8 built-in stitches · 4-step buttonhole · free arm', basePrice: 13500, category: 'sewing', img: 'SM1.webp' },
+  { name: 'Singer SM024 Sewing Machine', desc: '24 stitch functions · LED light · free arm', basePrice: 16000, category: 'sewing', img: 'SM2.webp' },
+  { name: 'Singer 15CH1 Sewing Machine', desc: 'Heavy metal body · home tailoring', basePrice: 12500, category: 'sewing', img: 'SM3.webp' },
+  { name: 'Singer Tradition 2277 Sewing Machine', desc: '23 stitches · automatic needle threader', basePrice: 14500, category: 'sewing', img: 'SM1.webp' },
+  { name: 'Singer M1500 Sewing Machine', desc: '6 stitches · beginner machine', basePrice: 11000, category: 'sewing', img: 'SM2.webp' },
+  { name: 'Singer 8280 Sewing Machine', desc: '7 stitches · lightweight', basePrice: 11500, category: 'sewing', img: 'SM3.webp' },
+  { name: 'Singer Start 1304 Sewing Machine', desc: '6 stitches · free arm', basePrice: 10800, category: 'sewing', img: 'SM1.webp' },
+  { name: 'Singer Simple 3232 Sewing Machine', desc: '32 stitches · automatic needle threader', basePrice: 16500, category: 'sewing', img: 'SM2.webp' },
+  { name: 'Singer Simple 3337 Sewing Machine', desc: '29 stitches · one-step buttonhole', basePrice: 17000, category: 'sewing', img: 'SM3.webp' },
+  { name: 'Singer Fashion Mate 3342 Sewing Machine', desc: '32 stitches · free arm', basePrice: 17500, category: 'sewing', img: 'SM1.webp' },
+  { name: 'Singer Stylist 7258 Sewing Machine', desc: '100 stitches · LCD screen · computerized', basePrice: 32000, category: 'sewing', img: 'SM2.webp' },
+  { name: 'Singer Quantum Stylist 9960 Sewing Machine', desc: '600+ stitches · professional', basePrice: 55000, category: 'sewing', img: 'SM3.webp' },
+  { name: 'Singer Heavy Duty 4423 Sewing Machine', desc: '23 stitches · high speed', basePrice: 28000, category: 'sewing', img: 'SM1.webp' },
+  { name: 'Singer Heavy Duty 4432 Sewing Machine', desc: '32 stitches · powerful motor', basePrice: 29500, category: 'sewing', img: 'SM2.webp' },
+  { name: 'Singer Heavy Duty 4452 Sewing Machine', desc: '32 stitches · metal frame', basePrice: 31000, category: 'sewing', img: 'SM3.webp' },
+  { name: 'Singer Heavy Duty 5523 Sewing Machine', desc: '23 stitches · automatic threader', basePrice: 29000, category: 'sewing', img: 'SM1.webp' },
+  { name: 'Singer C7290Q Sewing Machine', desc: '200 stitches · LCD · computerized', basePrice: 38000, category: 'sewing', img: 'SM2.webp' },
+  { name: 'Singer SE300 Embroidery Sewing Machine', desc: 'Sewing + embroidery · USB', basePrice: 65000, category: 'sewing', img: 'SM3.webp' },
+  { name: 'Singer S0105 Serger Machine', desc: 'Overlock · professional finishing', basePrice: 38000, category: 'sewing', img: 'SM1.webp' },
+  { name: 'Singer HD500 Sewing Machine', desc: 'Heavy duty · denim/leather', basePrice: 32000, category: 'sewing', img: 'SM2.webp' },
+  // new freezer products
+  { name: 'Singer 115-GY Chest Freezer', desc: '99L · R600a · lock & key', basePrice: 25000, category: 'freezer', img: 'FZ1.webp' },
+  { name: 'Singer 115-RG Chest Freezer', desc: '99L · red VCM · low compressor', basePrice: 25000, category: 'freezer', img: 'FZ2.webp' },
+  { name: 'Singer 150-RG Chest Freezer', desc: '148L · 2-in-1 convertible', basePrice: 36000, category: 'freezer', img: 'FZ3.webp' },
+  { name: 'Singer 150-GY Chest Freezer', desc: '148L · metallic grey · quick freezing', basePrice: 35500, category: 'freezer', img: 'FZ1.webp' },
+  { name: 'Singer 170-GY Chest Freezer', desc: '144L · energy efficient · 10yr warranty', basePrice: 30000, category: 'freezer', img: 'FZ2.webp' },
+  { name: 'Singer S100-BD-230 Chest Freezer', desc: '200L · R600a', basePrice: 36990, category: 'freezer', img: 'FZ3.webp' },
+  { name: 'Singer 200-GY Chest Freezer', desc: '200L · fast freezing', basePrice: 38000, category: 'freezer', img: 'FZ1.webp' },
+  { name: 'Singer 210-RG Chest Freezer', desc: '210L · storage basket · lock', basePrice: 40000, category: 'freezer', img: 'FZ2.webp' },
+  { name: 'Singer 251-GL-GY Chest Freezer', desc: '251L · heavy-duty', basePrice: 43500, category: 'freezer', img: 'FZ3.webp' },
+  { name: 'Singer 260-GL-GY Chest Freezer', desc: '260L · quick freezing', basePrice: 46500, category: 'freezer', img: 'FZ1.webp' },
+  { name: 'Singer 300-GL-GY Chest Freezer', desc: '300L · shops/restaurants', basePrice: 52500, category: 'freezer', img: 'FZ2.webp' },
+  { name: 'Singer 350-GL-GY Chest Freezer', desc: '350L · high-capacity', basePrice: 58000, category: 'freezer', img: 'FZ3.webp' },
+  { name: 'Singer 400-GL-GY Chest Freezer', desc: '400L · commercial deep freezer', basePrice: 65000, category: 'freezer', img: 'FZ1.webp' },
+  { name: 'Singer 450-GL-GY Chest Freezer', desc: '450L · large basket', basePrice: 72000, category: 'freezer', img: 'FZ2.webp' },
+  { name: 'Singer 500-GL-GY Chest Freezer', desc: '500L · heavy commercial', basePrice: 85000, category: 'freezer', img: 'FZ3.webp' },
+  // new gadgets (placeholder - can be expanded)
+  { name: 'Singer Power Bank 20000mAh', desc: 'Fast charging · digital display', basePrice: 2500, category: 'gadgets', img: 'https://placehold.co/400x300/d6cbaa/2b3b5c/png?text=Singer+Gadget&font=playfair' },
+  { name: 'Singer Bluetooth Speaker', desc: 'Waterproof · 20W', basePrice: 3500, category: 'gadgets', img: 'https://placehold.co/400x300/d6cbaa/2b3b5c/png?text=Singer+Speaker&font=playfair' },
+  // new laptop products
+  { name: 'Dell Inspiron 3530 i3', desc: '13th Gen i3 · 8GB · 512GB SSD', basePrice: 63500, category: 'laptop', img: 'LT1.webp' },
+  { name: 'Dell Inspiron 3530 i5', desc: 'i5-1334U · 8GB · 512GB SSD', basePrice: 72500, category: 'laptop', img: 'LT2.webp' },
+  { name: 'HP 15-fc0185AU', desc: 'Ryzen 3 7320U · 8GB · 512GB SSD', basePrice: 53900, category: 'laptop', img: 'LT3.webp' },
+  { name: 'HP 250 G8', desc: 'i3 · 8GB · 256GB SSD', basePrice: 49999, category: 'laptop', img: 'LT1.webp' },
+  { name: 'HP 250 G9', desc: 'i3-1215U · 8GB · 256GB SSD', basePrice: 51500, category: 'laptop', img: 'LT2.webp' },
+  { name: 'Lenovo IdeaPad Slim 3 15IRU8', desc: '13th Gen i3 · 8GB · 512GB SSD', basePrice: 54000, category: 'laptop', img: 'LT3.webp' },
+  { name: 'Lenovo IdeaPad Slim 3 15IRH8', desc: '13th Gen i5 · 8GB · 512GB SSD', basePrice: 72000, category: 'laptop', img: 'LT1.webp' },
+  { name: 'Lenovo IdeaPad Slim 1 15AMN7', desc: 'Ryzen 3 7320U · 8GB · 256GB SSD', basePrice: 52900, category: 'laptop', img: 'LT2.webp' },
+  { name: 'Dell Inspiron 3520', desc: '12th Gen i3 · 8GB · 512GB SSD', basePrice: 54000, category: 'laptop', img: 'LT3.webp' },
+  { name: 'Dell Latitude 3540', desc: '13th Gen i5 · 8GB · 512GB SSD', basePrice: 90000, category: 'laptop', img: 'LT1.webp' },
+  { name: 'HP Pavilion 14-dv0069TU', desc: 'i7 · 8GB · 512GB SSD', basePrice: 98000, category: 'laptop', img: 'LT2.webp' },
+  { name: 'MSI Modern 14 B10MW', desc: 'i5 · 8GB · 256GB SSD', basePrice: 47000, category: 'laptop', img: 'LT3.webp' },
+  { name: 'Acer Aspire 3 A315', desc: 'i3 · 8GB · 512GB SSD', basePrice: 48000, category: 'laptop', img: 'LT1.webp' },
+  { name: 'Acer Aspire 5 A515', desc: 'i5 · 8GB · 512GB SSD', basePrice: 68000, category: 'laptop', img: 'LT2.webp' },
+  { name: 'Asus VivoBook 15 X1502', desc: 'i3 · 8GB · 512GB SSD', basePrice: 56000, category: 'laptop', img: 'LT3.webp' },
+  { name: 'Asus VivoBook 14 X1402', desc: 'i5 · 8GB · 512GB SSD', basePrice: 72000, category: 'laptop', img: 'LT1.webp' },
+  { name: 'Apple MacBook Air M1', desc: 'M1 · 8GB · 256GB SSD', basePrice: 97500, category: 'laptop', img: 'LT2.webp' },
+  { name: 'Apple MacBook Air M2', desc: 'M2 · 8GB · 256GB SSD', basePrice: 130000, category: 'laptop', img: 'LT3.webp' },
+  { name: 'Lenovo ThinkBook 16 G6', desc: 'Intel Core Ultra 5 · 8GB · 512GB SSD', basePrice: 110000, category: 'laptop', img: 'LT1.webp' },
+  { name: 'Dell XPS 13 9340', desc: 'Intel Core Ultra · 16GB · 512GB SSD', basePrice: 200000, category: 'laptop', img: 'LT2.webp' },
+];
+
+// apply 10% discount and add star rating
+const products = baseProducts.map(p => {
+  const discount = 0.1; // 10% off
+  const currentPrice = Math.round(p.basePrice * (1 - discount));
+  const oldPrice = p.basePrice;
+  const stars = 4 + Math.random(); // 4-5 stars
+  const fullStars = Math.floor(stars);
+  const halfStar = (stars - fullStars) >= 0.5 ? 1 : 0;
+  const emptyStars = 5 - fullStars - halfStar;
+  let starHtml = '';
+  for(let i=0; i<fullStars; i++) starHtml += '<i class="fas fa-star star"></i>';
+  if(halfStar) starHtml += '<i class="fas fa-star-half-alt star"></i>';
+  for(let i=0; i<emptyStars; i++) starHtml += '<i class="far fa-star star"></i>';
+  return { ...p, currentPrice, oldPrice, starHtml };
+});
+
+let currentPage = 1;
+const perPage = 10;
+let currentFilter = 'all';
+let currentSearch = '';
+
+function renderProductsPage() {
+  let filtered = products;
+  if(currentFilter !== 'all') filtered = filtered.filter(p => p.category === currentFilter);
+  if(currentSearch) filtered = filtered.filter(p => p.name.toLowerCase().includes(currentSearch.toLowerCase()) || p.desc.toLowerCase().includes(currentSearch.toLowerCase()));
+  
+  const totalPages = Math.ceil(filtered.length / perPage) || 1;
+  if(currentPage > totalPages) currentPage = totalPages;
+  const start = (currentPage - 1) * perPage;
+  const pageItems = filtered.slice(start, start + perPage);
+
+  const container = document.getElementById('productContainer');
+  container.innerHTML = pageItems.map(p => `
+    <div class="card-lux overflow-hidden">
+      <img src="${p.img}" alt="${p.name}" class="product-img" loading="lazy" onclick="openProductDetail('${p.name}')">
+      <div class="p-5">
+        <div class="flex items-center mb-1">${p.starHtml}</div>
+        <h3 class="font-bold text-base">${p.name}</h3>
+        <p class="text-sm text-gray-600 mb-2">${p.desc.substring(0,40)}...</p>
+        <div class="flex items-baseline gap-2 mb-2">
+          <span class="old-price">৳${p.oldPrice}</span>
+          <span class="current-price">৳${p.currentPrice}</span>
+          <span class="text-sm text-green-700">(-10%)</span>
+        </div>
+        <div class="flex gap-2 mt-3">
+          <button class="order-now flex-1 py-3 bg-[#1e2b4f] text-white rounded-xl hover:bg-[#2b3b5c] transition text-sm" data-product="${p.name}"><i class="fas fa-shopping-cart mr-2"></i>order</button>
+          <button class="know-more flex-1 py-3 bg-white border border-[#1e2b4f] text-[#1e2b4f] rounded-xl hover:bg-gray-100 transition text-sm" data-name="${p.name}" data-desc="${p.desc}" data-price="${p.currentPrice}" data-old="${p.oldPrice}"><i class="fas fa-info-circle mr-2"></i>know more</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  attachOrderButtons();
+  attachKnowMore();
+
+  let paginationHtml = '';
+  paginationHtml += `<button class="page-btn" onclick="changePage(${currentPage-1})" ${currentPage===1?'disabled':''}>Previous</button>`;
+  for(let i=currentPage+1; i<=Math.min(currentPage+2, totalPages); i++) {
+    paginationHtml += `<button class="page-btn" onclick="goToPage(${i})">${i}</button>`;
+  }
+  paginationHtml += `<button class="page-btn" onclick="changePage(${currentPage+1})" ${currentPage===totalPages?'disabled':''}>Next</button>`;
+  document.getElementById('paginationControls').innerHTML = paginationHtml;
+}
+
+window.changePage = (page) => { if(page>=1) { currentPage = page; renderProductsPage(); } };
+window.goToPage = (page) => { currentPage = page; renderProductsPage(); };
+window.filterCategory = (cat) => { currentFilter = cat; currentPage = 1; renderProductsPage(); };
+window.performSearch = () => { 
+  currentSearch = document.getElementById('searchInput').value;
+  currentPage = 1;
+  renderProductsPage();
+};
+
+// Slideshow with manual dots
+let slideIndex = 0;
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelectorAll('.dot');
+
+function showSlides() {
+  if (!slides.length) return;
+  slides.forEach(s => s.classList.remove('active'));
+  dots.forEach(d => d.classList.remove('active'));
+  
+  slideIndex = (slideIndex + 1) % slides.length;
+  slides[slideIndex].classList.add('active');
+  dots[slideIndex].classList.add('active');
+  
+  setTimeout(showSlides, 5000);
+}
+
+window.currentSlide = (n) => {
+  slideIndex = n;
+  slides.forEach(s => s.classList.remove('active'));
+  dots.forEach(d => d.classList.remove('active'));
+  slides[slideIndex].classList.add('active');
+  dots[slideIndex].classList.add('active');
+};
+
+// Start slideshow
+setTimeout(showSlides, 5000);
+
+// category popup
+const toggleBtn = document.getElementById('categoryToggle');
+const popup = document.getElementById('categoryPopup');
+if(toggleBtn) {
+  toggleBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    popup.classList.toggle('hidden');
+  });
+  document.addEventListener('click', (e) => {
+    if(!popup.contains(e.target) && !toggleBtn.contains(e.target)) popup.classList.add('hidden');
+  });
+}
+
+window.openCategory = (cat) => {
+  const catNames = { fridge:'Refrigerators', tv:'Smart TVs', ac:'Air Conditioners', washer:'Washing Machines', kitchen:'Kitchen Appliances', stove:'Stoves/Ovens', fan:'Fans', iron:'Irons', sewing:'Sewing Machines', freezer:'Freezers', gadgets:'Gadgets', laptop:'Laptops' };
+  const title = catNames[cat] || cat;
+  const filtered = products.filter(p => p.category === cat).map(p => `<li>${p.name} - ৳${p.currentPrice}</li>`).join('');
+  const newWin = window.open('', '_blank');
+  newWin.document.write(`<html><head><title>Alam Computers - ${title}</title><style>body{font-family:sans-serif;background:#f8f7f2;padding:2rem;}</style></head><body><h1>${title}</h1><p>${products.filter(p=>p.category===cat).length} products</p><ul>${filtered}</ul></body>`);
+};
+
+function attachOrderButtons() {
+  document.querySelectorAll('.order-now').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const productName = btn.dataset.product;
+      const product = products.find(p => p.name === productName);
+      if (product) {
+        const encodedName = encodeURIComponent(product.name);
+        const encodedDesc = encodeURIComponent(product.desc);
+        window.location.href = `order.html?product=${encodedName}&price=${product.currentPrice}&desc=${encodedDesc}`;
+      }
+    });
+  });
+}
+
+function attachKnowMore() {
+  document.querySelectorAll('.know-more').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const name = btn.dataset.name;
+      const desc = btn.dataset.desc;
+      const price = btn.dataset.price;
+      const old = btn.dataset.old;
+      document.getElementById('knowmoreTitle').innerText = name;
+      document.getElementById('knowmoreDesc').innerHTML = `<strong>Description:</strong> ${desc}<br><br><span class="old-price">৳${old}</span> <span class="current-price">৳${price}</span> (-10% off)<br><br>Free delivery · 1 year warranty · genuine Singer product.`;
+      document.getElementById('knowmoreModal').style.display = 'flex';
+    });
+  });
+}
+
+// order modal with NEW Google Form
+const modal = document.getElementById('orderModal');
+const successMsg = document.getElementById('orderSuccessMessage');
+const submitBtn = document.getElementById('submitOrderBtn');
+const loadingSpinner = document.getElementById('loadingSpinner');
+const orderForm = document.getElementById('orderForm');
+const hiddenIframe = document.getElementById('hidden_iframe');
+
+window.openOrderModal = (prod) => {
+  document.getElementById('modalProductDisplay').innerText = prod;
+  document.getElementById('modalProductInput').value = prod;
+  
+  // Find product price
+  const product = products.find(p => p.name === prod);
+  if (product) {
+    document.getElementById('productPrice').value = product.currentPrice;
+  }
+  
+  successMsg.style.display = 'none';
+  submitBtn.style.display = 'flex';
+  loadingSpinner.style.display = 'none';
+  modal.style.display = 'flex';
+};
+
+window.closeModal = () => {
+  modal.style.display = 'none';
+  // Reset form
+  orderForm.reset();
+  document.getElementById('custPhone').value = '+880';
+};
+
+// Handle form submission
+orderForm.addEventListener('submit', function(e) {
+  // Don't prevent default - let it submit normally to iframe
+  
+  // Show loading
+  submitBtn.style.display = 'none';
+  loadingSpinner.style.display = 'flex';
+  
+  // The form will submit to hidden_iframe
+  // submissionComplete() will be called when iframe loads
+});
+
+// Called when iframe loads (form submission complete)
+window.submissionComplete = function() {
+  // Hide loading
+  loadingSpinner.style.display = 'none';
+  
+  // Show success message
+  successMsg.style.display = 'block';
+  
+  // Clear form
+  orderForm.reset();
+  document.getElementById('custPhone').value = '+880';
+  
+  // Auto close after 3 seconds
+  setTimeout(() => {
+    closeModal();
+  }, 3000);
+};
+
+window.closeKnowMore = () => {
+  document.getElementById('knowmoreModal').style.display = 'none';
+};
+
+// Product Detail Page Functions
+let currentProduct = null;
+
+window.openProductDetail = (productName) => {
+  const product = products.find(p => p.name === productName);
+  if (!product) return;
+  
+  currentProduct = product;
+  
+  // Populate detail page
+  document.getElementById('detailProductImage').src = product.img;
+  document.getElementById('detailProductName').innerText = product.name;
+  document.getElementById('detailProductRating').innerHTML = product.starHtml;
+  document.getElementById('detailProductDesc').innerText = product.desc;
+  document.getElementById('detailOldPrice').innerText = '৳' + product.oldPrice.toLocaleString();
+  document.getElementById('detailCurrentPrice').innerText = '৳' + product.currentPrice.toLocaleString();
+  
+  // Calculate downpayment (50%)
+  const downpayment = Math.round(product.currentPrice * 0.5);
+  const loanAmount = product.currentPrice - downpayment;
+  document.getElementById('downpaymentAmount').innerText = '৳' + downpayment.toLocaleString();
+  document.getElementById('loanAmount').innerText = '৳' + loanAmount.toLocaleString();
+  
+  // Calculate EMI options
+  calculateEMI(loanAmount);
+  
+  // Generate specifications based on category
+  generateSpecifications(product);
+  
+  // Hide selected EMI display
+  document.getElementById('selectedEMIDisplay').classList.add('hidden');
+  
+  // Remove selected class from all options
+  document.querySelectorAll('.emi-option').forEach(opt => opt.classList.remove('selected'));
+  
+  // Show modal
+  document.getElementById('productDetailModal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+};
+
+window.closeProductDetail = () => {
+  document.getElementById('productDetailModal').style.display = 'none';
+  document.body.style.overflow = 'auto';
+};
+
+function calculateEMI(principal) {
+  // Calculate EMI for different tenures - Updated rates
+  const emi6 = calculateEMIAmount(principal, 6, 0);
+  const emi12 = calculateEMIAmount(principal, 12, 0);
+  const emi18 = calculateEMIAmount(principal, 18, 0);
+  const emi24 = calculateEMIAmount(principal, 24, 0.02);
+  const emi30 = calculateEMIAmount(principal, 30, 0.04);
+  const emi36 = calculateEMIAmount(principal, 36, 0.06);
+  
+  document.getElementById('emi6').innerText = '৳' + emi6;
+  document.getElementById('emi12').innerText = '৳' + emi12;
+  document.getElementById('emi18').innerText = '৳' + emi18;
+  document.getElementById('emi24').innerText = '৳' + emi24;
+  document.getElementById('emi30').innerText = '৳' + emi30;
+  document.getElementById('emi36').innerText = '৳' + emi36;
+}
+
+function calculateEMIAmount(principal, months, interestRate) {
+  if (interestRate === 0) {
+    return Math.round(principal / months).toLocaleString();
+  }
+  
+  // Simple interest calculation for EMI
+  const totalInterest = principal * interestRate;
+  const totalAmount = principal + totalInterest;
+  return Math.round(totalAmount / months).toLocaleString();
+}
+
+window.selectEMI = (months, interestRate) => {
+  // Remove selected class from all options
+  document.querySelectorAll('.emi-option').forEach(opt => opt.classList.remove('selected'));
+  
+  // Add selected class to clicked option
+  const selectedOption = document.querySelector(`.emi-option[data-months="${months}"]`);
+  if (selectedOption) selectedOption.classList.add('selected');
+  
+  // Get loan amount
+  const loanAmountText = document.getElementById('loanAmount').innerText.replace('৳', '').replace(',', '');
+  const loanAmount = parseInt(loanAmountText);
+  
+  // Calculate EMI
+  const emiAmount = calculateEMIAmount(loanAmount, months, interestRate);
+  
+  // Show selected EMI display
+  document.getElementById('selectedMonths').innerText = months;
+  document.getElementById('selectedEMIAmount').innerText = '৳' + emiAmount + '/month';
+  let interestText = '';
+  if (interestRate === 0) {
+    interestText = '0% interest (Special Offer!)';
+  } else {
+    interestText = `${interestRate * 100}% interest applicable`;
+  }
+  document.getElementById('selectedInterestNote').innerText = interestText;
+  document.getElementById('selectedEMIDisplay').classList.remove('hidden');
+};
+
+function generateSpecifications(product) {
+  const specsDiv = document.getElementById('productSpecifications');
+  let specs = '';
+  
+  switch(product.category) {
+    case 'fridge':
+      specs = `
+        <p><span class="font-semibold">Capacity:</span> ${product.desc.split('·')[0]}</p>
+        <p><span class="font-semibold">Cooling Technology:</span> Direct Cool / Frost Free</p>
+        <p><span class="font-semibold">Energy Rating:</span> 3 Star / 4 Star</p>
+        <p><span class="font-semibold">Compressor:</span> Normal / Inverter</p>
+        <p><span class="font-semibold">Special Features:</span> Stabilizer-free operation, LED lighting, Adjustable shelves</p>
+      `;
+      break;
+    case 'tv':
+      specs = `
+        <p><span class="font-semibold">Screen Size:</span> ${product.desc.split('·')[0]}</p>
+        <p><span class="font-semibold">Display Type:</span> LED / OLED / QLED</p>
+        <p><span class="font-semibold">Resolution:</span> HD / Full HD / 4K UHD</p>
+        <p><span class="font-semibold">Smart Features:</span> Android TV / WebOS / Tizen</p>
+        <p><span class="font-semibold">Connectivity:</span> Wi-Fi, Bluetooth, HDMI, USB</p>
+      `;
+      break;
+    case 'ac':
+      specs = `
+        <p><span class="font-semibold">Cooling Capacity:</span> ${product.desc.split('·')[0]}</p>
+        <p><span class="font-semibold">Type:</span> Inverter / Non-Inverter</p>
+        <p><span class="font-semibold">Refrigerant:</span> R32 / R410A</p>
+        <p><span class="font-semibold">Energy Rating:</span> 5 Star / 3 Star</p>
+        <p><span class="font-semibold">Special Features:</span> Turbo cooling, Sleep mode, Auto restart</p>
+      `;
+      break;
+    case 'washer':
+      specs = `
+        <p><span class="font-semibold">Capacity:</span> ${product.desc.split('·')[0]}</p>
+        <p><span class="font-semibold">Type:</span> Fully Auto / Semi-Auto</p>
+        <p><span class="font-semibold">Wash Programs:</span> 10+ wash programs</p>
+        <p><span class="font-semibold">Motor:</span> Direct Drive / Belt Drive</p>
+        <p><span class="font-semibold">Special Features:</span> Quick wash, Child lock, Delay start</p>
+      `;
+      break;
+    case 'kitchen':
+      if (product.img.includes('RC')) {
+        specs = `
+          <p><span class="font-semibold">Capacity:</span> ${product.desc.split('·')[0]}</p>
+          <p><span class="font-semibold">Power:</span> ${product.desc.split('·')[1]}</p>
+          <p><span class="font-semibold">Type:</span> Digital / Manual</p>
+          <p><span class="font-semibold">Special Features:</span> Keep warm, Non-stick pot, Multi-cook</p>
+        `;
+      } else if (product.img.includes('GR')) {
+        specs = `
+          <p><span class="font-semibold">Power:</span> ${product.desc.split('·')[0]}</p>
+          <p><span class="font-semibold">Speed Settings:</span> 3 speeds</p>
+          <p><span class="font-semibold">Jars:</span> 3 jars with lids</p>
+          <p><span class="font-semibold">Special Features:</span> Overload protection, Stainless steel blades</p>
+        `;
+      } else if (product.img.includes('ID')) {
+        specs = `
+          <p><span class="font-semibold">Power:</span> ${product.desc.split('·')[0]}</p>
+          <p><span class="font-semibold">Controls:</span> Digital touch panel</p>
+          <p><span class="font-semibold">Preset Menus:</span> 8+ cooking modes</p>
+          <p><span class="font-semibold">Special Features:</span> Child lock, Timer, Auto shut-off</p>
+        `;
+      }
+      break;
+    case 'stove':
+      if (product.img.includes('ST')) {
+        specs = `
+          <p><span class="font-semibold">Burners:</span> 2 Burner</p>
+          <p><span class="font-semibold">Ignition:</span> Piezo / Auto ignition</p>
+          <p><span class="font-semibold">Material:</span> Tempered glass / Stainless steel</p>
+          <p><span class="font-semibold">Safety Features:</span> Flame failure device</p>
+        `;
+      } else if (product.img.includes('OVEN')) {
+        specs = `
+          <p><span class="font-semibold">Capacity:</span> ${product.desc.split('·')[0]}</p>
+          <p><span class="font-semibold">Power:</span> ${product.desc.split('·')[1]}</p>
+          <p><span class="font-semibold">Functions:</span> Bake, Grill, Rotisserie</p>
+          <p><span class="font-semibold">Special Features:</span> Timer, Temperature control, Interior light</p>
+        `;
+      }
+      break;
+    case 'fan':
+      specs = `
+        <p><span class="font-semibold">Size:</span> ${product.desc.split('·')[0]}</p>
+        <p><span class="font-semibold">Power:</span> ${product.desc.split('·')[1]}</p>
+        <p><span class="font-semibold">Type:</span> Ceiling / Pedestal / Table</p>
+        <p><span class="font-semibold">Speed Control:</span> 3-speed regulator</p>
+        <p><span class="font-semibold">Warranty:</span> ${product.desc.split('·')[2]}</p>
+      `;
+      break;
+    case 'iron':
+      specs = `
+        <p><span class="font-semibold">Power:</span> ${product.desc.split('·')[0]}</p>
+        <p><span class="font-semibold">Type:</span> Dry / Steam</p>
+        <p><span class="font-semibold">Soleplate:</span> Non-stick / Ceramic</p>
+        <p><span class="font-semibold">Special Features:</span> Anti-drip, Vertical steam, Self-clean</p>
+      `;
+      break;
+    case 'sewing':
+      specs = `
+        <p><span class="font-semibold">Stitches:</span> ${product.desc.split('·')[0]}</p>
+        <p><span class="font-semibold">Type:</span> Mechanical / Computerized</p>
+        <p><span class="font-semibold">Buttonhole:</span> 4-step / 1-step</p>
+        <p><span class="font-semibold">Special Features:</span> Free arm, LED light, Auto threader</p>
+      `;
+      break;
+    case 'freezer':
+      specs = `
+        <p><span class="font-semibold">Capacity:</span> ${product.desc.split('·')[0]}</p>
+        <p><span class="font-semibold">Type:</span> Chest Freezer</p>
+        <p><span class="font-semibold">Refrigerant:</span> R600a</p>
+        <p><span class="font-semibold">Special Features:</span> Lock & key, Fast freezing, Storage basket</p>
+      `;
+      break;
+    case 'laptop':
+      specs = `
+        <p><span class="font-semibold">Processor:</span> ${product.desc.split('·')[0]}</p>
+        <p><span class="font-semibold">RAM:</span> ${product.desc.split('·')[1]}</p>
+        <p><span class="font-semibold">Storage:</span> ${product.desc.split('·')[2]}</p>
+        <p><span class="font-semibold">Display:</span> 15.6" FHD / HD</p>
+        <p><span class="font-semibold">Warranty:</span> 1 year manufacturer warranty</p>
+      `;
+      break;
+    default:
+      specs = `
+        <p><span class="font-semibold">Product Type:</span> ${product.category}</p>
+        <p><span class="font-semibold">Description:</span> ${product.desc}</p>
+        <p><span class="font-semibold">Warranty:</span> 1 year</p>
+        <p><span class="font-semibold">Special Features:</span> Premium quality, Energy efficient</p>
+      `;
+  }
+  
+  specsDiv.innerHTML = specs;
+}
+
+// FIXED: Order from detail page - redirects to order.html
+window.orderFromDetail = () => {
+  if (currentProduct) {
+    const encodedName = encodeURIComponent(currentProduct.name);
+    const encodedDesc = encodeURIComponent(currentProduct.desc);
+    window.location.href = `order.html?product=${encodedName}&price=${currentProduct.currentPrice}&desc=${encodedDesc}`;
+  }
+};
+
+// chatbot - Enhanced with powerful AI capabilities
+window.toggleChat = () => {
+  const chat = document.getElementById('chatbot');
+  chat.style.display = chat.style.display === 'flex' ? 'none' : 'flex';
+};
+
+window.sendChat = () => {
+  const inp = document.getElementById('chatInput');
+  const q = inp.value.trim().toLowerCase();
+  if(!q) return;
+  addChatMsg(inp.value.trim(), 'user');
+  inp.value = '';
+  
+  setTimeout(() => {
+    let ans = "";
+    
+    // Smart product recommendations based on user queries
+    if(q.includes('hello') || q.includes('hi') || q.includes('hey')) {
+      ans = "👋 Hello! Welcome to Alam Computers! I'm your AI shopping assistant. How can I help you today? You can ask me about refrigerators, TVs, ACs, washing machines, laptops, or any electronics! 😊";
+    }
+    else if(q.includes('who made you') || q.includes('who created you') || q.includes('your creator') || q.includes('who built you')) {
+      ans = "🤖 I was created by Farabi, the talented developer who designed and developed this website! He built me to help customers like you find the perfect products and have a great shopping experience at Alam Computers. 😊";
+    }
+    else if(q.includes('what is alam computer') || q.includes('about alam computers') || q.includes('tell me about alam computers') || q.includes('alam computers information')) {
+      ans = "🏢 Alam Computers is a premium electronics retailer established in 1995 in Rajshahi, Bangladesh. We are authorized dealers of Singer, LG, Haier, Gree, and Panasonic. With two showrooms and over 2000 products, we've been serving customers for over 25 years! We specialize in refrigerators, TVs, ACs, washing machines, laptops, kitchen appliances, and more. Visit us at our showrooms in Sopura, Rajshahi or Bhabaniganj Bazar, Bagmara! 🏬";
+    }
+    else if(q.includes('tv') || q.includes('television') || q.includes('smart tv')) {
+      ans = "📺 We have an amazing collection of Smart TVs! From 24-inch to 55-inch 4K UHD, Android TVs, and QLED displays. Our top recommendation: **Singer 55-inch 4K Android TV** (৳81,000 after 10% discount). Perfect for movie lovers! 🎬 Which size are you interested in?";
+    }
+    else if(q.includes('ac') || q.includes('air conditioner') || q.includes('cooling')) {
+      ans = "❄️ Stay cool with our energy-efficient ACs! We have 1 Ton to 2.5 Ton inverter and non-inverter models. **Best seller: Singer 1.5 Ton Inverter AC** (৳68,400 after discount) with R32 refrigerant. It's perfect for medium-sized rooms! 🏠 Need help choosing the right capacity?";
+    }
+    else if(q.includes('fridge') || q.includes('refrigerator') || q.includes('freezer')) {
+      ans = "🧊 Our refrigerators range from 157L single doors to 532L side-by-side models. **Customer favorite: Singer 260L Frost Free** (৳41,850 after discount) with inverter compressor. Energy efficient and spacious! 🏡 What capacity are you looking for?";
+    }
+    else if(q.includes('washer') || q.includes('washing machine') || q.includes('wash')) {
+      ans = "🧼 We have top load, front load, and semi-automatic washers from 6kg to 11kg. **Top recommendation: Singer 9kg Fully Automatic** (৳33,300 after discount) with 12 wash programs and Aqua Smart technology. Perfect for families! 👨‍👩‍👧‍👦";
+    }
+    else if(q.includes('laptop') || q.includes('computer') || q.includes('notebook')) {
+      ans = "💻 Check out our laptops from Dell, HP, Lenovo, and Apple! **Best value: Dell Inspiron 3530 i5** (৳65,250 after discount) with 13th Gen processor, 8GB RAM, and 512GB SSD. Great for work and study! 📚 What's your budget?";
+    }
+    else if(q.includes('kitchen') || q.includes('blender') || q.includes('rice cooker')) {
+      ans = "🍳 Our kitchen appliances include blenders, rice cookers, and induction cookers. **Most popular: Singer 1.8L Rice Cooker** (৳3,375 after discount) with non-stick pot and keep-warm function. Makes perfect rice every time! 🍚";
+    }
+    else if(q.includes('iron') || q.includes('steam iron')) {
+      ans = "👔 We have dry irons and steam irons from 1000W to 2400W. **Best seller: Singer 1600W Steam Iron** (৳2,475 after discount) with 250ml tank and anti-drip system. Makes ironing a breeze! ✨";
+    }
+    else if(q.includes('sewing') || q.includes('sewing machine')) {
+      ans = "🧵 From basic mechanical to computerized embroidery machines! **Top choice: Singer Heavy Duty 4423** (৳25,200 after discount) with 23 stitches and high speed. Perfect for all your sewing projects! 👗";
+    }
+    else if(q.includes('price') || q.includes('cost') || q.includes('budget')) {
+      ans = "💰 Our products range from ৳1,000 to ৳2,00,000+. We have options for every budget! What's your price range? I can recommend the best products within your budget! 🎯";
+    }
+    else if(q.includes('offer') || q.includes('discount') || q.includes('deal')) {
+      ans = "🎉 Great news! We're offering **10% discount on ALL products**! Plus, check our exclusive bundle offers when you visit our showrooms. Sign up for newsletter to get special deals! 📧";
+    }
+    else if(q.includes('location') || q.includes('address') || q.includes('showroom') || q.includes('store')) {
+      ans = "📍 We have two showrooms:\n• Showroom 1: Sheikh Rasel Park, Chotobongram, Sopura, Rajshahi-6203\n• Showroom 2: Abdul Latif Market, Bhabaniganj Bazar, Bagmara, Rajshahi-6250\nBoth open 9:30am-9pm (Fri 2pm-8pm). Visit us! 🏬";
+    }
+    else if(q.includes('delivery') || q.includes('shipping')) {
+      ans = "🚚 We offer free delivery within Rajshahi city! For outside areas, delivery charges apply. Orders are typically delivered within 24-48 hours. Cash on delivery available! 💵";
+    }
+    else if(q.includes('warranty') || q.includes('guarantee')) {
+      ans = "🛡️ All products come with 1-year manufacturer warranty. Singer products have extended warranty options available. We provide full after-sales support! 👍";
+    }
+    else if(q.includes('payment') || q.includes('pay')) {
+      ans = "💳 We accept Visa, Mastercard, bKash, Nagad, Rocket, and cash on delivery. All payments are secure and verified! 🔒";
+    }
+    else if(q.includes('thank')) {
+      ans = "😊 You're very welcome! It's my pleasure to help. Feel free to ask if you need anything else. Happy shopping at Alam Computers! 🛍️";
+    }
+    else if(q.includes('recommend') || q.includes('suggest') || q.includes('best')) {
+      ans = "⭐ Based on customer reviews, our top picks are:\n• 📺 Singer 55-inch 4K Smart TV\n• ❄️ Singer 1.5 Ton Inverter AC\n• 🧊 Singer 260L Frost Free Fridge\n• 💻 Dell Inspiron i5 Laptop\nAll with 10% discount! Which category interests you?";
+    }
+    else if(q.includes('small') || q.includes('compact')) {
+      ans = "📦 For small spaces, we recommend:\n• 24-inch LED TV (৳13,950)\n• 1 Ton AC (৳43,200)\n• 157L Refrigerator (৳26,010)\n• 6.5kg Washing Machine (৳21,600)\nAll prices after 10% discount! 🏠";
+    }
+    else if(q.includes('family') || q.includes('large')) {
+      ans = "👪 For families, our best picks:\n• 55-inch 4K Smart TV (৳81,000)\n• 2 Ton AC (৳85,500)\n• 532L Side-by-side Fridge (৳1,08,000)\n• 10kg Washing Machine (৳37,350)\nPerfect for your home! 🏡";
+    }
+    else if(q.includes('compare') || q.includes('difference')) {
+      ans = "🔄 I can help you compare products! Just tell me which two products you'd like to compare (e.g., 'compare AC vs inverter AC' or 'compare Singer 7kg vs 9kg washer') and I'll explain the differences! 📊";
+    }
+    else {
+      ans = "🤔 I'm here to help with any questions about our products, prices, features, or recommendations! You can ask me about refrigerators, TVs, ACs, washing machines, laptops, kitchen appliances, irons, sewing machines, or freezers. What would you like to know? 😊";
+    }
+    
+    addChatMsg(ans, 'assistant');
+  }, 600);
+};
+
+function addChatMsg(txt, sender) {
+  const box = document.getElementById('chatMessages');
+  const div = document.createElement('div');
+  div.className = sender==='user' ? 'bg-[#1e2b4f] text-white p-3 rounded-2xl max-w-[80%] self-end mb-2' : 'bg-[#f0f4ff] p-3 rounded-2xl max-w-[80%] mb-2';
+  div.innerText = txt;
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+}
+
+window.toggleMobileMenu = () => {
+  document.getElementById('mobileMenu').classList.toggle('hidden');
+};
+
+// smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    const href = this.getAttribute('href');
+    if(href === "#") return;
+    const target = document.querySelector(href);
+    if(target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+
+// scroll reveal
+const revealElements = document.querySelectorAll('.scroll-reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) {
+      entry.target.classList.add('revealed');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+revealElements.forEach(el => revealObserver.observe(el));
+
+// Close modal when clicking outside
+document.getElementById('productDetailModal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeProductDetail();
+  }
+});
+
+// initial render
+renderProductsPage();
+</script>
+</body>
+</html>
