@@ -514,9 +514,10 @@
     if (meta) meta.setAttribute('content', next === 'dark' ? '#0b1120' : '#2563eb');
   };
   (function initTheme(){
+    // Default = LIGHT (white). Only applies dark if user explicitly chose it.
     var saved = null;
     try { saved = localStorage.getItem('alam_theme'); } catch(e){}
-    if (!saved) saved = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    if (saved !== 'dark') saved = 'light';
     document.documentElement.setAttribute('data-theme', saved);
     var icon = document.querySelector('#theme-toggle i');
     if (icon) icon.className = saved === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
@@ -531,7 +532,15 @@
     if (typeof window.supabase === 'undefined' || !window.supabase.createClient) {
       showWarning('⚠️ Supabase not loaded');
     } else {
-      window.__sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      window.__sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: false,
+          storage: window.localStorage,
+          storageKey: 'alam-auth-session'
+        }
+      });
       console.log('✅ Supabase ready');
     }
   } catch (err) {
@@ -551,7 +560,7 @@
     { slug: 'sewing',  name: 'Sewing',   img: 'category_sewing-machine-1751953135.webp' },
     { slug: 'freezer', name: 'Freezer',  img: 'FZ1.webp' },
     { slug: 'laptop',  name: 'Laptop',   img: 'LT1.webp' },
-    { slug: 'gadget',  name: 'Gadget',   img: 'gadgets.webp' }
+    { slug: 'gadget',  name: 'Gadget',   img: 'gadget.png' }
   ];
   var CATEGORIES = window.CATEGORIES;
 
@@ -1024,16 +1033,16 @@
         paginationHtml += '<span style="color:var(--muted);font-size:10px">…</span>';
       }
     }
-    paginationHtml += '<button class="page-btn" onclick="window.changePage(' + (window.state.currentPage + 1) + ')" ' + (window.state.currentPage === totalPages ? 'disabled' : '') + '"><i class="fas fa-chevron-right"></i></button>';
+    paginationHtml += '<button class="page-btn" onclick="window.changePage(' + (window.state.currentPage + 1) + ')" ' + (window.state.currentPage === totalPages ? 'disabled' : '') + '><i class="fas fa-chevron-right"></i></button>';
     paginationHtml += '</div>';
 
     $('#app-view').innerHTML = 
       '<div class="hero">' +
-        '<div class="hero-slide active" style="background-image:url(\'slide1.png\')"></div>' +
-        '<div class="hero-slide" style="background-image:url(\'slide2.png\')"></div>' +
-        '<div class="hero-slide" style="background-image:url(\'slide3.png\')"></div>' +
-        '<div class="hero-slide" style="background-image:url(\'slide4.png\')"></div>' +
-        '<div class="hero-slide" style="background-image:url(\'slide5.png\')"></div>' +
+        '<div class="hero-slide active" style="background-image:url(\'slide1.jpg\')"></div>' +
+        '<div class="hero-slide" style="background-image:url(\'slide2.jpg\')"></div>' +
+        '<div class="hero-slide" style="background-image:url(\'slide3.jpg\')"></div>' +
+        '<div class="hero-slide" style="background-image:url(\'slide4.jpg\')"></div>' +
+        '<div class="hero-slide" style="background-image:url(\'slide5.jpg\')"></div>' +
         '<div class="hero-dots" id="hero-dots"></div>' +
       '</div>' +
       '<div class="search-bar">' +
