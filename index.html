@@ -140,7 +140,7 @@
   .error-text.show{display:block}
 
   .hero{position:relative;margin:8px 12px;border-radius:14px;overflow:hidden;width:calc(100% - 24px);aspect-ratio:16/8;box-shadow:var(--shadow);background:linear-gradient(135deg,#2563eb,#7c3aed)}
-  .hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1s;background-color:#2563eb;cursor:pointer}
+  .hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1s;background-color:#2563eb;cursor:pointer;z-index:1}
   .hero-slide.active{opacity:1}
   .hero-dots{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:2}
   .hero-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.6);cursor:pointer}
@@ -529,7 +529,6 @@
     if (meta) meta.setAttribute('content', next === 'dark' ? '#0b1120' : '#2563eb');
   };
   (function initTheme(){
-    // Default = LIGHT (white). Only applies dark if user explicitly chose it.
     var saved = null;
     try { saved = localStorage.getItem('alam_theme'); } catch(e){}
     if (saved !== 'dark') saved = 'light';
@@ -583,20 +582,37 @@
   // ===== NEW: Company filter definitions =====
   var COMPANIES = [
     { id: 'singer', name: 'Singer', img: 'singer.png' },
-    { id: 'gree',   name: 'Gree',   img: 'gree.png' },
+    { id: 'beko',   name: 'Beko',   img: 'beko.png' },
     { id: 'lg',     name: 'LG',     img: 'lg.png' },
-    { id: 'kiam',   name: 'Kiam',   img: 'kiam.png' },
-    { id: 'beko',   name: 'Beko',   img: 'beko.png' }
+    { id: 'gree',   name: 'Gree',   img: 'gree.png' },
+    { id: 'kiam',   name: 'Kiam',   img: 'kiam.png' }
   ];
+  var COMPANY_MAP = {};
+  COMPANIES.forEach(function(c){ COMPANY_MAP[c.id] = c; });
 
   function getCompany(name) {
     var n = (name || '').toLowerCase();
     if (n.indexOf('singer') !== -1) return 'singer';
-    if (n.indexOf('gree') !== -1) return 'gree';
-    if (n.indexOf('lg ') !== -1 || n.indexOf('lg-') !== -1 || n.indexOf('lg ') !== -1 || n.indexOf('(lg') !== -1 || n.indexOf('lg g') !== -1 || n.indexOf('lg oled') !== -1 || n.indexOf('lg ') !== -1 || /^lg[\s\-]/i.test(name)) return 'lg';
-    if (n.indexOf('kiam') !== -1) return 'kiam';
     if (n.indexOf('beko') !== -1) return 'beko';
+    if (n.indexOf('gree') !== -1) return 'gree';
+    if (n.indexOf('kiam') !== -1) return 'kiam';
+    if (/^lg[\s\-]/i.test(name) || n.indexOf('(lg') !== -1 || n.indexOf('lg ') === 0) return 'lg';
     return 'other';
+  }
+
+  // ===== NEW: Get companies available in a product list, sorted by count (highest first) =====
+  function companiesInList(list) {
+    var counts = {};
+    list.forEach(function(p){
+      if (p.company && p.company !== 'other') {
+        counts[p.company] = (counts[p.company] || 0) + 1;
+      }
+    });
+    var arr = Object.keys(counts).map(function(id){
+      return { id: id, count: counts[id], name: COMPANY_MAP[id] ? COMPANY_MAP[id].name : id, img: COMPANY_MAP[id] ? COMPANY_MAP[id].img : '' };
+    });
+    arr.sort(function(a,b){ return b.count - a.count; });
+    return arr;
   }
 
   // Full rich descriptions
@@ -1023,10 +1039,13 @@
     else sorted.sort(function(a,b){ return b.rating - a.rating; });
     return sorted;
   }
-  function companyButtonsHTML(activeId) {
+  // ===== NEW: company buttons — only companies that actually have products, sorted by count desc =====
+  function companyButtonsHTML(activeId, productsForFilter) {
+    var list = companiesInList(productsForFilter || products);
+    if (list.length <= 1) return '';
     var html = '<div class="company-filter">';
     html += '<button type="button" class="company-btn ' + (!activeId || activeId === 'all' ? 'active' : '') + '" onclick="window.setCompanyFilter(\'all\')"><i class="fas fa-layer-group"></i> All</button>';
-    COMPANIES.forEach(function(c){
+    list.forEach(function(c){
       html += '<button type="button" class="company-btn ' + (activeId === c.id ? 'active' : '') + '" onclick="window.setCompanyFilter(\'' + c.id + '\')">' +
         '<img src="' + c.img + '" alt="' + c.name + '" onerror="this.style.display=\'none\'">' + c.name + '</button>';
     });
@@ -1131,7 +1150,6 @@
 
   function initAuth() {
     if (!window.__sb) { renderProfileButton(); updateCartBadge(); return; }
-    // ===== FIX: Restore session from localStorage on reload =====
     window.__sb.auth.getSession().then(function(res) {
       window.state.user = (res.data && res.data.session && res.data.session.user) || null;
       if (window.state.user) loadProfile();
@@ -1142,7 +1160,6 @@
       renderProfileButton();
       updateCartBadge();
     });
-    // Listen for auth changes
     window.__sb.auth.onAuthStateChange(function(_event, session) {
       window.state.user = (session && session.user) || null;
       if (window.state.user) loadProfile(); else window.state.profile = null;
@@ -1353,7 +1370,7 @@
       '<div class="container" style="padding-top:4px"><div class="section-title">Categories</div><div class="section-sub">Tap to explore</div></div>' +
       '<div class="product-grid" style="grid-template-columns:repeat(3,minmax(0,1fr));gap:6px" id="home-cats"></div>' +
       '<div class="container" style="padding-top:16px"><div class="section-title">All Products</div><div class="section-sub">' + filtered.length + ' products · 10% off</div></div>' +
-      companyButtonsHTML(window.state.companyFilter) +
+      companyButtonsHTML(window.state.companyFilter, products) +
       sortRowHTML() +
       '<div class="product-grid" id="home-products"></div>' +
       paginationHtml +
@@ -1455,14 +1472,11 @@
     var cat = CATEGORIES.filter(function(c) { return c.slug === slug; })[0];
     if (!cat) { window.router.go('#/home'); return; }
     var catItems = products.filter(function(p) { return p.category === slug; });
-    var companiesInCat = {};
-    catItems.forEach(function(p){ companiesInCat[p.company] = true; });
-    var showCompanyFilter = Object.keys(companiesInCat).length > 1;
     var filtered = applySort(applyCompanyFilter(catItems));
     document.title = cat.name;
     $('#app-view').innerHTML = 
       '<div class="back-bar"><button class="back-btn" onclick="window.router.back()"><i class="fas fa-arrow-left"></i></button><div><h2>' + esc(cat.name) + '</h2><div style="font-size:10px;color:var(--muted)">' + filtered.length + ' products · 10% off</div></div></div>' +
-      (showCompanyFilter ? companyButtonsHTML(window.state.companyFilter) : '') +
+      companyButtonsHTML(window.state.companyFilter, catItems) +
       sortRowHTML() +
       '<div class="product-grid" style="padding-top:4px">' + (filtered.length ? filtered.map(productCardHTML).join('') : '<div class="empty" style="grid-column:1/-1"><i class="fas fa-box-open"></i><p>No products match this filter</p></div>') + '</div>' +
       '<div style="height:16px"></div>';
