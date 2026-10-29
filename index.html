@@ -172,6 +172,21 @@
   .back-btn{width:32px;height:32px;border-radius:9px;background:var(--card-bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;color:var(--text);flex-shrink:0;transition:background .3s,color .3s,border-color .3s}
   .back-bar h2{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
+  /* NEW: Filter and Sort bars for category page */
+  .filter-bar{display:flex;gap:6px;padding:6px 12px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;align-items:center}
+  .filter-bar::-webkit-scrollbar{display:none}
+  .brand-btn{display:flex;align-items:center;gap:5px;padding:7px 12px;border-radius:20px;border:1.5px solid var(--border);background:var(--card-bg);cursor:pointer;font-size:11px;font-weight:700;color:var(--text);white-space:nowrap;transition:all .15s;font-family:inherit;flex-shrink:0}
+  .brand-btn:active{transform:scale(0.95)}
+  .brand-btn.active{border-color:var(--blue);background:var(--blue);color:#fff;box-shadow:0 4px 10px -4px var(--blue)}
+  .brand-btn img{width:20px;height:20px;object-fit:contain;border-radius:3px;background:#fff;padding:1px}
+  .sort-bar{display:flex;gap:6px;padding:4px 12px 10px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;align-items:center}
+  .sort-bar::-webkit-scrollbar{display:none}
+  .sort-btn{padding:6px 12px;border-radius:16px;border:1.5px solid var(--border);background:var(--card-bg);cursor:pointer;font-size:10px;font-weight:600;color:var(--text);white-space:nowrap;transition:all .15s;font-family:inherit;flex-shrink:0;display:flex;align-items:center;gap:4px}
+  .sort-btn:active{transform:scale(0.95)}
+  .sort-btn.active{border-color:var(--green);background:var(--green);color:#fff}
+  .sort-btn i{font-size:9px}
+  .filter-label{font-size:9px;font-weight:800;color:var(--muted);letter-spacing:0.5px;padding:0 12px;margin-bottom:2px;text-transform:uppercase}
+
   .detail-img{width:100%;aspect-ratio:1/1;background:var(--card-bg);border-radius:12px;padding:16px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);transition:background .3s,border-color .3s}
   .detail-img img{max-width:100%;max-height:100%;object-fit:contain;display:block}
   .emi-opt{background:var(--surface);border:1.5px solid var(--border);border-radius:9px;padding:7px 4px;text-align:center;cursor:pointer;transition:all .15s}
@@ -499,7 +514,7 @@
   var SUPABASE_KEY = 'sb_publishable_-vxTX6WmZMaPgOQ76YkK4w_wqKDV7WV';
 
   window.__sb = null;
-  window.state = { user: null, profile: null, selectedProduct: null, orderStep: 1, orderData: {}, currentPage: 1, perPage: 10, cart: [], emiMonths: null };
+  window.state = { user: null, profile: null, selectedProduct: null, orderStep: 1, orderData: {}, currentPage: 1, perPage: 10, cart: [], emiMonths: null, catFilter: { brand: 'all', sort: 'recommended' } };
   try { window.state.cart = JSON.parse(localStorage.getItem('alam_cart') || '[]'); } catch(e){ window.state.cart = []; }
 
   /* ============ DARK MODE ============ */
@@ -563,6 +578,41 @@
     { slug: 'gadget',  name: 'Gadget',   img: 'gadgets.webp' }
   ];
   var CATEGORIES = window.CATEGORIES;
+
+  /* ============ BRAND DETECTION HELPER ============ */
+  function getBrand(name) {
+    if (/^Singer/i.test(name)) return 'singer';
+    if (/^LG\b/i.test(name)) return 'lg';
+    if (/^Gree/i.test(name)) return 'gree';
+    if (/^Kiam/i.test(name)) return 'kiam';
+    if (/^BRB/i.test(name)) return 'brb';
+    if (/^Beko/i.test(name)) return 'beko';
+    if (/^Dell/i.test(name)) return 'dell';
+    if (/^HP\b/i.test(name)) return 'hp';
+    if (/^Ugreen/i.test(name)) return 'ugreen';
+    if (/^Pureit/i.test(name)) return 'pureit';
+    if (/^Zoje/i.test(name)) return 'zoje';
+    return 'other';
+  }
+
+  /* ============ AVAILABLE BRANDS PER CATEGORY ============ */
+  var BRAND_IMAGES = {
+    singer: 'singer.png',
+    lg: 'lg.png',
+    gree: 'gree.png',
+    kiam: 'kiam.png',
+    brb: 'brb.png',
+    beko: 'beko.png',
+    dell: 'dell.png',
+    hp: 'hp.png',
+    ugreen: 'ugreen.png',
+    pureit: 'pureit.png',
+    zoje: 'zoje.png'
+  };
+  var BRAND_NAMES = {
+    singer: 'Singer', lg: 'LG', gree: 'Gree', kiam: 'Kiam', brb: 'BRB',
+    beko: 'Beko', dell: 'Dell', hp: 'HP', ugreen: 'Ugreen', pureit: 'Pureit', zoje: 'Zoje'
+  };
 
   // Full rich descriptions
   var baseProducts = [
@@ -973,7 +1023,7 @@
     for (var s = 0; s < fullStars; s++) starHtml += '<i class="fas fa-star"></i>';
     if (halfStar) starHtml += '<i class="fas fa-star-half-alt"></i>';
     for (var s2 = 0; s2 < emptyStars; s2++) starHtml += '<i class="far fa-star"></i>';
-    return { name: p.name, desc: p.desc, basePrice: p.basePrice, category: p.category, img: p.img, currentPrice: currentPrice, oldPrice: p.basePrice, starHtml: starHtml, rating: rating };
+    return { name: p.name, desc: p.desc, basePrice: p.basePrice, category: p.category, img: p.img, currentPrice: currentPrice, oldPrice: p.basePrice, starHtml: starHtml, rating: rating, brand: getBrand(p.name), index: i };
   });
 
   function $(s) { return document.querySelector(s); }
@@ -1361,14 +1411,105 @@
   function renderCategory(slug) {
     var cat = CATEGORIES.filter(function(c) { return c.slug === slug; })[0];
     if (!cat) { window.router.go('#/home'); return; }
-    var items = products.filter(function(p) { return p.category === slug; });
+    var allItems = products.filter(function(p) { return p.category === slug; });
+    
+    // Reset filter on category change
+    window.state.catFilter = { brand: 'all', sort: 'recommended' };
+    
+    // Determine which brands exist in this category
+    var brandCounts = {};
+    allItems.forEach(function(p) {
+      brandCounts[p.brand] = (brandCounts[p.brand] || 0) + 1;
+    });
+    var availableBrands = ['singer','lg','gree','kiam','brb','beko','dell','hp','ugreen','pureit','zoje'].filter(function(b) {
+      return brandCounts[b] > 0;
+    });
+    
     document.title = cat.name;
+    
+    var brandButtonsHtml = '';
+    if (availableBrands.length >= 1) {
+      brandButtonsHtml = '<div class="filter-label">Filter by Brand</div>' +
+        '<div class="filter-bar" id="brand-filter">' +
+          '<button class="brand-btn active" data-brand="all" onclick="window.setCatFilter(\'all\')">All (' + allItems.length + ')</button>' +
+          availableBrands.map(function(b) {
+            var img = BRAND_IMAGES[b] || '';
+            var name = BRAND_NAMES[b] || b;
+            return '<button class="brand-btn" data-brand="' + b + '" onclick="window.setCatFilter(\'' + b + '\')">' +
+              (img ? '<img src="' + img + '" alt="" onerror="this.style.display=\'none\'">' : '') +
+              name + ' (' + brandCounts[b] + ')</button>';
+          }).join('') +
+        '</div>';
+    }
+    
+    var sortBarHtml = '<div class="filter-label">Sort By</div>' +
+      '<div class="sort-bar" id="sort-filter">' +
+        '<button class="sort-btn active" data-sort="recommended" onclick="window.setCatSort(\'recommended\')"><i class="fas fa-star"></i> Recommended</button>' +
+        '<button class="sort-btn" data-sort="low-high" onclick="window.setCatSort(\'low-high\')"><i class="fas fa-arrow-up"></i> Low to High</button>' +
+        '<button class="sort-btn" data-sort="high-low" onclick="window.setCatSort(\'high-low\')"><i class="fas fa-arrow-down"></i> High to Low</button>' +
+      '</div>';
+    
     $('#app-view').innerHTML = 
-      '<div class="back-bar"><button class="back-btn" onclick="window.router.back()"><i class="fas fa-arrow-left"></i></button><div><h2>' + esc(cat.name) + '</h2><div style="font-size:10px;color:var(--muted)">' + items.length + ' products · 10% off</div></div></div>' +
-      '<div class="product-grid" style="padding-top:4px">' + items.map(productCardHTML).join('') + '</div>' +
+      '<div class="back-bar"><button class="back-btn" onclick="window.router.back()"><i class="fas fa-arrow-left"></i></button><div><h2>' + esc(cat.name) + '</h2><div style="font-size:10px;color:var(--muted)" id="cat-count">' + allItems.length + ' products · 10% off</div></div></div>' +
+      brandButtonsHtml +
+      sortBarHtml +
+      '<div class="product-grid" style="padding-top:4px" id="cat-products"></div>' +
       '<div style="height:16px"></div>';
-    attachProductCardHandlers();
+    
+    window.renderCatProducts();
   }
+
+  window.setCatFilter = function(brand) {
+    window.state.catFilter.brand = brand;
+    $$('#brand-filter .brand-btn').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.brand === brand);
+    });
+    window.renderCatProducts();
+  };
+
+  window.setCatSort = function(sort) {
+    window.state.catFilter.sort = sort;
+    $$('#sort-filter .sort-btn').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.sort === sort);
+    });
+    window.renderCatProducts();
+  };
+
+  window.renderCatProducts = function() {
+    var hash = location.hash || '#/home';
+    var parts = hash.slice(2).split('/');
+    var slug = parts[1];
+    if (!slug) return;
+    var cat = CATEGORIES.filter(function(c) { return c.slug === slug; })[0];
+    if (!cat) return;
+    var allItems = products.filter(function(p) { return p.category === slug; });
+    var items = allItems.slice();
+    
+    // Filter by brand
+    if (window.state.catFilter.brand && window.state.catFilter.brand !== 'all') {
+      items = items.filter(function(p) { return p.brand === window.state.catFilter.brand; });
+    }
+    
+    // Sort
+    if (window.state.catFilter.sort === 'low-high') {
+      items.sort(function(a,b) { return a.currentPrice - b.currentPrice; });
+    } else if (window.state.catFilter.sort === 'high-low') {
+      items.sort(function(a,b) { return b.currentPrice - a.currentPrice; });
+    } else {
+      // Recommended: original index order (as they appear in list)
+      items.sort(function(a,b) { return a.index - b.index; });
+    }
+    
+    var grid = document.getElementById('cat-products');
+    if (grid) {
+      grid.innerHTML = items.length ? items.map(productCardHTML).join('') : '<div class="empty" style="grid-column:1/-1"><i class="fas fa-box-open"></i><p>No products match this filter</p></div>';
+    }
+    var countEl = document.getElementById('cat-count');
+    if (countEl) {
+      countEl.textContent = items.length + ' products · 10% off';
+    }
+    attachProductCardHandlers();
+  };
 
   function renderSearch() {
     var params = new URLSearchParams((location.hash.split('?')[1]) || '');
