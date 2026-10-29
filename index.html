@@ -140,7 +140,7 @@
   .error-text.show{display:block}
 
   .hero{position:relative;margin:8px 12px;border-radius:14px;overflow:hidden;width:calc(100% - 24px);aspect-ratio:16/8;box-shadow:var(--shadow);background:linear-gradient(135deg,#2563eb,#7c3aed)}
-  .hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1s;background-color:#2563eb}
+  .hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1s;background-color:#2563eb;cursor:pointer}
   .hero-slide.active{opacity:1}
   .hero-dots{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:2}
   .hero-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.6);cursor:pointer}
@@ -171,21 +171,6 @@
   .back-bar{display:flex;align-items:center;gap:8px;padding:10px 12px 4px}
   .back-btn{width:32px;height:32px;border-radius:9px;background:var(--card-bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;color:var(--text);flex-shrink:0;transition:background .3s,color .3s,border-color .3s}
   .back-bar h2{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-
-  /* NEW: Filter and Sort bars for category page */
-  .filter-bar{display:flex;gap:6px;padding:6px 12px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;align-items:center}
-  .filter-bar::-webkit-scrollbar{display:none}
-  .brand-btn{display:flex;align-items:center;gap:5px;padding:7px 12px;border-radius:20px;border:1.5px solid var(--border);background:var(--card-bg);cursor:pointer;font-size:11px;font-weight:700;color:var(--text);white-space:nowrap;transition:all .15s;font-family:inherit;flex-shrink:0}
-  .brand-btn:active{transform:scale(0.95)}
-  .brand-btn.active{border-color:var(--blue);background:var(--blue);color:#fff;box-shadow:0 4px 10px -4px var(--blue)}
-  .brand-btn img{width:20px;height:20px;object-fit:contain;border-radius:3px;background:#fff;padding:1px}
-  .sort-bar{display:flex;gap:6px;padding:4px 12px 10px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;align-items:center}
-  .sort-bar::-webkit-scrollbar{display:none}
-  .sort-btn{padding:6px 12px;border-radius:16px;border:1.5px solid var(--border);background:var(--card-bg);cursor:pointer;font-size:10px;font-weight:600;color:var(--text);white-space:nowrap;transition:all .15s;font-family:inherit;flex-shrink:0;display:flex;align-items:center;gap:4px}
-  .sort-btn:active{transform:scale(0.95)}
-  .sort-btn.active{border-color:var(--green);background:var(--green);color:#fff}
-  .sort-btn i{font-size:9px}
-  .filter-label{font-size:9px;font-weight:800;color:var(--muted);letter-spacing:0.5px;padding:0 12px;margin-bottom:2px;text-transform:uppercase}
 
   .detail-img{width:100%;aspect-ratio:1/1;background:var(--card-bg);border-radius:12px;padding:16px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);transition:background .3s,border-color .3s}
   .detail-img img{max-width:100%;max-height:100%;object-fit:contain;display:block}
@@ -400,6 +385,21 @@
   .acct-link .arrow{margin-left:auto;color:var(--muted);font-size:11px;font-weight:400}
   .acct-link.danger i,.acct-link.danger{color:var(--red)}
 
+  /* ===== NEW: Company filter buttons ===== */
+  .company-filter{display:flex;gap:6px;padding:8px 12px;overflow-x:auto;scrollbar-width:none;align-items:center}
+  .company-filter::-webkit-scrollbar{display:none}
+  .company-btn{display:flex;align-items:center;gap:5px;padding:7px 12px;border-radius:20px;background:var(--card-bg);border:1.5px solid var(--border);cursor:pointer;font-size:11px;font-weight:700;color:var(--text);white-space:nowrap;flex-shrink:0;transition:all .18s;font-family:inherit}
+  .company-btn:active{transform:scale(0.95)}
+  .company-btn.active{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 4px 12px -4px var(--blue)}
+  .company-btn img{width:22px;height:22px;object-fit:contain;border-radius:50%;background:#fff;padding:2px}
+  .company-btn.active img{background:#fff}
+
+  /* ===== NEW: Sort dropdown ===== */
+  .sort-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 12px 8px}
+  .sort-label{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:0.5px}
+  .sort-select{padding:8px 30px 8px 12px;border-radius:10px;border:1.5px solid var(--border);background:var(--card-bg);color:var(--text);font-family:inherit;font-size:11px;font-weight:700;cursor:pointer;outline:none;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right 8px center;background-size:14px;transition:background .3s,border-color .3s,color .3s}
+  .sort-select:focus{border-color:var(--blue)}
+
   @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}.vector-blob,#wind-svg,#chat-fab,.sparkle{animation:none!important}}
 </style>
 </head>
@@ -443,7 +443,7 @@
   <div class="warning-banner" id="warning-banner"></div>
 
   <header id="app-header">
-    <div class="logo-wrap" onclick="window.router.go('#/home')">
+    <div class="logo-wrap" onclick="window.reloadHome()">
       <img class="logo-img" src="logo.png" alt="Alam Computers" onerror="this.style.display='none'">
       <div class="logo"><span class="a">ALAM</span><span class="c">COMPUTERS</span></div>
     </div>
@@ -514,7 +514,7 @@
   var SUPABASE_KEY = 'sb_publishable_-vxTX6WmZMaPgOQ76YkK4w_wqKDV7WV';
 
   window.__sb = null;
-  window.state = { user: null, profile: null, selectedProduct: null, orderStep: 1, orderData: {}, currentPage: 1, perPage: 10, cart: [], emiMonths: null, catFilter: { brand: 'all', sort: 'recommended' } };
+  window.state = { user: null, profile: null, selectedProduct: null, orderStep: 1, orderData: {}, currentPage: 1, perPage: 10, cart: [], emiMonths: null, companyFilter: 'all', sortOrder: 'recommended' };
   try { window.state.cart = JSON.parse(localStorage.getItem('alam_cart') || '[]'); } catch(e){ window.state.cart = []; }
 
   /* ============ DARK MODE ============ */
@@ -579,40 +579,24 @@
   ];
   var CATEGORIES = window.CATEGORIES;
 
-  /* ============ BRAND DETECTION HELPER ============ */
-  function getBrand(name) {
-    if (/^Singer/i.test(name)) return 'singer';
-    if (/^LG\b/i.test(name)) return 'lg';
-    if (/^Gree/i.test(name)) return 'gree';
-    if (/^Kiam/i.test(name)) return 'kiam';
-    if (/^BRB/i.test(name)) return 'brb';
-    if (/^Beko/i.test(name)) return 'beko';
-    if (/^Dell/i.test(name)) return 'dell';
-    if (/^HP\b/i.test(name)) return 'hp';
-    if (/^Ugreen/i.test(name)) return 'ugreen';
-    if (/^Pureit/i.test(name)) return 'pureit';
-    if (/^Zoje/i.test(name)) return 'zoje';
+  // ===== NEW: Company filter definitions =====
+  var COMPANIES = [
+    { id: 'singer', name: 'Singer', img: 'singer.png' },
+    { id: 'gree',   name: 'Gree',   img: 'gree.png' },
+    { id: 'lg',     name: 'LG',     img: 'lg.png' },
+    { id: 'kiam',   name: 'Kiam',   img: 'kiam.png' },
+    { id: 'beko',   name: 'Beko',   img: 'beko.png' }
+  ];
+
+  function getCompany(name) {
+    var n = (name || '').toLowerCase();
+    if (n.indexOf('singer') !== -1) return 'singer';
+    if (n.indexOf('gree') !== -1) return 'gree';
+    if (n.indexOf('lg ') !== -1 || n.indexOf('lg-') !== -1 || n.indexOf('lg ') !== -1 || n.indexOf('(lg') !== -1 || n.indexOf('lg g') !== -1 || n.indexOf('lg oled') !== -1 || n.indexOf('lg ') !== -1 || /^lg[\s\-]/i.test(name)) return 'lg';
+    if (n.indexOf('kiam') !== -1) return 'kiam';
+    if (n.indexOf('beko') !== -1) return 'beko';
     return 'other';
   }
-
-  /* ============ AVAILABLE BRANDS PER CATEGORY ============ */
-  var BRAND_IMAGES = {
-    singer: 'singer.png',
-    lg: 'lg.png',
-    gree: 'gree.png',
-    kiam: 'kiam.png',
-    brb: 'brb.png',
-    beko: 'beko.png',
-    dell: 'dell.png',
-    hp: 'hp.png',
-    ugreen: 'ugreen.png',
-    pureit: 'pureit.png',
-    zoje: 'zoje.png'
-  };
-  var BRAND_NAMES = {
-    singer: 'Singer', lg: 'LG', gree: 'Gree', kiam: 'Kiam', brb: 'BRB',
-    beko: 'Beko', dell: 'Dell', hp: 'HP', ugreen: 'Ugreen', pureit: 'Pureit', zoje: 'Zoje'
-  };
 
   // Full rich descriptions
   var baseProducts = [
@@ -1023,8 +1007,50 @@
     for (var s = 0; s < fullStars; s++) starHtml += '<i class="fas fa-star"></i>';
     if (halfStar) starHtml += '<i class="fas fa-star-half-alt"></i>';
     for (var s2 = 0; s2 < emptyStars; s2++) starHtml += '<i class="far fa-star"></i>';
-    return { name: p.name, desc: p.desc, basePrice: p.basePrice, category: p.category, img: p.img, currentPrice: currentPrice, oldPrice: p.basePrice, starHtml: starHtml, rating: rating, brand: getBrand(p.name), index: i };
+    return { name: p.name, desc: p.desc, basePrice: p.basePrice, category: p.category, img: p.img, currentPrice: currentPrice, oldPrice: p.basePrice, starHtml: starHtml, rating: rating, company: getCompany(p.name) };
   });
+
+  // ===== NEW: sorting + filtering helpers =====
+  function applyCompanyFilter(list) {
+    if (window.state.companyFilter === 'all') return list;
+    return list.filter(function(p) { return p.company === window.state.companyFilter; });
+  }
+  function applySort(list) {
+    var sorted = list.slice();
+    if (window.state.sortOrder === 'low-high') sorted.sort(function(a,b){ return a.currentPrice - b.currentPrice; });
+    else if (window.state.sortOrder === 'high-low') sorted.sort(function(a,b){ return b.currentPrice - a.currentPrice; });
+    else sorted.sort(function(a,b){ return b.rating - a.rating; });
+    return sorted;
+  }
+  function companyButtonsHTML(activeId) {
+    var html = '<div class="company-filter">';
+    html += '<button type="button" class="company-btn ' + (!activeId || activeId === 'all' ? 'active' : '') + '" onclick="window.setCompanyFilter(\'all\')"><i class="fas fa-layer-group"></i> All</button>';
+    COMPANIES.forEach(function(c){
+      html += '<button type="button" class="company-btn ' + (activeId === c.id ? 'active' : '') + '" onclick="window.setCompanyFilter(\'' + c.id + '\')">' +
+        '<img src="' + c.img + '" alt="' + c.name + '" onerror="this.style.display=\'none\'">' + c.name + '</button>';
+    });
+    html += '</div>';
+    return html;
+  }
+  function sortRowHTML() {
+    return '<div class="sort-row">' +
+      '<span class="sort-label"><i class="fas fa-sort-amount-down"></i> Sort by</span>' +
+      '<select class="sort-select" onchange="window.setSortOrder(this.value)">' +
+        '<option value="recommended"' + (window.state.sortOrder === 'recommended' ? ' selected' : '') + '>Recommended</option>' +
+        '<option value="low-high"' + (window.state.sortOrder === 'low-high' ? ' selected' : '') + '>Price: Low to High</option>' +
+        '<option value="high-low"' + (window.state.sortOrder === 'high-low' ? ' selected' : '') + '>Price: High to Low</option>' +
+      '</select>' +
+    '</div>';
+  }
+  window.setCompanyFilter = function(id) {
+    window.state.companyFilter = id;
+    window.state.currentPage = 1;
+    window.router.render();
+  };
+  window.setSortOrder = function(order) {
+    window.state.sortOrder = order;
+    window.router.render();
+  };
 
   function $(s) { return document.querySelector(s); }
   function $$(s) { return Array.prototype.slice.call(document.querySelectorAll(s)); }
@@ -1136,7 +1162,7 @@
       var phone = phoneFromEmail(window.state.user.email);
       var name = (window.state.profile && window.state.profile.full_name) || phone || 'U';
       var initial = name.substring(0, 1).toUpperCase();
-      btn.innerHTML = '<span style="font-weight:800;color:#fff;font-size:12px;background:linear-gradient(135deg,#16a34a,#22c55e);width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center">' + esc(initial) + '</span>';
+      btn.innerHTML = '<span style="font-weight:900;color:#fff;font-size:13px;background:linear-gradient(135deg,#16a34a,#22c55e);width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px rgba(255,255,255,0.7),0 0 10px rgba(34,197,94,0.7)">' + esc(initial) + '</span>';
     } else {
       btn.innerHTML = '<i class="fas fa-user"></i>';
     }
@@ -1144,6 +1170,12 @@
 
   /* UPPER-RIGHT profile icon → opens side menu (unchanged behavior) */
   window.handleProfileClick = function() { openSideMenu(); };
+
+  /* ============ RELOAD HOME ============ */
+  window.reloadHome = function() {
+    location.hash = '#/home';
+    location.reload();
+  };
 
   /* ============ SIDE MENU (top-right) ============ */
   window.openSideMenu = function() {
@@ -1280,9 +1312,11 @@
   /* ============ HOME ============ */
   function renderHome() {
     document.title = 'Alam Computers';
-    var totalPages = Math.ceil(products.length / window.state.perPage);
+    var filtered = applySort(applyCompanyFilter(products));
+    var totalPages = Math.ceil(filtered.length / window.state.perPage);
+    if (window.state.currentPage > totalPages) window.state.currentPage = 1;
     var start = (window.state.currentPage - 1) * window.state.perPage;
-    var pageItems = products.slice(start, start + window.state.perPage);
+    var pageItems = filtered.slice(start, start + window.state.perPage);
 
     var paginationHtml = '<div class="pagination">';
     paginationHtml += '<button class="page-btn" onclick="window.changePage(' + (window.state.currentPage - 1) + ')" ' + (window.state.currentPage === 1 ? 'disabled' : '') + '><i class="fas fa-chevron-left"></i></button>';
@@ -1298,11 +1332,11 @@
 
     $('#app-view').innerHTML = 
       '<div class="hero">' +
-        '<div class="hero-slide active" style="background-image:url(\'slide1.jpg\')"></div>' +
-        '<div class="hero-slide" style="background-image:url(\'slide2.jpg\')"></div>' +
-        '<div class="hero-slide" style="background-image:url(\'slide3.jpg\')"></div>' +
-        '<div class="hero-slide" style="background-image:url(\'slide4.jpg\')"></div>' +
-        '<div class="hero-slide" style="background-image:url(\'slide5.jpg\')"></div>' +
+        '<div class="hero-slide active" style="background-image:url(\'slide1.jpg\')" onclick="window.router.go(\'#/category/fridge\')"></div>' +
+        '<div class="hero-slide" style="background-image:url(\'slide2.jpg\')" onclick="window.router.go(\'#/category/tv\')"></div>' +
+        '<div class="hero-slide" style="background-image:url(\'slide3.jpg\')" onclick="window.router.go(\'#/category/washer\')"></div>' +
+        '<div class="hero-slide" style="background-image:url(\'slide4.jpg\')" onclick="window.router.go(\'#/category/ac\')"></div>' +
+        '<div class="hero-slide" style="background-image:url(\'slide5.jpg\')" onclick="window.router.go(\'#/category/kitchen\')"></div>' +
         '<div class="hero-dots" id="hero-dots"></div>' +
       '</div>' +
       '<div class="search-bar">' +
@@ -1312,7 +1346,9 @@
       '</div>' +
       '<div class="container" style="padding-top:4px"><div class="section-title">Categories</div><div class="section-sub">Tap to explore</div></div>' +
       '<div class="product-grid" style="grid-template-columns:repeat(3,minmax(0,1fr));gap:6px" id="home-cats"></div>' +
-      '<div class="container" style="padding-top:16px"><div class="section-title">All Products</div><div class="section-sub">' + products.length + ' products · 10% off</div></div>' +
+      '<div class="container" style="padding-top:16px"><div class="section-title">All Products</div><div class="section-sub">' + filtered.length + ' products · 10% off</div></div>' +
+      companyButtonsHTML(window.state.companyFilter) +
+      sortRowHTML() +
       '<div class="product-grid" id="home-products"></div>' +
       paginationHtml +
       '<div class="container" style="padding-top:20px"><div class="section-title">Our Impact</div><div class="section-sub">Trusted since 1995</div>' +
@@ -1329,7 +1365,7 @@
     slides.forEach(function(_, i) {
       var d = document.createElement('div');
       d.className = 'hero-dot' + (i === 0 ? ' active' : '');
-      d.onclick = function() { setHeroSlide(i); };
+      d.onclick = function(e) { e.stopPropagation(); setHeroSlide(i); };
       dots.appendChild(d);
     });
     var heroIdx = 0;
@@ -1352,7 +1388,8 @@
   }
 
   window.changePage = function(page) {
-    var totalPages = Math.ceil(products.length / window.state.perPage);
+    var filtered = applySort(applyCompanyFilter(products));
+    var totalPages = Math.ceil(filtered.length / window.state.perPage);
     if (page >= 1 && page <= totalPages) {
       window.state.currentPage = page;
       renderHome();
@@ -1411,105 +1448,20 @@
   function renderCategory(slug) {
     var cat = CATEGORIES.filter(function(c) { return c.slug === slug; })[0];
     if (!cat) { window.router.go('#/home'); return; }
-    var allItems = products.filter(function(p) { return p.category === slug; });
-    
-    // Reset filter on category change
-    window.state.catFilter = { brand: 'all', sort: 'recommended' };
-    
-    // Determine which brands exist in this category
-    var brandCounts = {};
-    allItems.forEach(function(p) {
-      brandCounts[p.brand] = (brandCounts[p.brand] || 0) + 1;
-    });
-    var availableBrands = ['singer','lg','gree','kiam','brb','beko','dell','hp','ugreen','pureit','zoje'].filter(function(b) {
-      return brandCounts[b] > 0;
-    });
-    
+    var catItems = products.filter(function(p) { return p.category === slug; });
+    var companiesInCat = {};
+    catItems.forEach(function(p){ companiesInCat[p.company] = true; });
+    var showCompanyFilter = Object.keys(companiesInCat).length > 1;
+    var filtered = applySort(applyCompanyFilter(catItems));
     document.title = cat.name;
-    
-    var brandButtonsHtml = '';
-    if (availableBrands.length >= 1) {
-      brandButtonsHtml = '<div class="filter-label">Filter by Brand</div>' +
-        '<div class="filter-bar" id="brand-filter">' +
-          '<button class="brand-btn active" data-brand="all" onclick="window.setCatFilter(\'all\')">All (' + allItems.length + ')</button>' +
-          availableBrands.map(function(b) {
-            var img = BRAND_IMAGES[b] || '';
-            var name = BRAND_NAMES[b] || b;
-            return '<button class="brand-btn" data-brand="' + b + '" onclick="window.setCatFilter(\'' + b + '\')">' +
-              (img ? '<img src="' + img + '" alt="" onerror="this.style.display=\'none\'">' : '') +
-              name + ' (' + brandCounts[b] + ')</button>';
-          }).join('') +
-        '</div>';
-    }
-    
-    var sortBarHtml = '<div class="filter-label">Sort By</div>' +
-      '<div class="sort-bar" id="sort-filter">' +
-        '<button class="sort-btn active" data-sort="recommended" onclick="window.setCatSort(\'recommended\')"><i class="fas fa-star"></i> Recommended</button>' +
-        '<button class="sort-btn" data-sort="low-high" onclick="window.setCatSort(\'low-high\')"><i class="fas fa-arrow-up"></i> Low to High</button>' +
-        '<button class="sort-btn" data-sort="high-low" onclick="window.setCatSort(\'high-low\')"><i class="fas fa-arrow-down"></i> High to Low</button>' +
-      '</div>';
-    
     $('#app-view').innerHTML = 
-      '<div class="back-bar"><button class="back-btn" onclick="window.router.back()"><i class="fas fa-arrow-left"></i></button><div><h2>' + esc(cat.name) + '</h2><div style="font-size:10px;color:var(--muted)" id="cat-count">' + allItems.length + ' products · 10% off</div></div></div>' +
-      brandButtonsHtml +
-      sortBarHtml +
-      '<div class="product-grid" style="padding-top:4px" id="cat-products"></div>' +
+      '<div class="back-bar"><button class="back-btn" onclick="window.router.back()"><i class="fas fa-arrow-left"></i></button><div><h2>' + esc(cat.name) + '</h2><div style="font-size:10px;color:var(--muted)">' + filtered.length + ' products · 10% off</div></div></div>' +
+      (showCompanyFilter ? companyButtonsHTML(window.state.companyFilter) : '') +
+      sortRowHTML() +
+      '<div class="product-grid" style="padding-top:4px">' + (filtered.length ? filtered.map(productCardHTML).join('') : '<div class="empty" style="grid-column:1/-1"><i class="fas fa-box-open"></i><p>No products match this filter</p></div>') + '</div>' +
       '<div style="height:16px"></div>';
-    
-    window.renderCatProducts();
-  }
-
-  window.setCatFilter = function(brand) {
-    window.state.catFilter.brand = brand;
-    $$('#brand-filter .brand-btn').forEach(function(b) {
-      b.classList.toggle('active', b.dataset.brand === brand);
-    });
-    window.renderCatProducts();
-  };
-
-  window.setCatSort = function(sort) {
-    window.state.catFilter.sort = sort;
-    $$('#sort-filter .sort-btn').forEach(function(b) {
-      b.classList.toggle('active', b.dataset.sort === sort);
-    });
-    window.renderCatProducts();
-  };
-
-  window.renderCatProducts = function() {
-    var hash = location.hash || '#/home';
-    var parts = hash.slice(2).split('/');
-    var slug = parts[1];
-    if (!slug) return;
-    var cat = CATEGORIES.filter(function(c) { return c.slug === slug; })[0];
-    if (!cat) return;
-    var allItems = products.filter(function(p) { return p.category === slug; });
-    var items = allItems.slice();
-    
-    // Filter by brand
-    if (window.state.catFilter.brand && window.state.catFilter.brand !== 'all') {
-      items = items.filter(function(p) { return p.brand === window.state.catFilter.brand; });
-    }
-    
-    // Sort
-    if (window.state.catFilter.sort === 'low-high') {
-      items.sort(function(a,b) { return a.currentPrice - b.currentPrice; });
-    } else if (window.state.catFilter.sort === 'high-low') {
-      items.sort(function(a,b) { return b.currentPrice - a.currentPrice; });
-    } else {
-      // Recommended: original index order (as they appear in list)
-      items.sort(function(a,b) { return a.index - b.index; });
-    }
-    
-    var grid = document.getElementById('cat-products');
-    if (grid) {
-      grid.innerHTML = items.length ? items.map(productCardHTML).join('') : '<div class="empty" style="grid-column:1/-1"><i class="fas fa-box-open"></i><p>No products match this filter</p></div>';
-    }
-    var countEl = document.getElementById('cat-count');
-    if (countEl) {
-      countEl.textContent = items.length + ' products · 10% off';
-    }
     attachProductCardHandlers();
-  };
+  }
 
   function renderSearch() {
     var params = new URLSearchParams((location.hash.split('?')[1]) || '');
