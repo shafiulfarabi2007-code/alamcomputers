@@ -551,9 +551,10 @@
         auth: {
           persistSession: true,
           autoRefreshToken: true,
-          detectSessionInUrl: false,
+          detectSessionInUrl: true,
           storage: window.localStorage,
-          storageKey: 'alam-auth-session'
+          storageKey: 'alam-auth-session',
+          flowType: 'pkce'
         }
       });
       console.log('✅ Supabase ready');
@@ -867,7 +868,7 @@
     {name:'Ugreen US286 Cable',desc:'2-meter fast charging and data transfer cable supporting up to 60W Power Delivery.',basePrice:423,category:'gadget',img:'https://placehold.co/400x400/d6cbaa/2b3b5c/png?text=Cable'},
     {name:'Ugreen US280 Adapter',desc:'Compact aluminum OTG converter adapter for connecting USB-C peripherals to standard USB-A ports.',basePrice:233,category:'gadget',img:'https://placehold.co/400x400/d6cbaa/2b3b5c/png?text=Adapter'},
     {name:'Ugreen US157 Adapter',desc:'Miniature charging adapter converter enabling micro-USB cables to charge USB-C devices.',basePrice:200,category:'gadget',img:'https://placehold.co/400x400/d6cbaa/2b3b5c/png?text=Adapter'},
-    // ===== LG PRODUCTS (with updated image file names) =====
+    // ===== LG PRODUCTS =====
     {name:'LG 32LM637BPLA Full HD Smart LED TV',desc:'Compact 32-inch Smart TV powered by webOS, featuring Dynamic Color Enhancer, Quad-Core Processor, Dolby Audio, and built-in Wi-Fi streaming support.',basePrice:32900,category:'tv',img:'TV1.webp'},
     {name:'LG 43UQ7550PSD 4K UHD Smart TV',desc:'43-inch 4K Ultra HD television powered by the α5 Gen5 AI Processor 4K, featuring HDR10 Pro, Game Optimizer, Magic Remote compatibility, and ThinQ AI.',basePrice:54900,category:'tv',img:'TV2.webp'},
     {name:'LG 55NANO75SQA NanoCell 4K Smart TV',desc:'55-inch NanoCell 4K TV producing pure RGB colors, local dimming control, AI Sound Pro (Virtual 5.1.2 Up-mix), and webOS smart platform navigation.',basePrice:98900,category:'tv',img:'TV3.webp'},
@@ -945,7 +946,7 @@
     {name:'LG FB1208S85O 8 KG Front Load Washing Machine',desc:'8 kg front-loading washing machine featuring 6 Motion Inverter Direct Drive motor technology, steam hygiene cycle, and 1200 RPM spin speed.',basePrice:89500,category:'washer',img:'WM2.webp'},
     {name:'LG FB1209S6M 9 KG Front Load Washing Machine',desc:'9 kg capacity front loader built with 6 Motion Direct Drive drum rotation, anti-vibration sidewalls, and quick 30-minute express wash.',basePrice:99500,category:'washer',img:'WM3.webp'},
     {name:'LG FV1412R2B 12 KG Front Load Washing Machine with Dryer',desc:'All-in-one washer-dryer unit with 12 kg wash capacity, AI Direct Drive fabric sensing, TurboWash 360, and ThinQ Wi-Fi smart control.',basePrice:172900,category:'washer',img:'WM4.webp'},
-    // ===== GREE PRODUCTS (with updated image file names) =====
+    // ===== GREE PRODUCTS =====
     {name:'Gree GS-12XZNA3V 1 Ton Zeno-Split Inverter AC',desc:'12,000 BTU 1-ton split AC featuring G10 Inverter technology, Wi-Fi smart control, auto-cleaning function, cold plasma filtration, and low power consumption.',basePrice:51900,category:'ac',img:'GRA1.png'},
     {name:'Gree GS-12XCOA3V / GS-12XCOA1V 1 Ton Cosmo-Split Inverter AC',desc:'1-ton Dual DC Inverter split AC built with I-FEEL smart thermal sensing, multi-stage air purification, ultra-quiet operation, and eco-friendly R32 refrigerant.',basePrice:53000,category:'ac',img:'GRA2.webp'},
     {name:'Gree GS-12XSMA4V 1 Ton Shimo-Split Inverter AC',desc:'12,000 BTU 1-ton unit offering 7 adjustable fan speed levels, 3D air swing circulation, self-cleaning evaporator, and stabilizer-free operation.',basePrice:51850,category:'ac',img:'GRA1.png'},
@@ -1130,19 +1131,21 @@
 
   function initAuth() {
     if (!window.__sb) { renderProfileButton(); updateCartBadge(); return; }
+    // ===== FIX: Restore session from localStorage on reload =====
     window.__sb.auth.getSession().then(function(res) {
       window.state.user = (res.data && res.data.session && res.data.session.user) || null;
       if (window.state.user) loadProfile();
       renderProfileButton();
       updateCartBadge();
-      window.__sb.auth.onAuthStateChange(function(_event, session) {
-        window.state.user = (session && session.user) || null;
-        if (window.state.user) loadProfile(); else window.state.profile = null;
-        renderProfileButton();
-        updateCartBadge();
-      });
     }).catch(function(err) {
       console.warn('Auth init:', err);
+      renderProfileButton();
+      updateCartBadge();
+    });
+    // Listen for auth changes
+    window.__sb.auth.onAuthStateChange(function(_event, session) {
+      window.state.user = (session && session.user) || null;
+      if (window.state.user) loadProfile(); else window.state.profile = null;
       renderProfileButton();
       updateCartBadge();
     });
@@ -1151,7 +1154,10 @@
   function loadProfile() {
     if (!window.__sb || !window.state.user) return;
     window.__sb.from('profiles').select('*').eq('id', window.state.user.id).maybeSingle().then(function(res) {
-      if (!res.error && res.data) window.state.profile = res.data;
+      if (!res.error && res.data) {
+        window.state.profile = res.data;
+        renderProfileButton();
+      }
     }).catch(function(err) { console.warn('loadProfile:', err); });
   }
 
