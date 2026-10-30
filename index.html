@@ -140,8 +140,8 @@
   .error-text.show{display:block}
 
   .hero{position:relative;margin:8px 12px;border-radius:14px;overflow:hidden;width:calc(100% - 24px);aspect-ratio:16/8;box-shadow:var(--shadow);background:linear-gradient(135deg,#2563eb,#7c3aed)}
-  .hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1s;background-color:#2563eb;cursor:pointer;z-index:1}
-  .hero-slide.active{opacity:1}
+  .hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1s;background-color:#2563eb;cursor:pointer;z-index:1;pointer-events:none}
+  .hero-slide.active{opacity:1;pointer-events:auto}
   .hero-dots{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:2}
   .hero-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.6);cursor:pointer}
   .hero-dot.active{background:#fff;width:14px;border-radius:2px}
@@ -1298,7 +1298,7 @@
         var n = t.dataset.nav;
         var active = false;
         if (n === 'menu') active = hash.indexOf('#/category') === 0;
-        else if (n === 'profile') active = seg0 === 'account' || seg0 === 'login' || seg0 === 'register';
+        else if (n === 'profile') active = seg0 === 'account' || seg0 === 'login' || seg0 === 'register' || seg0 === 'forgot';
         else if (n === 'about') active = seg0 === 'about';
         else if (n === 'home') active = seg0 === 'home';
         else if (n === 'search') active = seg0 === 'search';
@@ -1320,6 +1320,7 @@
         else if (seg0 === 'account') renderAccount();
         else if (seg0 === 'login') renderAuth('login');
         else if (seg0 === 'register') renderAuth('register');
+        else if (seg0 === 'forgot') renderForgot();
         else if (seg0 === 'about') renderAbout();
         else if (seg0 === 'contact') renderContact();
         else renderHome();
@@ -2034,7 +2035,7 @@
           '<button class="btn btn-primary btn-block" style="padding:12px;margin-top:6px" id="auth-submit" onclick="window.submitAuth(\'' + mode + '\')">' + (mode === 'login' ? '<i class="fas fa-sign-in-alt"></i> Log In' : '<i class="fas fa-user-plus"></i> Create Account') + '</button>' +
         '</div>' +
         '<div style="text-align:center;margin-top:12px;font-size:11px;color:var(--muted)">' +
-          (mode === 'login' ? 'No account? <a href="#/register" style="color:var(--blue);font-weight:700">Register</a>' : 'Have account? <a href="#/login" style="color:var(--blue);font-weight:700">Log in</a>') +
+          (mode === 'login' ? 'No account? <a href="#/register" style="color:var(--blue);font-weight:700">Register</a><br><a href="#/forgot" style="color:var(--blue);font-weight:700;display:inline-block;margin-top:8px">Forgot password?</a>' : 'Have account? <a href="#/login" style="color:var(--blue);font-weight:700">Log in</a>') +
         '</div>' +
       '</div>';
     setTimeout(function() { var el = $('#a-phone'); if (el) el.focus(); }, 100);
@@ -2158,6 +2159,120 @@
         if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Log In'; }
       });
     }
+  };
+
+  /* ============ FORGOT PASSWORD ============ */
+  function renderForgot() {
+    document.title = 'Forgot Password';
+    $('#app-view').innerHTML =
+      '<div class="back-bar"><button class="back-btn" onclick="window.router.go(\'#/login\')"><i class="fas fa-arrow-left"></i></button><h2>Forgot Password</h2></div>' +
+      '<div class="container">' +
+        '<div class="card" style="padding:14px">' +
+          '<div class="field"><label class="label">Mobile Number</label><input class="input" id="fp-phone" type="tel" placeholder="017XXXXXXXX" inputmode="numeric" maxlength="11"></div>' +
+          '<div class="field"><label class="label">First 6 letters of your name</label><input class="input" id="fp-name" type="text" placeholder="e.g. Rahman" maxlength="6" autocomplete="off"></div>' +
+          '<div class="error-text" id="fp-err" style="font-size:11px;line-height:1.5"></div>' +
+          '<button class="btn btn-primary btn-block" style="padding:12px;margin-top:6px" id="fp-gen" onclick="window.fpGenerate()"><i class="fas fa-key"></i> Generate OTP</button>' +
+          '<div id="fp-otp-box" style="display:none;margin-top:14px">' +
+            '<div class="field"><label class="label">Your OTP</label>' +
+              '<div style="display:flex;gap:6px"><input class="input" id="fp-otp-show" type="text" readonly style="font-weight:800;letter-spacing:4px;text-align:center">' +
+              '<button class="btn btn-ghost" type="button" onclick="window.fpCopy()"><i class="fas fa-copy"></i> Copy</button></div></div>' +
+            '<div class="field"><label class="label">Enter OTP</label><input class="input" id="fp-otp-in" type="tel" inputmode="numeric" placeholder="Enter OTP"></div>' +
+            '<button class="btn btn-primary btn-block" style="padding:12px" onclick="window.fpVerify()"><i class="fas fa-check"></i> Verify OTP</button>' +
+          '</div>' +
+          '<div id="fp-pass-box" style="display:none;margin-top:14px">' +
+            '<div class="field"><label class="label">New Password</label><input class="input" id="fp-new" type="password" placeholder="At least 6 characters" autocomplete="new-password"></div>' +
+            '<div class="field"><label class="label">Confirm New Password</label><input class="input" id="fp-new2" type="password" placeholder="Re-enter new password" autocomplete="new-password"></div>' +
+            '<button class="btn btn-primary btn-block" style="padding:12px" id="fp-save" onclick="window.fpChange()"><i class="fas fa-lock"></i> Change Password</button>' +
+          '</div>' +
+        '</div>' +
+        '<div style="text-align:center;margin-top:12px;font-size:11px;color:var(--muted)"><a href="#/login" style="color:var(--blue);font-weight:700">Back to Log in</a></div>' +
+      '</div>';
+    window.__fp = { otp: '', ok: false, name: '', phone: '' };
+    setTimeout(function() { var el = $('#fp-phone'); if (el) el.focus(); }, 100);
+  }
+
+  function fpShowErr(msg, good) {
+    var e = $('#fp-err');
+    if (!e) return;
+    e.innerHTML = msg || '';
+    e.style.color = good ? '#16a34a' : '';
+    if (msg) e.classList.add('show'); else e.classList.remove('show');
+  }
+
+  /* A=1, B=2 ... Z=26 ; only the LAST digit counts (K=11 -> 1, J=10 -> 0) */
+  function fpMakeOtp(name6) {
+    var out = '';
+    for (var i = 0; i < name6.length; i++) {
+      var n = name6.charCodeAt(i) - 64;
+      out += String(n % 10);
+    }
+    return out;
+  }
+
+  window.fpGenerate = function() {
+    var phone = (($('#fp-phone').value) || '').replace(/\D/g, '');
+    var raw = (($('#fp-name').value) || '').trim();
+    if (phone.length !== 11 || !isValidBDPhone(phone)) { fpShowErr('Enter your valid 11-digit mobile number'); return; }
+    if (!/^[A-Za-z]{6}$/.test(raw)) { fpShowErr('Enter exactly the first 6 letters of your name (A-Z only, no spaces)'); return; }
+    var name6 = raw.toUpperCase();
+    window.__fp = { otp: fpMakeOtp(name6), ok: false, name: name6, phone: phone };
+    $('#fp-otp-show').value = window.__fp.otp;
+    $('#fp-otp-in').value = '';
+    $('#fp-otp-box').style.display = 'block';
+    $('#fp-pass-box').style.display = 'none';
+    fpShowErr('OTP generated. Copy it and enter it below.', true);
+  };
+
+  window.fpCopy = function() {
+    var v = (window.__fp && window.__fp.otp) || '';
+    if (!v) return;
+    function done() { window.showToast('OTP copied'); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(v).then(done).catch(function() { fpFallbackCopy(v); done(); });
+    } else { fpFallbackCopy(v); done(); }
+  };
+  function fpFallbackCopy(v) {
+    var el = $('#fp-otp-show');
+    if (!el) return;
+    el.removeAttribute('readonly'); el.select(); el.setSelectionRange(0, 99);
+    try { document.execCommand('copy'); } catch (e) {}
+    el.setAttribute('readonly', 'readonly');
+  }
+
+  window.fpVerify = function() {
+    var entered = (($('#fp-otp-in').value) || '').trim();
+    if (!window.__fp || !window.__fp.otp) { fpShowErr('Please generate OTP first'); return; }
+    if (entered !== window.__fp.otp) { fpShowErr('Wrong OTP. Please try again.'); return; }
+    window.__fp.ok = true;
+    $('#fp-pass-box').style.display = 'block';
+    fpShowErr('OTP verified. Set your new password below.', true);
+  };
+
+  window.fpChange = function() {
+    if (!window.__fp || !window.__fp.ok) { fpShowErr('Please verify OTP first'); return; }
+    if (!window.__sb) { window.showToast('Supabase not configured'); return; }
+    var p1 = ($('#fp-new').value || '').trim();
+    var p2 = ($('#fp-new2').value || '').trim();
+    if (p1.length < 6) { fpShowErr('Password must be at least 6 characters'); return; }
+    if (p1 !== p2) { fpShowErr('Passwords do not match'); return; }
+    var btn = $('#fp-save');
+    if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Please wait…'; }
+    window.__sb.rpc('reset_password_by_name', { p_phone: window.__fp.phone, p_name6: window.__fp.name, p_new_password: p1 }).then(function(res) {
+      if (res.error) throw res.error;
+      if (res.data !== true) {
+        fpShowErr('⚠️ Mobile number and name letters do not match any account.');
+        if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-lock"></i> Change Password'; }
+        return;
+      }
+      window.showToast('✅ Password changed! Please log in.');
+      window.router.go('#/login');
+    }).catch(function(err) {
+      console.error('Reset error:', err);
+      var m = (err && err.message) || 'Failed';
+      if (m.indexOf('reset_password_by_name') !== -1 || m.indexOf('function') !== -1) m = '⚠️ Password reset is not set up yet in Supabase (run the provided SQL once).';
+      fpShowErr(m);
+      if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-lock"></i> Change Password'; }
+    });
   };
 
   /* ============ ABOUT PAGE ============ */
